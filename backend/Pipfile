@@ -17,6 +17,7 @@ django-filter = "*"
 cryptography="==3.1.1"
 pyjwt="*"
 flake8 = "*"
+djangorestframework = "==3.14.0"
 
 [requires]
 python_version = "3.9"

@@ -22,6 +22,8 @@ admin.site.site_header = 'DC/BTP Management Portal'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/profile/', include("main.urls")),
+    path('api/projects/', include("projects.urls")),
 ]
 
 if settings.DEBUG:
