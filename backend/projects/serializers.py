@@ -42,8 +42,8 @@ class CategoriesSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     category = CategoriesSerializer(read_only=True)
-    skills = SkillsSerializer(read_only=True)
-    courses = CoursesSerializer(read_only=True)
+    skills = SkillsSerializer(read_only=True, many=True)
+    courses = CoursesSerializer(read_only=True, many=True)
     class Meta:
         model = Project
         fields = '__all__'

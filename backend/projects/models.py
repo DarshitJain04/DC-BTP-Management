@@ -62,4 +62,4 @@ class Application(models.Model):
     notes = models.TextField(blank=True)
 
     def __str__(self):
-        return str(self.project.title) + " (" + str(self.student.user.roll_number) + ")" 
+        return str(self.project.title) + " (" + str(self.student.roll_number) + ")" 
