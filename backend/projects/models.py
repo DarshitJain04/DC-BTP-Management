@@ -59,6 +59,7 @@ class Application(models.Model):
     project = models.OneToOneField(Project, on_delete=models.CASCADE)
     student = models.OneToOneField(Profile, on_delete=models.CASCADE)
     is_accepted = models.BooleanField(default=False)
+    notes = models.TextField(blank=True)
 
     def __str__(self):
         return str(self.project.title) + " (" + str(self.student.user.roll_number) + ")" 
