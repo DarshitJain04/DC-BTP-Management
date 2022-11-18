@@ -1,5 +1,5 @@
 from django.db import models
-from main.models import Skills, Courses, Profile
+from main.models import Skills, Courses, StudentProfile, FacultyProfile
 
 
 class Type(models.Model):
@@ -40,13 +40,14 @@ class Categories(models.Model):
 
 
 class Project(models.Model):
+    faculty = models.ForeignKey(FacultyProfile, on_delete=models.PROTECT)
     category = models.ForeignKey(Categories, on_delete=models.PROTECT)
     title = models.CharField(max_length=255)
     description = models.TextField()
     deliverables = models.TextField()
     skills = models.ManyToManyField(Skills, blank=True)
     courses = models.ManyToManyField(Courses, blank=True)
-
+    active = models.BooleanField(default=True)
     class Meta:
         verbose_name = 'Project'
         verbose_name_plural = 'Projects'
@@ -57,7 +58,7 @@ class Project(models.Model):
 
 class Application(models.Model):
     project = models.OneToOneField(Project, on_delete=models.CASCADE)
-    student = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    student = models.OneToOneField(StudentProfile, on_delete=models.CASCADE)
     is_accepted = models.BooleanField(default=False)
     notes = models.TextField(blank=True)
 

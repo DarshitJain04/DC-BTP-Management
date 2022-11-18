@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_save
 
 
 class Skills(models.Model):
@@ -62,12 +63,51 @@ class ProgramAndBranch(models.Model):
         return self.program + " " + self.name
 
 
-class Profile(models.Model):
+class StudentProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    roll_number = models.CharField(max_length=15, blank = True, null = True)
+    roll_number = models.CharField(max_length=15)
     year = models.SmallIntegerField()
     program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.SET_NULL, null=True)
     cgpa = models.FloatField()
+    registration_timestamp = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+
+class Resume(models.Model):
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='resume')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    reference = models.CharField(max_length=200, null=True, blank=True,
+                                 help_text="Enter a reference name for this resume by which you can remember the details of this particular resume")
+
+    def __str__(self):
+        if not self.reference:
+            return "No reference"
+        else:
+            return self.reference
+
+
+def event_pre_save_receiver_resume(sender, instance, *args, **kwargs):
+    if (instance.student.user.first_name not in instance.file.name or
+            instance.student.user.last_name not in instance.file.name or
+            instance.student.roll_no not in instance.file.name or
+            'IITJodhpur.pdf' not in instance.file.name) \
+            and instance._state.adding is True:
+        instance.file.name = instance.student.user.first_name + '_' + instance.student.user.last_name \
+            + '_' + instance.student.roll_no + '_' + str(random.randint(1, 10001)) + \
+            '_' + 'IITJodhpur.pdf'
+    if not instance.reference:
+        instance.reference = instance.file.name
+
+
+pre_save.connect(event_pre_save_receiver_resume, sender=Resume)
+
+
+class FacultyProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.SET_NULL, null=True)
     registration_timestamp = models.DateTimeField(auto_now_add = True, blank = True, null = True)
 
     def __str__(self):
