@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Skills, Roles, Courses, ProgramAndBranch, Profile
+from .models import Skills, Roles, Courses, ProgramAndBranch, Student, Faculty, FacultyAdvisor, DepartmentOffice, HeadOfDepartment
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -33,10 +33,51 @@ class ProgramAndBranchSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class StudentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    role = RolesSerializer(read_only=True)
     program_branch = ProgramAndBranchSerializer(read_only=True)
 
     class Meta:
-        model = Profile
+        model = Student
+        fields = '__all__'
+
+
+class FacultySerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    role = RolesSerializer(read_only=True)
+    program_branch = ProgramAndBranchSerializer(read_only=True)
+
+    class Meta:
+        model = Faculty
+        fields = '__all__'
+
+
+class FacultyAdvisorSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    role = RolesSerializer(read_only=True)
+    program_branch = ProgramAndBranchSerializer(read_only=True)
+
+    class Meta:
+        model = FacultyAdvisor
+        fields = '__all__'
+
+
+class DepartmentOfficeSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    role = RolesSerializer(read_only=True)
+    program_branch = ProgramAndBranchSerializer(read_only=True)
+
+    class Meta:
+        model = DepartmentOffice
+        fields = '__all__'
+
+
+class HeadOfDepartmentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    role = RolesSerializer(read_only=True)
+    program_branch = ProgramAndBranchSerializer(read_only=True)
+
+    class Meta:
+        model = HeadOfDepartment
         fields = '__all__'

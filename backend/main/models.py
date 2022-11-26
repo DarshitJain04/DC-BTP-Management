@@ -63,11 +63,12 @@ class ProgramAndBranch(models.Model):
         return self.program + " " + self.name
 
 
-class StudentProfile(models.Model):
+class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.ForeignKey(Roles, on_delete=models.PROTECT)
     roll_number = models.CharField(max_length=15)
     year = models.SmallIntegerField()
-    program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.SET_NULL, null=True)
+    program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.PROTECT)
     cgpa = models.FloatField()
     registration_timestamp = models.DateTimeField(auto_now_add = True, blank = True, null = True)
 
@@ -76,7 +77,7 @@ class StudentProfile(models.Model):
 
 
 class Resume(models.Model):
-    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     file = models.FileField(upload_to='resume')
     timestamp = models.DateTimeField(auto_now_add=True)
     reference = models.CharField(max_length=200, null=True, blank=True,
@@ -105,10 +106,58 @@ def event_pre_save_receiver_resume(sender, instance, *args, **kwargs):
 pre_save.connect(event_pre_save_receiver_resume, sender=Resume)
 
 
-class FacultyProfile(models.Model):
+class Faculty(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.SET_NULL, null=True)
+    role = models.ForeignKey(Roles, on_delete=models.PROTECT)
+    program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.PROTECT)
     registration_timestamp = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+
+    class Meta:
+        verbose_name = 'Faculty'
+        verbose_name_plural = 'Faculties'
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+
+class FacultyAdvisor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.ForeignKey(Roles, on_delete=models.PROTECT)
+    course_code = models.CharField(max_length=10)
+    program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.PROTECT)
+    registration_timestamp = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+
+    class Meta:
+        verbose_name = 'Faculty Advisor'
+        verbose_name_plural = 'Faculty Advisors'
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+
+class DepartmentOffice(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.ForeignKey(Roles, on_delete=models.PROTECT)
+    program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.PROTECT)
+    registration_timestamp = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+
+    class Meta:
+        verbose_name = 'Department Office'
+        verbose_name_plural = 'Department Offices'
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+
+class HeadOfDepartment(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.ForeignKey(Roles, on_delete=models.PROTECT)
+    program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.PROTECT)
+    registration_timestamp = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+
+    class Meta:
+        verbose_name = 'Head Of Department'
+        verbose_name_plural = 'Head Of Departments'
 
     def __str__(self):
         return self.user.get_full_name()
