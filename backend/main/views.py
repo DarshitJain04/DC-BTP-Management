@@ -48,9 +48,9 @@ class StudentProfile(APIView):
         list1 = re.split("\d+", roll_number) # Matches any Unicode decimal digit [0, 9]
         list2 = re.split("\D+", roll_number) # Matches any character which is not a decimal digit [^0-9]
         try:
-            data["roll_number"], data["year"], data["batch"], data["branch"] = list2[-1], list2[-2], list1[0], list1[1]
+            data["roll_number"], data["batch"], data["program"], data["branch"] = list2[-1], list2[-2], list1[0], list1[1]
         except:
-            data["roll_number"], data["year"], data["batch"], data["branch"] = -1, 20, 'M', 'CS'
+            data["roll_number"], data["batch"], data["program"], data["branch"] = -1, 20, 'M', 'CS'
         return data
 
     def post(self, request, *args, **kwargs):
@@ -58,18 +58,15 @@ class StudentProfile(APIView):
         for key in request.data.keys():
             data[key] = request.data.get(key)
         user = request.user
-        user.first_name = data['user']['first_name']
-        user.last_name = data['user']['last_name']
-        user.save()
-        data.pop('user')
         data["roll_number"] = user.username
+        skills = data.pop('skills')
+        courses = data.pop('courses')
         role = Roles.objects.get(role='Student')
         data_from_roll_number = self.get_data_from_roll_number(user.username)
-        data["year"] = data_from_roll_number["year"]
+        data["year"] = data_from_roll_number["batch"]
         if data_from_roll_number["roll_number"] == -1:
             data["roll_number"] = "Unknown"
-        # BTech EE: B/EE
-        getter = data_from_roll_number["batch"] + '/' + data_from_roll_number["branch"]
+        getter = data_from_roll_number["program"] + '/' + data_from_roll_number["branch"] # BTech EE: B/EE
         program_branch = ProgramAndBranch.objects.filter(getter=getter)
         if not program_branch.exists():
             program_branch = ProgramAndBranch.objects.create(getter=getter, name="Unknown Branch" + user.username)
@@ -77,6 +74,50 @@ class StudentProfile(APIView):
             program_branch = program_branch.first()
         try:
             profile = Student.objects.create(user=user, program_branch=program_branch, role=role, **data)
+            for skill in skills:
+                skill, _ = Skills.objects.get_or_create(skill=skill)
+                profile.skills.add(skill)
+            for course in courses:
+                course, _ = Courses.objects.get_or_create(course=course)
+                profile.courses.add(course)
+            profile.save()
+        except IntegrityError:
+            return Response({'Error': 'Invalid/Empty fields in the form'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(StudentSerializer(profile).data, status=status.HTTP_200_OK)
+
+
+    def put(self, request, *args, **kwargs):
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+        user = request.user
+        data.pop('user', None)
+        data.pop('roll_number')
+        data['roll_number'] = user.username
+        skills = data.pop('skills')
+        courses = data.pop('courses')
+        data_from_roll_number = self.get_data_from_roll_number(user.username)
+        data["year"] = data_from_roll_number["batch"]
+        if data_from_roll_number["roll_number"] == -1:
+            data["roll_number"] = "Unknown"
+        getter = data_from_roll_number["program"] + '/' + data_from_roll_number["branch"] # BTech EE: B/EE
+        program_branch = ProgramAndBranch.objects.filter(getter=getter)
+        if not program_branch.exists():
+            program_branch = ProgramAndBranch.objects.create(getter=getter, name="Unknown Branch" + user.username)
+        else:
+            program_branch = program_branch.first()
+        try:
+            profile = Student.objects.get(user=user)
+            _ = Student.objects.filter(user=user).update(**data)
+            profile = Student.objects.get(user=user)
+            profile.skills.clear()
+            profile.courses.clear()
+            for skill in skills:
+                    skill, _ = Skills.objects.get_or_create(skill=skill)
+                    profile.skills.add(skill)
+            for course in courses:
+                course, _ = Courses.objects.get_or_create(course=course)
+                profile.courses.add(course)
             profile.save()
         except IntegrityError:
             return Response({'Error': 'Invalid/Empty fields in the form'}, status=status.HTTP_400_BAD_REQUEST)
@@ -84,11 +125,8 @@ class StudentProfile(APIView):
 
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        student = get_object_or_404(Student, user=user)
-        serializer = StudentSerializer(student)
-        data = serializer.data
-        return Response(data, status=status.HTTP_200_OK)
+        student = get_object_or_404(Student, user=request.user)
+        return Response(StudentSerializer(student).data, status=status.HTTP_200_OK)
 
 
 class FacultyProfile(APIView):
