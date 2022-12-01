@@ -6,30 +6,33 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+from django.db.utils import IntegrityError
 
 
-class Skills(ListAPIView):
+
+class SkillsList(ListAPIView):
     queryset = Skills.objects.all()
     serializer_class = SkillsSerializer
     search_fields = ['skill']
     filter_backends = (SearchFilter,)
 
 
-class Roles(ListAPIView):
+class RolesList(ListAPIView):
     queryset = Roles.objects.all()
     serializer_class = RolesSerializer
     search_fields = ['role']
     filter_backends = (SearchFilter,)
 
 
-class Courses(ListAPIView):
+class CoursesList(ListAPIView):
     queryset = Courses.objects.all()
     serializer_class = CoursesSerializer
     search_fields = ['course']
     filter_backends = (SearchFilter,)
 
 
-class ProgramAndBranch(ListAPIView):
+class ProgramAndBranchList(ListAPIView):
     queryset = ProgramAndBranch.objects.all()
     serializer_class = ProgramAndBranchSerializer
     search_fields = ['program', 'name', 'abbreviation']
@@ -39,9 +42,50 @@ class ProgramAndBranch(ListAPIView):
 class StudentProfile(APIView):
     permission_classes = (IsAuthenticated,)
 
+    def get_data_from_roll_number(self, roll_number):
+        import re
+        data = {}
+        list1 = re.split("\d+", roll_number) # Matches any Unicode decimal digit [0, 9]
+        list2 = re.split("\D+", roll_number) # Matches any character which is not a decimal digit [^0-9]
+        try:
+            data["roll_number"], data["year"], data["batch"], data["branch"] = list2[-1], list2[-2], list1[0], list1[1]
+        except:
+            data["roll_number"], data["year"], data["batch"], data["branch"] = -1, 20, 'M', 'CS'
+        return data
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+        user = request.user
+        user.first_name = data['user']['first_name']
+        user.last_name = data['user']['last_name']
+        user.save()
+        data.pop('user')
+        data["roll_number"] = user.username
+        role = Roles.objects.get(role='Student')
+        data_from_roll_number = self.get_data_from_roll_number(user.username)
+        data["year"] = data_from_roll_number["year"]
+        if data_from_roll_number["roll_number"] == -1:
+            data["roll_number"] = "Unknown"
+        # BTech EE: B/EE
+        getter = data_from_roll_number["batch"] + '/' + data_from_roll_number["branch"]
+        program_branch = ProgramAndBranch.objects.filter(getter=getter)
+        if not program_branch.exists():
+            program_branch = ProgramAndBranch.objects.create(getter=getter, name="Unknown Branch" + user.username)
+        else:
+            program_branch = program_branch.first()
+        try:
+            profile = Student.objects.create(user=user, program_branch=program_branch, role=role, **data)
+            profile.save()
+        except IntegrityError:
+            return Response({'Error': 'Invalid/Empty fields in the form'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(StudentSerializer(profile).data, status=status.HTTP_200_OK)
+
+
     def get(self, request, *args, **kwargs):
         user = request.user
-        student = Student.objects.get(user=user)
+        student = get_object_or_404(Student, user=user)
         serializer = StudentSerializer(student)
         data = serializer.data
         return Response(data, status=status.HTTP_200_OK)
