@@ -10,7 +10,6 @@ from django.shortcuts import get_object_or_404
 from django.db.utils import IntegrityError
 
 
-
 class SkillsList(ListAPIView):
     queryset = Skills.objects.all()
     serializer_class = SkillsSerializer
@@ -59,8 +58,8 @@ class StudentProfile(APIView):
             data[key] = request.data.get(key)
         user = request.user
         data["roll_number"] = user.username
-        skills = data.pop('skills')
-        courses = data.pop('courses')
+        skills = data.pop('skills', [])
+        courses = data.pop('courses', [])
         role = Roles.objects.get(role='Student')
         data_from_roll_number = self.get_data_from_roll_number(user.username)
         data["year"] = data_from_roll_number["batch"]
@@ -91,11 +90,11 @@ class StudentProfile(APIView):
         for key in request.data.keys():
             data[key] = request.data.get(key)
         user = request.user
-        data.pop('user', None)
+        data.pop('user')
         data.pop('roll_number')
         data['roll_number'] = user.username
-        skills = data.pop('skills')
-        courses = data.pop('courses')
+        skills = data.pop('skills', [])
+        courses = data.pop('courses', [])
         data_from_roll_number = self.get_data_from_roll_number(user.username)
         data["year"] = data_from_roll_number["batch"]
         if data_from_roll_number["roll_number"] == -1:
@@ -107,7 +106,6 @@ class StudentProfile(APIView):
         else:
             program_branch = program_branch.first()
         try:
-            profile = Student.objects.get(user=user)
             _ = Student.objects.filter(user=user).update(**data)
             profile = Student.objects.get(user=user)
             profile.skills.clear()
@@ -133,41 +131,29 @@ class FacultyProfile(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        faculty = Faculty.objects.get(user=user)
-        serializer = FacultySerializer(faculty)
-        data = serializer.data
-        return Response(data, status=status.HTTP_200_OK)
+        faculty = get_object_or_404(Faculty, user=request.user)
+        return Response(FacultySerializer(faculty).data, status=status.HTTP_200_OK)
 
 
 class FacultyAdvisorProfile(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        faculty_advisor = FacultyAdvisor.objects.get(user=user)
-        serializer = FacultyAdvisorSerializer(faculty_advisor)
-        data = serializer.data
-        return Response(data, status=status.HTTP_200_OK)
+        faculty_advisor =  get_object_or_404(FacultyAdvisor, user=request.user)
+        return Response(FacultyAdvisorSerializer(faculty_advisor).data, status=status.HTTP_200_OK)
 
 
 class DepartmentOfficeProfile(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        department_office = DepartmentOffice.objects.get(user=user)
-        serializer = DepartmentOfficeSerializer(department_office)
-        data = serializer.data
-        return Response(data, status=status.HTTP_200_OK)
+        department_office =  get_object_or_404(DepartmentOffice, user=request.user)
+        return Response(DepartmentOfficeSerializer(department_office).data, status=status.HTTP_200_OK)
 
 
 class HeadOfDepartmentProfile(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        head_of_departmenr = HeadOfDepartment.objects.get(user=user)
-        serializer = HeadOfDepartmentSerializer(head_of_departmenr)
-        data = serializer.data
-        return Response(data, status=status.HTTP_200_OK)
+        head_of_department =  get_object_or_404(HeadOfDepartment, user=request.user)
+        return Response(HeadOfDepartmentSerializer(head_of_department).data, status=status.HTTP_200_OK)
