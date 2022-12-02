@@ -1,5 +1,5 @@
 from django.db import models
-from main.models import Skills, Courses, StudentProfile, FacultyProfile
+from main.models import Skills, Courses, Student, Faculty
 
 
 class Type(models.Model):
@@ -7,14 +7,14 @@ class Type(models.Model):
         ('Design Credits', 'Design Credits'),
         ('B.Tech. Project', 'B.Tech. Project')
     )
-    type = models.CharField(max_length=20, choices=PROJECT_TYPE, default='Design Credits')
+    application_type = models.CharField(max_length=20, choices=PROJECT_TYPE, default='Design Credits')
 
     class Meta:
         verbose_name = 'Project Type'
         verbose_name_plural = 'Project Type'
 
     def __str__(self):
-        return self.type
+        return self.application_type
 
 
 class Categories(models.Model):
@@ -40,7 +40,7 @@ class Categories(models.Model):
 
 
 class Project(models.Model):
-    faculty = models.ForeignKey(FacultyProfile, on_delete=models.PROTECT)
+    faculty = models.ForeignKey(Faculty, on_delete=models.PROTECT)
     category = models.ForeignKey(Categories, on_delete=models.PROTECT)
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -58,7 +58,9 @@ class Project(models.Model):
 
 class Application(models.Model):
     project = models.OneToOneField(Project, on_delete=models.CASCADE)
-    student = models.OneToOneField(StudentProfile, on_delete=models.CASCADE)
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    application_type = models.ForeignKey(Type, on_delete=models.PROTECT)
+    course_code = models.CharField(max_length=10)
     is_accepted = models.BooleanField(default=False)
     notes = models.TextField(blank=True)
 
