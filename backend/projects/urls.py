@@ -8,6 +8,8 @@ urlpatterns = [
     path('projects_floated/', views.ProjectsFloatedClass.as_view(), name="projects-floated"),
     path('projects_floated/<int:pk>', views.ProjectsFloatedClass.as_view(), name="projects-floated"),
     path('available_projects/', views.AvailableProjectsClass.as_view(), name="available-projects"),
-    path('applications/', views.ApplicationsClass.as_view(), name="applications"),
-    path('applications/<int:pk>', views.ApplicationsClass.as_view(), name="applications"),
+    path('student_applications/', views.StudentApplicationsClass.as_view(), name="student-applications"),
+    path('student_applications/<int:pk>', views.StudentApplicationsClass.as_view(), name="student-applications"),
+    path('faculty_applications/', views.FacultyApplicationsClass.as_view(), name="faculty-applications"),
+    path('faculty_applications/<int:pk>', views.FacultyApplicationsClass.as_view(), name="faculty-applications"),
 ]

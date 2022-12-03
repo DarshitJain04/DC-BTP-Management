@@ -125,7 +125,7 @@ class AppliedProjects(APIView):
 
 
 # Create, Update, Delete and View Applications for projects (From Student point of view)
-class ApplicationsClass(APIView):
+class StudentApplicationsClass(APIView):
     permission_classes = (IsAuthenticated,)
 
     # Get Application details you (Student) have applied for
@@ -175,3 +175,20 @@ class ApplicationsClass(APIView):
         else:
             data["status"] = "Failed to delete the application"
         return Response(data=data)
+
+
+# View all the applications to the projects floated (Faculty)
+# Accept/ Reject applications for projects (Faculty)
+class FacultyApplicationsClass(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    # Get Application details you (Student) have applied for
+    def get(self, request, pk = None, *args, **kwargs):
+        faculty = Faculty.objects.get(user=request.user)
+        if pk is not None:
+            application = Application.objects.get(id=pk, project__faculty=faculty)
+            return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
+        applications = Application.objects.filter(project__faculty=faculty)
+        return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
+    
+    # TODO: Accept/ Reject Functionality
