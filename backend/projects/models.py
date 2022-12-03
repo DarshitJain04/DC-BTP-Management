@@ -58,7 +58,7 @@ class Project(models.Model):
 
 class Application(models.Model):
     project = models.OneToOneField(Project, on_delete=models.CASCADE)
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     application_type = models.ForeignKey(Type, on_delete=models.PROTECT)
     course_code = models.CharField(max_length=10)
     is_accepted = models.BooleanField(default=False)

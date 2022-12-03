@@ -32,15 +32,20 @@ class AllProjectsClass(ListAPIView):
     filter_backends = (SearchFilter,)
 
 
+# Projects floated by the you (Faculty) 
 class ProjectsFloatedClass(APIView):
     permission_classes = (IsAuthenticated,)
 
-    # From Faculty point of view: Projects floated by them
-    def get(self, request, *args, **kwargs):
+    # Get all the projects floated by the you (Faculty)
+    def get(self, request, pk = None, *args, **kwargs):
         faculty = Faculty.objects.get(user=request.user)
+        if pk is not None:
+            project = Project.objects.get(faculty=faculty, active=True, id=pk)
+            return Response(ProjectSerializer(project).data, status=status.HTTP_200_OK)
         projects = Project.objects.filter(faculty=faculty, active=True)
         return Response(ProjectSerializer(projects, many=True).data, status=status.HTTP_200_OK)
     
+    # Float a new project
     def post(self, request, *args, **kwargs):
         user = request.user
         data = {}
@@ -61,6 +66,7 @@ class ProjectsFloatedClass(APIView):
         project.save()
         return Response(ProjectSerializer(project).data, status=status.HTTP_200_OK)
     
+    # Update an existing project
     def put(self, request, pk, *args, **kwargs):
         data = {}
         user = request.user
@@ -84,6 +90,7 @@ class ProjectsFloatedClass(APIView):
         project.save()
         return Response(ProjectSerializer(project).data, status=status.HTTP_200_OK)
     
+    # Delete an existing project
     def delete(self, request, pk, *args, **kwargs):
         data = {}
         faculty = Faculty.objects.get(user=request.user)
@@ -96,6 +103,7 @@ class ProjectsFloatedClass(APIView):
         return Response(data=data)
 
 
+# Projects available to you (Student) (Apart from those applied for)
 class AvailableProjectsClass(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -107,6 +115,7 @@ class AvailableProjectsClass(APIView):
         return Response(ProjectSerializer(projects, many=True).data, status=status.HTTP_200_OK)
 
 
+# Get list of all the projects applied (From Student point of view)
 class AppliedProjects(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -115,10 +124,54 @@ class AppliedProjects(APIView):
         return Response(ProjectSerializer(projects, many=True).data, status=status.HTTP_200_OK)
 
 
+# Create, Update, Delete and View Applications for projects (From Student point of view)
 class ApplicationsClass(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, *args, **kwargs):
+    # Get Application details you (Student) have applied for
+    def get(self, request, pk = None, *args, **kwargs):
         student = Student.objects.get(user=request.user)
-        application = Application.objects.get(student=student)
+        if pk is not None:
+            application = Application.objects.get(student=student, id=pk)
+            return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
+        applications = Application.objects.filter(student=student)
+        return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
+    
+    # Create new application for a project
+    def post(self, request, *args, **kwargs):
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+        student = Student.objects.get(user=request.user)
+        application_type = Type.objects.get(application_type=data['application_type'])
+        data.pop('application_type')
+        project_id = data.pop('project_id')
+        project = Project.object.get(id=project_id)
+        application = Application.objects.create(project=project, student=student, application_type=application_type, **data)
         return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
+    
+    # Update an existing application
+    def put(self, request, pk = None, *args, **kwargs):
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+        student = Student.objects.get(user=request.user)
+        application_type = Type.objects.get(application_type=data['application_type'])
+        data.pop('application_type')
+        project_id = data.pop('project_id')
+        project = Project.objects.get(id=project_id)
+        _ = Application.objects.filter(project=project, student=student, id=pk).update(**data, application_type=application_type)
+        application = Application.objects.get(id=pk, project=project, student=student, application_type=application_type)
+        return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
+    
+    # Delete an existing application
+    def delete(self, request, pk, *args, **kwargs):
+        data = {}
+        student = Student.objects.get(user=request.user)
+        application = Application.objects.filter(id=pk, student=student)
+        delete_application = application.delete()
+        if delete_application:
+            data["status"] = "Successfully deleted the application"
+        else:
+            data["status"] = "Failed to delete the application"
+        return Response(data=data)
