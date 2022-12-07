@@ -17,7 +17,7 @@ function Logout(event) {
 export const mainListItems = (
   <div>
     <a
-      href="/recruiter-dashboard/"
+      href="/faculty-dashboard/"
       style={{ color: 'inherit', textDecoration: 'none' }}
     >
       <ListItem>
@@ -28,7 +28,7 @@ export const mainListItems = (
       </ListItem>
     </a>
     <a
-      href="/recruiter-dashboard/profile/"
+      href="/faculty-dashboard/profile"
       style={{ color: 'inherit', textDecoration: 'none' }}
     >
       <ListItem button>
@@ -44,14 +44,14 @@ export const mainListItems = (
 export const secondaryListItems = (
   <div>
     <a
-      href="/recruiter-dashboard/add-intern-advertisement"
+      href="/faculty-dashboard/projects_floated"
       style={{ color: 'inherit', textDecoration: 'none' }}
     >
       <ListItem button>
         <ListItemIcon>
           <PostAddIcon />
         </ListItemIcon>
-        <ListItemText primary="Intern Advertisment" />
+        <ListItemText primary="All Projects" />
       </ListItem>
     </a>
     <a

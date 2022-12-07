@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useGoogleLogin } from 'react-google-login';
-import GoogleButton from '../assets/google-icon.svg';
 import styles from '../styles/pages/RecruiterLogin.module.css';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -157,11 +156,6 @@ const RecruiterLogin = () => {
           <p>OR</p>
           <div>
             <button onClick={sigIn} className={styles.googleSignIn}>
-              <img
-                src={GoogleButton}
-                className={styles.googleButton}
-                alt="Google sign-in"
-              />
               Sign in with Google
             </button>
           </div>
