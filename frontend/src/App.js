@@ -6,6 +6,7 @@ import FacultyDashboard from './pages/FacultyDashboard';
 import FacultyProjects from './pages/FacultyProjects';
 import Footer from './components/Footer/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import ProjectsList from './pages/Student/ProjectsList';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/faculty-dashboard" component={FacultyDashboard} />
         <Route path="/faculty-projects" component={FacultyProjects} />
+        <Route path="/student-projects" component={ProjectsList} />
         <Route default component={NotFound} />
       </Switch>
       <Footer />
