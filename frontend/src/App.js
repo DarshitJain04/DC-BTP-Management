@@ -12,6 +12,7 @@ import Footer from './components/Footer/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import StudentProtected from './components/RestrictedRoutes/StudentProtected';
 import CompanyProtected from './components/RestrictedRoutes/CompanyProtected';
+import ProjectsList from './pages/Student/ProjectsList';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           path="/student-dashboard/"
           component={StudentDashboard}
         />
+        <Route path="/student-projects" component={ProjectsList} />
         <Route path="/recruiter-login" component={RecruiterLogin} />
         <Route path="/recruiter-register" component={RecruiterRegister} />
         <CompanyProtected

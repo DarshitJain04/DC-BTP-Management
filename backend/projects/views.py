@@ -108,7 +108,9 @@ class AvailableProjectsClass(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get_applied_projects(self, user):
-        return Project.objects.filter(id__in=Application.objects.filter(student__user=user).values_list('project'), active=True)
+        applications = Application.objects.filter(student__user=user)
+        projects = Project.objects.filter(id__in=applications.values_list('project'), active=True)
+        return projects
 
     def get(self, request, *args, **kwargs):
         projects = Project.objects.filter(active=True).difference(self.get_applied_projects(request.user))
