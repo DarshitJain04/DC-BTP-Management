@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,22 +10,17 @@ import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import Home from '../components/StudentDashboard/Home';
-import UploadResume from '../components/StudentDashboard/UplaodResume';
-import Offers from '../components/StudentDashboard/Offers';
-import SuggestionInquiry from '../components/StudentDashboard/SuggestionInquiry';
-import Profile from '../components/StudentDashboard/Profile';
-import Grid from '@material-ui/core/Grid';
-import CancelIcon from '@material-ui/icons/Cancel';
-import instance from '../api/axios';
+import Home from '../components/RecruiterDashboard/Home';
+import AddJobAdvertisement from '../components/RecruiterDashboard/AddJobAdvertisement';
+import StudentList from '../components/RecruiterDashboard/StudentList';
+import FacultyProfile from '../components/RecruiterDashboard/FacultyProfile';
 import {
   mainListItems,
   secondaryListItems,
-} from '../components/StudentDashboard/MenuItems';
+  thirdListItems,
+} from '../components/RecruiterDashboard/MenuItems';
 import ViewAdvertisement from '../components/StudentDashboard/ViewAdvertisement';
-import NormsForm from '../components/RegistrationForms/NormsForm';
-import PlacementCalendar from '../components/StudentDashboard/PlacementCalendar';
-import Internships from '../components/StudentDashboard/Internships';
+import FacultyProjects from '../pages/FacultyProjects';
 
 const drawerWidth = 240;
 
@@ -91,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    minHeight: '100vh',
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -110,32 +104,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [alert, setalert] = useState([]);
-  const [show, setshow] = useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerClose = () => {
     setOpen(!open);
   };
 
-  useEffect(() => {
-    instance
-      .get('main/alerts/')
-      .then((res) => {
-        setalert(res.data.StudentDashboard);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
   return (
     <div className={classes.root}>
-      {show && alert.length !== 0 ? (
-        <Grid container style={{ padding: '10px 10%', background: alert[1] }}>
-          <CancelIcon onClick={() => setshow(false)} />
-          <div style={{ margin: 'auto' }}>{alert[0]}</div>
-        </Grid>
-      ) : (
-        <div />
-      )}
       <CssBaseline />
       <Drawer
         variant={window.innerWidth >= 1350 ? 'permanent' : 'temporary'}
@@ -156,51 +131,38 @@ export default function Dashboard() {
         <List>{mainListItems}</List>
         <Divider />
         <List>{secondaryListItems}</List>
+        <Divider />
+        <List>{thirdListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <Container maxWidth="lg" className={classes.container}>
           <Router>
             <Switch>
-              <Route path="/student-dashboard/" exact component={Home} />
+              <Route path="/faculty-dashboard/" exact component={Home} />
               <Route
-                path="/student-dashboard/profile"
+                path="/faculty-dashboard/profile"
                 exact
-                component={Profile}
+                component={FacultyProfile}
               />
               <Route
-                path="/student-dashboard/UploadResume"
+                path="/faculty-dashboard/projects_floated"
                 exact
-                component={UploadResume}
+                component={FacultyProjects}
               />
               <Route
-                path="/student-dashboard/offers"
+                path="/recruiter-dashboard/add-job-advertisement"
                 exact
-                component={Offers}
+                component={AddJobAdvertisement}
               />
               <Route
-                path="/student-dashboard/suggestion_inquiry"
-                exact
-                component={SuggestionInquiry}
-              />
-              <Route
-                path="/student-dashboard/advertisement/:id"
+                path="/recruiter-dashboard/advertisement/:id"
                 exact
                 component={ViewAdvertisement}
               />
               <Route
-                path="/student-dashboard/norms-guidelines"
+                path="/recruiter-dashboard/student-list/:id"
                 exact
-                component={NormsForm}
-              />
-              <Route
-                path="/student-dashboard/placement-calendar"
-                exact
-                component={PlacementCalendar}
-              />
-              <Route
-                path="/student-dashboard/info"
-                exact
-                component={Internships}
+                component={StudentList}
               />
             </Switch>
           </Router>
