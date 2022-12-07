@@ -16,9 +16,88 @@
   color: #fff;
 }
 
+.modal {
+  padding: 0 1.5rem 1.25rem 1.5rem;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  padding: 1.25rem 0 1rem 0;
+  background-color: #fff;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #383838;
+}
+
+.faculty {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 550;
+  color: #848484;
+}
+
 .closeButton {
   position: absolute;
-  right: 1rem;
-  top: 1rem;
+  right: -1rem;
+  top: 0rem;
   color: #383838;
+}
+
+.content {
+  padding: 0;
+}
+
+.description,
+.deliverables,
+.skills,
+.courses {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  color: #383838;
+}
+
+.skills,
+.courses {
+  margin-bottom: 0.4rem;
+}
+
+.descriptionContent {
+  font-size: 1rem;
+  color: #383838;
+}
+
+.deliverablesContent {
+  font-size: 1rem;
+  color: #383838;
+}
+
+.skillsChips,
+.coursesChips {
+  flex-wrap: wrap;
+}
+
+.skillsChips .skill,
+.coursesChips .course {
+  border-radius: 2rem;
+  border: 2px solid #3758f9;
+  background-color: transparent;
+  color: #3758f9;
+  font-weight: 550;
+  padding: 0.5rem 1rem;
+  margin: 0.2rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.skill:hover,
+.course:hover {
+  border-color: transparent;
+  background-color: #3758f9;
+  color: #fff;
 }
