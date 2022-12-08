@@ -15,7 +15,7 @@ const ProjectListCard = ({ data }) => {
         </div>
         <div className={styles.projectActions}>
           <ProjectDetailsModal data={data} />
-          <ProjectApplyModal title={data.title} text={data.description} />
+          <ProjectApplyModal data={data} />
         </div>
       </Paper>
     </FadeUpWhenVisible>
