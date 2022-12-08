@@ -1,52 +1,18 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
+import React, { useState } from 'react';
+import instance from '../../api/axios';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import styles from '../../styles/components/Students/ProjectApplyModal.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-// const styles = (theme) => ({
-//   root: {
-//     margin: 0,
-//     padding: theme.spacing(2),
-//   },
-//   closeButton: {
-//     position: 'absolute',
-//     right: theme.spacing(1),
-//     top: theme.spacing(1),
-//     color: theme.palette.grey[500],
-//   },
-// });
-
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const ProjectApplyModal = ({ title, text }) => {
-  const [open, setOpen] = React.useState(false);
+const ProjectApplyModal = ({ data }) => {
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [applicationType, setApplicationType] = useState('Design Credits');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -56,29 +22,91 @@ const ProjectApplyModal = ({ title, text }) => {
     setOpen(false);
   };
 
-  const createText = (text) => {
-    return { __html: text };
+  const handleApplicationType = (event) => {
+    console.log(event.target.value);
+    setApplicationType(event.target.value);
   };
+
+  const handleSubmit = (project_id, application_type) => {
+    setLoading(true);
+    var form = new FormData();
+    form.append('project_id', project_id);
+    form.append('application_type', application_type);
+    instance
+      .post('http://localhost:8000/api/projects/student_applications/', form)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('Response');
+          console.log(res.data);
+          handleClose();
+          window.alert('Application submitted successfully');
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response) {
+          setError('Invalid Form. All * fields are required');
+        }
+        setLoading(false);
+      });
+  };
+
+  const descriptionElementRef = React.useRef(null);
+  React.useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
 
   return (
     <div>
-      <button className={styles.projectApply} onClick={handleClickOpen}>
+      <button className={styles.projectApply} onClick={() => handleClickOpen()}>
         Apply
       </button>
       <Dialog
-        key={title}
-        onClose={handleClose}
-        aria-labelledby={title}
+        fullWidth
+        maxWidth="sm"
         open={open}
+        onClose={() => handleClose()}
+        scroll="paper"
+        aria-labelledby={data.title}
+        aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id={title} onClose={handleClose}>
-          Application
+        <DialogTitle id={data.title}>
+          <div className={styles.title}>{data.title}</div>
+          <div className={styles.faculty}>
+            {`${data.faculty.user.first_name} ${data.faculty.user.last_name} (${data.faculty.program_branch.name})`}
+          </div>
         </DialogTitle>
-        <DialogContent dividers>
-          <Typography
-            gutterBottom
-            dangerouslySetInnerHTML={createText(text)}
-          ></Typography>
+        <DialogContent dividers="true">
+          <Form>
+            <Form.Group className="mb-3" controlId="Application Type">
+              <Form.Label className={styles.applicationType}>
+                Application Type
+              </Form.Label>
+              <Form.Select
+                aria-label="Application Type"
+                onChange={(event) => handleApplicationType(event)}
+                className={styles.dropDown}
+              >
+                <option value="Design Credits">Design Credits</option>
+                <option value="B.Tech. Project">B.Tech. Project</option>
+              </Form.Select>
+            </Form.Group>
+            <div className={styles.submit}>
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={() => handleSubmit(data.id, applicationType)}
+              >
+                Submit
+              </Button>
+            </div>
+          </Form>
         </DialogContent>
       </Dialog>
     </div>

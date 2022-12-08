@@ -65,7 +65,7 @@ const createdes = (upcoming) => {
 
 const PlacementCalendar = () => {
   const classes = useStyles();
-  const [loading, setLoding] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [dialog, setdialog] = useState({});
   const [open, setopen] = useState(false);
   const [data, setdata] = useState([]);
@@ -93,7 +93,7 @@ const PlacementCalendar = () => {
       .then((res) => {
         setdata(res.data);
       })
-      .then(() => setLoding(false))
+      .then(() => setLoading(false))
       .catch((error) => console.log(error));
   }, []);
 

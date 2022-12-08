@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Internships = () => {
   const classes = useStyles();
-  const [loading, setLoding] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [text, settext] = useState([]);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const Internships = () => {
           )[0]
         );
       })
-      .then(() => setLoding(false))
+      .then(() => setLoading(false))
       .catch((error) => console.log(error));
   }, []);
 

@@ -6,18 +6,22 @@ import { Container } from '@material-ui/core';
 import ProjectListCard from '../../components/Students/ProjectListCard';
 
 const ProjectsList = () => {
-  const [loading, setLoding] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
 
-  useEffect(() => {
+  const getAvailableProjects = () => {
     instance
       .get('projects/available_projects/')
       .then((res) => {
         console.log(res.data);
         setProjects(res.data);
       })
-      .then(() => setLoding(false))
+      .then(() => setLoading(false))
       .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    getAvailableProjects();
   }, []);
 
   return (

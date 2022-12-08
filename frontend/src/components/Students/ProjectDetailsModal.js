@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import styles from '../../styles/components/Students/ProjectDetailsModal.module.css';
 
 const ProjectDetailsModal = ({ data }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,14 +34,17 @@ const ProjectDetailsModal = ({ data }) => {
 
   return (
     <div>
-      <button className={styles.projectDetails} onClick={handleClickOpen}>
+      <button
+        className={styles.projectDetails}
+        onClick={() => handleClickOpen()}
+      >
         Details
       </button>
       <Dialog
         fullWidth
         maxWidth="sm"
         open={open}
-        onClose={handleClose}
+        onClose={() => handleClose()}
         scroll="paper"
         aria-labelledby={data.title}
         aria-describedby="scroll-dialog-description"
@@ -71,7 +74,13 @@ const ProjectDetailsModal = ({ data }) => {
           <Stack direction="row" className={styles.skillsChips}>
             {data.skills && data.skills.length > 0
               ? data.skills.map((skill) => {
-                  return <Chip className={styles.skill} label={skill.skill} />;
+                  return (
+                    <Chip
+                      key={styles.skill}
+                      className={styles.skill}
+                      label={skill.skill}
+                    />
+                  );
                 })
               : null}
           </Stack>
@@ -82,7 +91,11 @@ const ProjectDetailsModal = ({ data }) => {
             {data.courses && data.courses.length > 0
               ? data.courses.map((course) => {
                   return (
-                    <Chip className={styles.course} label={course.course} />
+                    <Chip
+                      key={styles.skill}
+                      className={styles.course}
+                      label={course.course}
+                    />
                   );
                 })
               : null}
