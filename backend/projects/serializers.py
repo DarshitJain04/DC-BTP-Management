@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Type, Categories, Project, Application
+from .models import Type, Categories, Project, Application, ApplicationCourse
 from main.serializers import SkillsSerializer, CoursesSerializer, StudentSerializer, FacultySerializer
 
 
@@ -26,10 +26,16 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ApplicationCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ApplicationCourse
+        fields = '__all__'
+
 class ApplicationSerializer(serializers.ModelSerializer):
     student = StudentSerializer(read_only=True)
     project = ProjectSerializer(read_only=True)
     application_type = TypeSerializer(read_only=True)
+    course_code = ApplicationCourseSerializer(read_only=True)
 
     class Meta:
         model = Application

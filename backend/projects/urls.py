@@ -5,6 +5,7 @@ app_name = 'projects'
 urlpatterns = [    
     path('types/', views.TypeClass.as_view(), name="types"),
     path('categories/', views.CategoriesClass.as_view(), name="categories"),
+    path('application_course_codes/', views.ApplicationCourseCode.as_view(), name="application-course-code"),
     path('projects_floated/', views.ProjectsFloatedClass.as_view(), name="projects-floated"),
     path('projects_floated/<int:pk>', views.ProjectsFloatedClass.as_view(), name="projects-floated"),
     path('available_projects/', views.AvailableProjectsClass.as_view(), name="available-projects"),

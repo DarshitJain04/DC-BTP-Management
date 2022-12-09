@@ -56,12 +56,21 @@ class Project(models.Model):
         return self.title
 
 
+class ApplicationCourse(models.Model):
+    course_code = models.CharField(max_length=10)
+    course_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return (self.course_code + ' (' + self.course_name + ')')
+
+
 class Application(models.Model):
     project = models.OneToOneField(Project, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     application_type = models.ForeignKey(Type, on_delete=models.PROTECT)
-    course_code = models.CharField(max_length=10)
+    course_code = models.ForeignKey(ApplicationCourse, on_delete=models.PROTECT)
     is_accepted = models.BooleanField(default=False)
+    resume_link = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True)
 
     def __str__(self):
