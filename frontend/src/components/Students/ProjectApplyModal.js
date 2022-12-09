@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import instance from '../../api/axios';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -33,7 +33,7 @@ const ProjectApplyModal = ({ data }) => {
     form.append('project_id', project_id);
     form.append('application_type', application_type);
     instance
-      .post('http://localhost:8000/api/projects/student_applications/', form)
+      .post('/projects/student_applications/', form)
       .then((res) => {
         if (res.status === 200) {
           console.log('Response');
@@ -53,7 +53,7 @@ const ProjectApplyModal = ({ data }) => {
   };
 
   const descriptionElementRef = React.useRef(null);
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {

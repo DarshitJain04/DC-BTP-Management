@@ -148,7 +148,7 @@ class StudentApplicationsClass(APIView):
         application_type = Type.objects.get(application_type=data['application_type'])
         data.pop('application_type')
         project_id = data.pop('project_id')
-        project = Project.object.get(id=project_id)
+        project = Project.objects.get(id=project_id)
         application = Application.objects.create(project=project, student=student, application_type=application_type, **data)
         return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
     
