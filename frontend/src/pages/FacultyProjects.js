@@ -19,6 +19,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import CloseIcon from '@material-ui/icons/Close';
+import styles from '../styles/components/Students/ProjectDetailsModal.module.css';
+import FacultyProjectCard from '../components/Faculty/FacultyProjectCard';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -60,266 +65,22 @@ function Offers() {
     setOpen(false);
   };
   return (
-    <React.Fragment>
-      <Grid item xs={12} sm={11}>
-        <Paper className={classes.paper}>
-          <React.Fragment>
-            <Typography
-              component="h2"
-              variant="h6"
-              color="primary"
-              gutterBottom
-            >
-              All Projects
-            </Typography>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                      color: 'white',
-                      background: '#012970',
-                    }}
-                  >
-                    Sr No.
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                      color: 'white',
-                      background: '#012970',
-                    }}
-                  >
-                    Title
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                      color: 'white',
-                      background: '#012970',
-                    }}
-                  >
-                    Category
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                      color: 'white',
-                      background: '#012970',
-                    }}
-                  >
-                    Status
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                      color: 'white',
-                      background: '#012970',
-                    }}
-                  >
-                    No. of Applications
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                      color: 'white',
-                      background: '#012970',
-                    }}
-                  >
-                    Action
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow key={1}>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                    }}
-                  >
-                    1
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                    }}
-                  >
-                    Project Tile 1
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                    }}
-                  >
-                    Category
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      color: 'green',
-                      fontSize: '16px',
-                    }}
-                  >
-                    Active
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                    }}
-                  >
-                    10
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className={classes.button}
-                      endIcon={<VisibilityIcon />}
-                      onClick={(e) => {
-                        handleOpen();
-                      }}
-                    >
-                      View
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      className={classes.button}
-                      endIcon={<DeleteIcon />}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      variant="contained"
-                      style={{
-                        color: '#fff',
-                        backgroundColor: '#02a70f',
-                      }}
-                      className={classes.button}
-                      endIcon={<EditIcon />}
-                    >
-                      Edit
-                    </Button>
-                  </TableCell>
-                </TableRow>
-                <TableRow key={2}>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                    }}
-                  >
-                    2
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                    }}
-                  >
-                    Project Tile 2
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                    }}
-                  >
-                    Category 2
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      color: 'red',
-                      fontSize: '16px',
-                    }}
-                  >
-                    Inactive
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: '16px',
-                    }}
-                  >
-                    20
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className={classes.button}
-                      endIcon={<VisibilityIcon />}
-                      onClick={(e) => {
-                        handleOpen();
-                      }}
-                    >
-                      View
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      className={classes.button}
-                      endIcon={<DeleteIcon />}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      variant="contained"
-                      style={{
-                        color: '#fff',
-                        backgroundColor: '#02a70f',
-                      }}
-                      className={classes.button}
-                      endIcon={<EditIcon />}
-                    >
-                      Edit
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </React.Fragment>
-        </Paper>
-      </Grid>
-      <Modal open={open} onClose={handleClose}>
-        <Grid container spacing={2} style={{ Top: '50%' }}>
-          <Paper className={classes.papermodal}>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="primary"
-              gutterBottom
-            >
-              Select Resume To Apply
-            </Typography>
-            <center>
-              <Typography style={{ padding: '10px' }} gutterBottom>
-                {selcted.designation} role offered by {selcted.name}
-              </Typography>
-              <Grid item xs={12} sm={6} style={{ margin: '30px' }}>
-                <FormControl fullWidth>
-                  <InputLabel>Resume *</InputLabel>
-                  <Select
-                    fullWidth
-                    onChange={(e) => {
-                      setres(e.target.value);
-                    }}
-                  >
-                    <MenuItem value={1}>Resume 1</MenuItem>
-                    <MenuItem value={2}>Resume 2</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Button
-                disabled={res === 'None'}
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                endIcon={<DeleteIcon />}
-              >
-                Apply
-              </Button>
-            </center>
-          </Paper>
-        </Grid>
-      </Modal>
-    </React.Fragment>
+    <>
+      <div
+        style={{
+          margin: '10px',
+        }}
+      >
+        <FacultyProjectCard />
+      </div>
+      <div
+        style={{
+          margin: '10px',
+        }}
+      >
+        <FacultyProjectCard />
+      </div>
+    </>
   );
 }
 
