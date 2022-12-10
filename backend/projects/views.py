@@ -5,10 +5,9 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from .models import Categories, Project, Type, Application
+from .models import Categories, Project, Type, Application, ApplicationCourse
 from .serializers import (ApplicationSerializer, CategoriesSerializer,
-                          ProjectSerializer, TypeSerializer)
+                          ProjectSerializer, TypeSerializer, ApplicationCourseSerializer)
 
 
 class TypeClass(ListAPIView):
@@ -22,6 +21,13 @@ class CategoriesClass(ListAPIView):
     queryset = Categories.objects.all()
     serializer_class = CategoriesSerializer
     search_fields = ['category', 'total_credits_allowed']
+    filter_backends = (SearchFilter,)
+
+
+class ApplicationCourseCode(ListAPIView):
+    queryset = ApplicationCourse.objects.all()
+    serializer_class = ApplicationCourseSerializer
+    search_fields = ['course_code', 'course_name']
     filter_backends = (SearchFilter,)
 
 
@@ -149,7 +155,9 @@ class StudentApplicationsClass(APIView):
         data.pop('application_type')
         project_id = data.pop('project_id')
         project = Project.objects.get(id=project_id)
-        application = Application.objects.create(project=project, student=student, application_type=application_type, **data)
+        course = ApplicationCourse.objects.get(course_code=data['course_code'])
+        data.pop('course_code')
+        application = Application.objects.create(project=project, student=student, application_type=application_type, course_code=course, **data)
         return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
     
     # Update an existing application
