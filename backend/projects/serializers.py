@@ -18,8 +18,8 @@ class CategoriesSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     faculty = FacultySerializer(read_only=True)
     category = CategoriesSerializer(read_only=True)
-    skills = SkillsSerializer(read_only=True, many=True)
-    courses = CoursesSerializer(read_only=True, many=True)
+    # skills = SkillsSerializer(read_only=True, many=True)
+    # courses = CoursesSerializer(read_only=True, many=True)
     
     class Meta:
         model = Project

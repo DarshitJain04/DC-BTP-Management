@@ -72,33 +72,25 @@ const ProjectDetailsModal = ({ data }) => {
             <div className={styles.skills}>Skills</div>
           ) : null}
           <Stack direction="row" className={styles.skillsChips}>
-            {data.skills && data.skills.length > 0
-              ? data.skills.map((skill) => {
-                  return (
-                    <Chip
-                      key={styles.skill}
-                      className={styles.skill}
-                      label={skill.skill}
-                    />
-                  );
-                })
-              : null}
+            {data.skills ? (
+              <Chip
+                key={styles.skill}
+                className={styles.course}
+                label={data.skills}
+              />
+            ) : null}
           </Stack>
           {data.courses && data.courses.length > 0 ? (
             <div className={styles.courses}>Courses</div>
           ) : null}
           <Stack direction="row" className={styles.coursesChips}>
-            {data.courses && data.courses.length > 0
-              ? data.courses.map((course) => {
-                  return (
-                    <Chip
-                      key={styles.skill}
-                      className={styles.course}
-                      label={course.course}
-                    />
-                  );
-                })
-              : null}
+            {data.courses ? (
+              <Chip
+                key={styles.skill}
+                className={styles.course}
+                label={data.courses}
+              />
+            ) : null}
           </Stack>
         </DialogContent>
       </Dialog>

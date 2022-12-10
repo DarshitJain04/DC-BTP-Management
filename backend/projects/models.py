@@ -45,8 +45,8 @@ class Project(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     deliverables = models.TextField()
-    skills = models.ManyToManyField(Skills, blank=True)
-    courses = models.ManyToManyField(Courses, blank=True)
+    skills = models.TextField(blank=True)
+    courses = models.TextField(blank=True)
     active = models.BooleanField(default=True)
     class Meta:
         verbose_name = 'Project'

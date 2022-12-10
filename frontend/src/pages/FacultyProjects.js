@@ -23,7 +23,7 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import CloseIcon from '@material-ui/icons/Close';
 import styles from '../styles/components/Students/ProjectDetailsModal.module.css';
-import FacultyProjectCard from '../components/Faculty/FacultyProjectCard';
+// import FacultyProjectCard from '../components/Faculty/FacultyProjectCard';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -71,14 +71,14 @@ function Offers() {
           margin: '10px',
         }}
       >
-        <FacultyProjectCard />
+        {/* <FacultyProjectCard /> */}
       </div>
       <div
         style={{
           margin: '10px',
         }}
       >
-        <FacultyProjectCard />
+        {/* <FacultyProjectCard /> */}
       </div>
     </>
   );
