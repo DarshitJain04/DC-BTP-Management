@@ -12,7 +12,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function FacultyProjectDescription() {
+export default function FacultyProjectDescription({ data }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -40,30 +40,41 @@ export default function FacultyProjectDescription() {
         aria-labelledby={'data.title'}
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id={'data.title1'}>
-          <div className={styles.title}>{'data.title1'}</div>
-          <div className={styles.faculty}>Faculty name and Branch</div>
+        <DialogTitle id={data.id}>
+          <div className={styles.title}>{data.title}</div>
+          <div className={styles.faculty}>
+            <span>{data.category.category}</span>{' '}
+            <span>
+              {' '}
+              Status:{' '}
+              {data.active ? (
+                <span style={{ color: 'green' }}>Active</span>
+              ) : (
+                <span style={{ color: 'red' }}>Inactive</span>
+              )}
+            </span>
+          </div>
         </DialogTitle>
         <DialogContent dividers="true">
           <div className={styles.description}>Description</div>
           <Typography gutterBottom className={styles.descriptionContent}>
-            Description Text
+            {data.description}
           </Typography>
           <div className={styles.deliverables}>Deliverables</div>
           <Typography gutterBottom className={styles.deliverablesContent}>
-            Deliverables Text
+            {data.deliverables}
           </Typography>
+          <div className={styles.deliverables}>Skills</div>
           <Stack direction="row" className={styles.skillsChips}>
-            <Chip className={styles.skill} label={'skill.skill1'} />
-            <Chip className={styles.skill} label={'skill.skill2'} />
-            <Chip className={styles.skill} label={'skill.skill3'} />
+            {data.skills?.split(',').map((s) => {
+              return <Chip className={styles.skill} label={s} />;
+            })}
           </Stack>
           <div className={styles.courses}>Courses</div>
-          <Stack direction="row" className={styles.coursesChips}>
-            <Chip className={styles.course} label={'course.course1'} />
-            <Chip className={styles.course} label={'course.course2'} />
-            <Chip className={styles.course} label={'course.course3'} />
-            <Chip className={styles.course} label={'course.course4'} />
+          <Stack direction="row" className={styles.skillsChips}>
+            {data.courses?.split(',').map((c) => {
+              return <Chip className={styles.skill} label={c} />;
+            })}
           </Stack>
         </DialogContent>
       </Dialog>
