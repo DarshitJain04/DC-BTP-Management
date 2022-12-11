@@ -11,7 +11,8 @@ function Copyright() {
   return (
     <Typography variant="body2" style={{ color: '#012970' }} align="center">
       {'Copyright © '}
-      <Link color="inherit">CDC, IITJ</Link> {new Date().getFullYear()}
+      <Link color="inherit">Indian Institute of Technology, Jodhpur</Link>{' '}
+      {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
@@ -21,50 +22,19 @@ export default function Footer(props) {
   return (
     <>
       <Container style={{ background: '#f6f9ff', padding: '20px 0' }}>
-        <Typography component={'span'} variant="h6" align="center" gutterBottom>
-          <div>
-            <Tooltip arrow title="facebook">
-              <IconButton
-                href="https://www.facebook.com/SPC.IITJ/"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outlined"
-                style={{ color: '#012970' }}
-              >
-                <FacebookIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow title="Linkedin">
-              <IconButton
-                href="https://in.linkedin.com/in/career-development-cell-iit-jodhpur-62a31352"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: '#012970' }}
-                variant="outlined"
-              >
-                <LinkedInIcon style={{ color: '#012970' }} />
-              </IconButton>
-            </Tooltip>
-            <Tooltip arrow title="GitHub">
-              <IconButton
-                href="https://github.com/devlup-labs/cdc-portal"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outlined"
-                style={{ color: '#012970' }}
-              >
-                <GitHubIcon />
-              </IconButton>
-            </Tooltip>
-          </div>
-        </Typography>
+        <Typography
+          component={'span'}
+          variant="h6"
+          align="center"
+          gutterBottom
+        ></Typography>
         <Typography
           variant="subtitle1"
           align="center"
           style={{ color: '#012970' }}
           component="p"
         >
-          Designed & Maintained by Career Development Cell, IIT Jodhpur
+          Designed & Maintained by Sahil & Darshit
         </Typography>
         <Copyright />
       </Container>

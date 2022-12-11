@@ -4,6 +4,7 @@ import Loading from '../../components/Loading';
 import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core';
 import FacultyProjectListCard from '../../components/Faculty/FacultyProjectListCard';
+import Navbar from '../../components/Navbar/Navbar';
 
 const FacultyProjectsList = () => {
   const [loading, setLoading] = useState(true);
@@ -30,6 +31,7 @@ const FacultyProjectsList = () => {
         <Loading />
       ) : (
         <>
+          <Navbar />
           <Container maxWidth="lg">
             <Grid
               container

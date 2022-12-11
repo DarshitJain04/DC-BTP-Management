@@ -78,7 +78,6 @@ class ProjectsFloatedClass(APIView):
         user = request.user
         for key in request.data.keys():
             data[key] = request.data.get(key)
-        print(data)
         title = data['title']
         category = data['category']
         description = data['description']
