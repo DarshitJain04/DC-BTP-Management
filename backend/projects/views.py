@@ -58,8 +58,8 @@ class ProjectsFloatedClass(APIView):
         for key in request.data.keys():
             data[key] = request.data.get(key)
         category = data.pop('category')
-        skills = data.pop('skills', [])
-        courses = data.pop('courses', [])
+        skills = data.pop('skills')
+        courses = data.pop('courses')
         faculty = Faculty.objects.get(user=user)
         category = Categories.objects.get(category=category)
         project = Project.objects.create(faculty=faculty, category=category, **data)
@@ -78,21 +78,29 @@ class ProjectsFloatedClass(APIView):
         user = request.user
         for key in request.data.keys():
             data[key] = request.data.get(key)
-        category = data.pop('category')
-        skills = data.pop('skills', [])
-        courses = data.pop('courses', [])
+        print(data)
+        title = data['title']
+        category = data['category']
+        description = data['description']
+        deliverables = data['deliverables']
+        active = data['active']
+        skills = data['skills']
+        courses = data['courses']
         faculty = Faculty.objects.get(user=user)
-        category = Categories.objects.get(category=category)
-        _ = Project.objects.filter(faculty=faculty, id=pk).update(**data, category=category)
-        project = Project.objects.get(faculty=faculty, category=category, id=pk)
-        project.skills.clear()
-        project.courses.clear()
-        for skill in skills:
-            skill, _ = Skills.objects.get_or_create(skill=skill)
-            project.skills.add(skill)
-        for course in courses:
-            course, _ = Courses.objects.get_or_create(course=course)
-            project.courses.add(course)
+        category_obj = Categories.objects.get(category=category)
+        project = Project.objects.get(faculty=faculty, id=pk)
+        project.title = title
+        project.category = category_obj
+        project.description = description
+        project.deliverables = deliverables
+        
+        if active == 'false':
+            project.active = False
+        else:
+            project.active = True
+
+        project.skills = skills
+        project.courses = courses
         project.save()
         return Response(ProjectSerializer(project).data, status=status.HTTP_200_OK)
     

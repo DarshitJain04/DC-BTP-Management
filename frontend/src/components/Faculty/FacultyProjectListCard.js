@@ -44,7 +44,7 @@ const FacultyProjectListCard = ({ data }) => {
         </Grid>
         <div className={styles.projectActions}>
           {/* <ProjectDetailsModal data={data} /> */}
-          <FacultyProjectDescription />
+          <FacultyProjectDescription data={data} />
           <Button
             size="small"
             variant="outlined"
@@ -56,7 +56,7 @@ const FacultyProjectListCard = ({ data }) => {
           >
             Delete
           </Button>
-          <FacultyProjectEdit />
+          <FacultyProjectEdit data={data} />
         </div>
       </Paper>
     </FadeUpWhenVisible>
