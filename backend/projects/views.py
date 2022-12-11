@@ -46,9 +46,9 @@ class ProjectsFloatedClass(APIView):
     def get(self, request, pk = None, *args, **kwargs):
         faculty = Faculty.objects.get(user=request.user)
         if pk is not None:
-            project = Project.objects.get(faculty=faculty, active=True, id=pk)
+            project = Project.objects.get(faculty=faculty, id=pk)
             return Response(ProjectSerializer(project).data, status=status.HTTP_200_OK)
-        projects = Project.objects.filter(faculty=faculty, active=True)
+        projects = Project.objects.filter(faculty=faculty)
         return Response(ProjectSerializer(projects, many=True).data, status=status.HTTP_200_OK)
     
     # Float a new project
@@ -200,5 +200,5 @@ class FacultyApplicationsClass(APIView):
             return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
         applications = Application.objects.filter(project__faculty=faculty)
         return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
-    
+
     # TODO: Accept/ Reject Functionality
