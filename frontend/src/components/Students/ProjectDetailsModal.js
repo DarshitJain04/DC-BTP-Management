@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
@@ -74,14 +75,14 @@ const ProjectDetailsModal = ({ data }) => {
           <Stack direction="row" className={styles.skillsChips}>
             {data.skills && data.skills.length > 0
               ? data.skills.map((skill) => {
-                  return (
-                    <Chip
-                      key={styles.skill}
-                      className={styles.skill}
-                      label={skill.skill}
-                    />
-                  );
-                })
+                return (
+                  <Chip
+                    key={styles.skill}
+                    className={styles.skill}
+                    label={skill.skill}
+                  />
+                );
+              })
               : null}
           </Stack>
           {data.courses && data.courses.length > 0 ? (
@@ -90,14 +91,14 @@ const ProjectDetailsModal = ({ data }) => {
           <Stack direction="row" className={styles.coursesChips}>
             {data.courses && data.courses.length > 0
               ? data.courses.map((course) => {
-                  return (
-                    <Chip
-                      key={styles.skill}
-                      className={styles.course}
-                      label={course.course}
-                    />
-                  );
-                })
+                return (
+                  <Chip
+                    key={styles.skill}
+                    className={styles.course}
+                    label={course.course}
+                  />
+                );
+              })
               : null}
           </Stack>
         </DialogContent>
