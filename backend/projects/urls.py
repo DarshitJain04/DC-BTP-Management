@@ -13,4 +13,5 @@ urlpatterns = [
     path('student_applications/<int:pk>', views.StudentApplicationsClass.as_view(), name="student-applications"),
     path('faculty_applications/', views.FacultyApplicationsClass.as_view(), name="faculty-applications"),
     path('faculty_applications/<int:pk>', views.FacultyApplicationsClass.as_view(), name="faculty-applications"),
+    path('applications_project/<int:pk>', views.ApplicationsForProject.as_view(), name="applications-project"),
 ]

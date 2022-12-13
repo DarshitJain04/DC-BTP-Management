@@ -212,3 +212,13 @@ class FacultyApplicationsClass(APIView):
         return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
 
     # TODO: Accept/ Reject Functionality
+
+
+class ApplicationsForProject(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk, *args, **kwargs):
+        faculty = Faculty.objects.get(user=request.user)
+        project = Project.objects.get(faculty=faculty, id=pk)
+        applications = Application.objects.filter(project=project)
+        return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
