@@ -36,8 +36,6 @@ class ProgramAndBranchSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     role = RolesSerializer(read_only=True)
-    skills = SkillsSerializer(read_only=True, many=True)
-    courses = CoursesSerializer(read_only=True, many=True)
     program_branch = ProgramAndBranchSerializer(read_only=True)
 
     class Meta:

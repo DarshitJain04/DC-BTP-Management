@@ -189,34 +189,18 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 								<div className={projectStyles.skills}>Skills</div>
 							) : null}
 							<Stack direction="row" className={projectStyles.skillsChips}>
-								{projectData.skills && projectData.skills.length > 0
-									? projectData.skills.map((skill) => {
-										return (
-											<Chip
-												key={projectStyles.skill}
-												className={projectStyles.skill}
-												label={skill.skill}
-											/>
-										);
-									})
-									: null}
+								{projectData.skills?.split(',').map((skill) => {
+									return <Chip className={projectStyles.skill} label={skill} />;
+								})}
 							</Stack>
 							{projectData.courses && projectData.courses.length > 0 ? (
 								<div className={projectStyles.courses}>Courses</div>
 							) : null}
 							<Stack direction="row" className={projectStyles.coursesChips}>
-								{projectData.courses && projectData.courses.length > 0
-									? projectData.courses.map((course) => {
-										return (
-											<Chip
-												key={projectStyles.skill}
-												className={projectStyles.course}
-												label={course.course}
-											/>
-										);
-									})
-									: null}
-							</Stack> </>) : (
+								{projectData.courses?.split(',').map((course) => {
+									return <Chip className={projectStyles.course} label={course} />;
+								})}
+							</Stack></>) : (
 						<>
 							<Form>
 								<Form.Group className="mb-3" controlId="Application Type">
