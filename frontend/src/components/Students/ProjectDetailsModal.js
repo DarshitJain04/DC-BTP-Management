@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
@@ -24,7 +24,7 @@ const ProjectDetailsModal = ({ data }) => {
   };
 
   const descriptionElementRef = React.useRef(null);
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {

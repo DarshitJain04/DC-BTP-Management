@@ -2,7 +2,8 @@
   padding: 1.25rem 1.5rem;
 }
 
-.projectTitle {
+.projectTitle,
+.facultyName {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0.2rem 0 0 0;
@@ -10,10 +11,43 @@
 }
 
 .faculty {
-  margin: 0.5rem 0;
   font-size: 1rem;
   font-weight: 550;
   color: #848484;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.faculty:hover {
+  color: #3758f9;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header .email {
+  color: #3758f9;
+}
+
+.facultyDepartment {
+  font-size: 1rem;
+  font-weight: 550;
+  color: #848484;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.description {
+  font-size: 1rem;
+  color: #383838;
+  padding: 0 0 1rem 0;
 }
 
 .projectActions {

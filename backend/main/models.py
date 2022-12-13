@@ -113,6 +113,7 @@ class Faculty(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.ForeignKey(Roles, on_delete=models.PROTECT)
     program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.PROTECT)
+    description = models.TextField(blank=True)
     registration_timestamp = models.DateTimeField(auto_now_add = True, blank = True, null = True)
 
     class Meta:
