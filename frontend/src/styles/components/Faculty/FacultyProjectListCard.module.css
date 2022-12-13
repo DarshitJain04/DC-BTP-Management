@@ -2,6 +2,14 @@
   padding: 1.25rem 1.5rem;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .projectTitle {
   font-size: 1.5rem;
   font-weight: 700;
@@ -10,15 +18,32 @@
 }
 
 .faculty {
-  margin: 0.5rem 0;
   font-size: 1rem;
   font-weight: 550;
   color: #848484;
 }
 
+.footer {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
 .projectActions {
   display: flex;
   flex-direction: row-reverse;
-  margin: 1.2rem 0 0 0;
+  margin: 0;
   align-items: center;
+}
+
+.projectActions > button {
+  color: #848484;
+}
+
+.applications {
+  font-size: 1rem;
+  font-weight: 550;
 }

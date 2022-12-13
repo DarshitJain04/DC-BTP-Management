@@ -70,21 +70,25 @@ const ProjectDetailsModal = ({ data }) => {
             className={styles.deliverablesContent}
           ></Typography>
           {data.skills && data.skills.length > 0 ? (
-            <div className={styles.skills}>Skills</div>
+            <>
+              <div className={styles.skills}>Skills</div>
+              <Stack direction="row" className={styles.skillsChips}>
+                {data.skills?.split(',').map((skill) => {
+                  return <Chip className={styles.skill} label={skill} />;
+                })}
+              </Stack>
+            </>
           ) : null}
-          <Stack direction="row" className={styles.skillsChips}>
-            {data.skills?.split(',').map((skill) => {
-              return <Chip className={styles.skill} label={skill} />;
-            })}
-          </Stack>
           {data.courses && data.courses.length > 0 ? (
-            <div className={styles.courses}>Courses</div>
+            <>
+              <div className={styles.courses}>Courses</div>
+              <Stack direction="row" className={styles.coursesChips}>
+                {data.courses?.split(',').map((course) => {
+                  return <Chip className={styles.course} label={course} />;
+                })}
+              </Stack>
+            </>
           ) : null}
-          <Stack direction="row" className={styles.coursesChips}>
-            {data.courses?.split(',').map((course) => {
-              return <Chip className={styles.course} label={course} />;
-            })}
-          </Stack>
         </DialogContent>
       </Dialog>
     </div>

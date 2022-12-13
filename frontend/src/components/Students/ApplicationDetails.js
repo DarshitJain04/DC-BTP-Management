@@ -14,7 +14,6 @@ import applicationStyles from '../../styles/components/Students/ApplicationDetai
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
-import DeleteApplicationModal from './DeleteApplicationModal';
 
 
 const ProjectDetailsModal = ({ applicationData, projectData }) => {
@@ -186,21 +185,26 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 								className={projectStyles.deliverablesContent}
 							></Typography>
 							{projectData.skills && projectData.skills.length > 0 ? (
-								<div className={projectStyles.skills}>Skills</div>
+								<>
+									<div className={projectStyles.skills}>Skills</div>
+									<Stack direction="row" className={projectStyles.skillsChips}>
+										{projectData.skills?.split(',').map((skill) => {
+											return <Chip className={projectStyles.skill} label={skill} />;
+										})}
+									</Stack>
+								</>
 							) : null}
-							<Stack direction="row" className={projectStyles.skillsChips}>
-								{projectData.skills?.split(',').map((skill) => {
-									return <Chip className={projectStyles.skill} label={skill} />;
-								})}
-							</Stack>
 							{projectData.courses && projectData.courses.length > 0 ? (
-								<div className={projectStyles.courses}>Courses</div>
+								<>
+									<div className={projectStyles.courses}>Courses</div>
+									<Stack direction="row" className={projectStyles.coursesChips}>
+										{projectData.courses?.split(',').map((course) => {
+											return <Chip className={projectStyles.course} label={course} />;
+										})}
+									</Stack>
+								</>
 							) : null}
-							<Stack direction="row" className={projectStyles.coursesChips}>
-								{projectData.courses?.split(',').map((course) => {
-									return <Chip className={projectStyles.course} label={course} />;
-								})}
-							</Stack></>) : (
+						</>) : (
 						<>
 							<Form>
 								<Form.Group className="mb-3" controlId="Application Type">

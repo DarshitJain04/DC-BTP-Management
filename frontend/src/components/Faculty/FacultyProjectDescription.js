@@ -3,11 +3,8 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@material-ui/core/Typography';
 import styles from '../../styles/components/Faculty/FacultyProjectDescription.module.css';
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -19,18 +16,11 @@ export default function FacultyProjectDescription({ data }) {
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        size="small"
-        color="primary"
-        style={{
-          margin: '8px',
-        }}
-        endIcon={<VisibilityIcon />}
-        onClick={handleOpen}
-      >
-        View
-      </Button>
+      <div className={styles.viewButton}>
+        <IconButton onClick={() => handleOpen()}>
+          <VisibilityIcon />
+        </IconButton>
+      </div>
       <Dialog
         fullWidth
         maxWidth="sm"
@@ -48,9 +38,13 @@ export default function FacultyProjectDescription({ data }) {
               {' '}
               Status:{' '}
               {data.active ? (
-                <span style={{ color: 'green' }}>Active</span>
+                <span style={{ color: '#3DBE29', fontWeight: 'bold' }}>
+                  ACTIVE
+                </span>
               ) : (
-                <span style={{ color: 'red' }}>Inactive</span>
+                <span style={{ color: '#ed5e68', fontWeight: 'bold' }}>
+                  INACTIVE
+                </span>
               )}
             </span>
           </div>
@@ -64,18 +58,26 @@ export default function FacultyProjectDescription({ data }) {
           <Typography gutterBottom className={styles.deliverablesContent}>
             {data.deliverables}
           </Typography>
-          <div className={styles.deliverables}>Skills</div>
-          <Stack direction="row" className={styles.skillsChips}>
-            {data.skills?.split(',').map((s) => {
-              return <Chip className={styles.skill} label={s} />;
-            })}
-          </Stack>
-          <div className={styles.courses}>Courses</div>
-          <Stack direction="row" className={styles.skillsChips}>
-            {data.courses?.split(',').map((c) => {
-              return <Chip className={styles.skill} label={c} />;
-            })}
-          </Stack>
+          {data.skills && data.skills.length > 0 ? (
+            <>
+              <div className={styles.skills}>Skills</div>
+              <Stack direction="row" className={styles.skillsChips}>
+                {data.skills?.split(',').map((skill) => {
+                  return <Chip className={styles.skill} label={skill} />;
+                })}
+              </Stack>
+            </>
+          ) : null}
+          {data.courses && data.courses.length > 0 ? (
+            <>
+              <div className={styles.courses}>Courses</div>
+              <Stack direction="row" className={styles.coursesChips}>
+                {data.courses?.split(',').map((course) => {
+                  return <Chip className={styles.course} label={course} />;
+                })}
+              </Stack>
+            </>
+          ) : null}
         </DialogContent>
       </Dialog>
     </div>

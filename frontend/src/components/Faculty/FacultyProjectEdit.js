@@ -7,39 +7,38 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import EditIcon from '@material-ui/icons/Edit';
 import Form from 'react-bootstrap/Form';
+import IconButton from '@mui/material/IconButton';
 import Loading from '../../components/Loading';
 
 export default function FacultyProjectEdit({ data }) {
   const [loading, setLoading] = useState(true);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [title, setTitle] = React.useState(data.title);
-  const [category, setCategory] = React.useState(data.category.category);
-  const [description, setDescription] = React.useState(data.description);
-  const [deliverables, setDeliverables] = React.useState(data.deliverables);
-  const [skills, setSkills] = React.useState(data.skills);
-  const [courses, setCourses] = React.useState(data.courses);
-  const [active, setActive] = React.useState(data.active);
-  const [categories, setCategories] = React.useState([]);
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState(data.title);
+  const [category, setCategory] = useState(data.category.category);
+  const [description, setDescription] = useState(data.description);
+  const [deliverables, setDeliverables] = useState(data.deliverables);
+  const [skills, setSkills] = useState(data.skills);
+  const [courses, setCourses] = useState(data.courses);
+  const [active, setActive] = useState(data.active);
+  const [categories, setCategories] = useState([]);
 
-  const getAvailableCategories = () => {
-    instance
-      .get('projects/categories/')
-      .then((res) => {
-        console.log(res.data);
-        setCategories(res.data);
-      })
-      .then(() => setLoading(false))
-      .catch((error) => console.log(error));
+  const handleOpen = () => {
+    setOpen(true);
   };
 
-  useEffect(() => {
-    getAvailableCategories();
-  }, []);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const toggleActive = () => {
     setActive(!active);
+  };
+
+  const validateProjectFields = () => {
+    if (title === '' || description === '' || deliverables === '') {
+      return true;
+    }
+    return false;
   };
 
   const handleSubmit = (project_id) => {
@@ -73,31 +72,34 @@ export default function FacultyProjectEdit({ data }) {
       });
   };
 
+  useEffect(() => {
+    instance
+      .get('/projects/categories/')
+      .then((res) => {
+        setCategories(res.data);
+      })
+      .then(() => setLoading(false))
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <div>
-      <Button
-        variant="outlined"
-        size="small"
-        color="primary"
-        style={{
-          margin: '8px',
-        }}
-        endIcon={<EditIcon />}
-        onClick={handleOpen}
-      >
-        Edit
-      </Button>
+      <div className={styles.editButton}>
+        <IconButton onClick={() => handleOpen()}>
+          <EditIcon />
+        </IconButton>
+      </div>
       <Dialog
         fullWidth
         maxWidth="sm"
         open={open}
         onClose={() => handleClose()}
         scroll="paper"
-        aria-labelledby={'data.title'}
+        aria-labelledby={data.title}
         aria-describedby="scroll-dialog-description"
       >
         <DialogTitle id={data.id}>
-          <div className={styles.title}>Project Details</div>
+          <div className={styles.title}>{data.title}</div>
         </DialogTitle>
         {loading ? (
           <Loading />
@@ -105,7 +107,7 @@ export default function FacultyProjectEdit({ data }) {
           <DialogContent dividers="true">
             <Form>
               <Form.Group className="mb-3" controlId="Application Type">
-                <Form.Label className={styles.label}>Title</Form.Label>
+                <Form.Label className={styles.projectTitle}>Title</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Title"
@@ -113,34 +115,50 @@ export default function FacultyProjectEdit({ data }) {
                   onChange={(e) => setTitle(e.target.value)}
                   value={title}
                 />
-                <Form.Label className={styles.label}>Description</Form.Label>
+                <Form.Label className={styles.description}>
+                  Description
+                </Form.Label>
                 <Form.Control
                   as="textarea"
                   className={styles.inputBox}
-                  rows={6}
+                  rows={4}
                   placeholder="Description"
                   onChange={(e) => setDescription(e.target.value)}
                   value={description}
                 />
-                <Form.Label className={styles.label}>Deliverables</Form.Label>
+                <Form.Label className={styles.deliverables}>
+                  Deliverables
+                </Form.Label>
                 <Form.Control
                   as="textarea"
                   className={styles.inputBox}
-                  rows={6}
+                  rows={4}
                   placeholder="Deliverables"
                   onChange={(e) => setDeliverables(e.target.value)}
                   value={deliverables}
                 />
-                <Form.Label className={styles.label}>Status</Form.Label>
-                <Form.Check
-                  type="switch"
-                  id="custom-switch"
-                  checked={active}
-                  label={active ? 'Active' : 'Inactive'}
-                  onClick={(e) => toggleActive()}
-                  className={styles.toggleButton}
-                />
-                <Form.Label className={styles.label}>Category</Form.Label>
+                <div className={styles.projectStatus}>
+                  <Form.Label className={styles.status}>Status</Form.Label>
+                  <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    checked={active}
+                    label={
+                      active ? (
+                        <span style={{ color: '#3DBE29', fontWeight: 'bold' }}>
+                          ACTIVE
+                        </span>
+                      ) : (
+                        <span style={{ color: '#ed5e68', fontWeight: 'bold' }}>
+                          INACTIVE
+                        </span>
+                      )
+                    }
+                    onClick={(e) => toggleActive()}
+                    className={styles.toggleButton}
+                  />
+                </div>
+                <Form.Label className={styles.category}>Category</Form.Label>
                 <Form.Select
                   aria-label="Category"
                   onChange={(e) => setCategory(e.target.value)}
@@ -151,7 +169,7 @@ export default function FacultyProjectEdit({ data }) {
                     return <option value={c.category}>{c.category}</option>;
                   })}
                 </Form.Select>
-                <Form.Label className={styles.label}>
+                <Form.Label className={styles.skills}>
                   Skills (comma seperated)
                 </Form.Label>
                 <Form.Control
@@ -161,7 +179,7 @@ export default function FacultyProjectEdit({ data }) {
                   rows={3}
                   onChange={(e) => setSkills(e.target.value)}
                 />
-                <Form.Label className={styles.label}>
+                <Form.Label className={styles.courses}>
                   Courses (comma seperated)
                 </Form.Label>
                 <Form.Control
@@ -177,6 +195,7 @@ export default function FacultyProjectEdit({ data }) {
                   className={styles.submitButton}
                   variant="primary"
                   type="submit"
+                  disabled={validateProjectFields()}
                   onClick={() => handleSubmit(data.id)}
                 >
                   Submit
