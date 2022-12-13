@@ -71,8 +71,8 @@ class Student(models.Model):
     year = models.SmallIntegerField()
     program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.PROTECT)
     cgpa = models.FloatField()
-    skills = models.ManyToManyField(Skills, blank=True)
-    courses = models.ManyToManyField(Courses, blank=True)
+    skills = models.TextField(blank=True)
+    courses = models.TextField(blank=True)
     registration_timestamp = models.DateTimeField(auto_now_add = True, blank = True, null = True)
 
     def __str__(self):

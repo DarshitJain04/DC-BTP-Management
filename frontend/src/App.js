@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import NotFound from './pages/404';
 import FacultyDashboard from './pages/FacultyDashboard';
-import FacultyProjects from './pages/FacultyProjects';
+import FacultyProjectsList from './pages/Faculty/FacultyProjectsList';
 import Footer from './components/Footer/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import ProjectsList from './pages/Student/ProjectsList';
@@ -16,7 +16,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/faculty-dashboard" component={FacultyDashboard} />
-        <Route path="/faculty-projects" component={FacultyProjects} />
+        <Route path="/faculty-projects" component={FacultyProjectsList} />
         <Route path="/student-projects" component={ProjectsList} />
         <Route path="/student-projects-applied" component={ProjectsApplied} />
         <Route default component={NotFound} />

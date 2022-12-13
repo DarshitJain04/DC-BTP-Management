@@ -127,7 +127,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, config('MEDIA_PATH', default = 'assets/media', cast = str))
 
 FRONTEND_URL = 'http://' + config('HOST', default='localhost:3000')
-CORS_ORIGIN_WHITELIST = [FRONTEND_URL]
+CORS_ORIGIN_WHITELIST = [FRONTEND_URL, 'http://localhost', 'http://127.0.0.1']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
