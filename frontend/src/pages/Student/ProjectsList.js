@@ -38,17 +38,12 @@ const ProjectsList = () => {
                   .toLowerCase()
                   .includes(value.toLowerCase());
 
-                const first_name = project[key]['user']['first_name']
+                const full_name = project[key]['user']['full_name']
                   .toString()
                   .toLowerCase()
                   .includes(value.toLowerCase());
 
-                const last_name = project[key]['user']['last_name']
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase());
-
-                return branch || first_name || last_name;
+                return branch || full_name;
               } else {
                 return project[key]
                   .toString()

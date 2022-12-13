@@ -4,9 +4,17 @@ from .models import Skills, Roles, Courses, ProgramAndBranch, Student, Faculty, 
 
 
 class UserSerializer(serializers.ModelSerializer):
+
+    full_name = serializers.SerializerMethodField('get_user_full_name')
+
+    def get_user_full_name(self, obj):
+        user = User.objects.get(username=obj)
+        name = user.first_name + " " + user.last_name
+        return name
+
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'full_name', 'email']
 
 
 class SkillsSerializer(serializers.ModelSerializer):
