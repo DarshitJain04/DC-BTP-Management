@@ -169,7 +169,7 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 						{`${projectData.faculty.user.first_name} ${projectData.faculty.user.last_name} (${projectData.faculty.program_branch.name})`}
 					</div>
 				</DialogTitle>
-				<DialogContent dividers="true">
+				<DialogContent style={{ paddingBottom: 0 }} dividers="true">
 					{tab === 0 ? (
 						<>
 							<div className={projectStyles.description}>Description</div>
@@ -257,14 +257,23 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 									/>
 								</Form.Group>
 								<div className={applicationStyles.projectActions}>
-									<Button
-										className={applicationStyles.deleteButton}
-										variant="primary"
-										type="submit"
-										onClick={() => handleDeleteApplication()}
-									>
-										Delete
-									</Button>
+									{applicationData.is_accepted ? (
+										<Button
+											className={applicationStyles.deleteButton}
+											variant="primary"
+											type="submit"
+										>
+											Withdraw
+										</Button>) :
+										<Button
+											className={applicationStyles.deleteButton}
+											variant="primary"
+											type="submit"
+											onClick={() => handleDeleteApplication()}
+										>
+											Delete
+										</Button>
+									}
 									<Button
 										className={applicationStyles.updateButton}
 										variant="primary"
@@ -283,7 +292,7 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 					<ApplicationNavbar changeTab={changeTab} />
 				</DialogActions>
 			</Dialog>
-		</div>
+		</div >
 	);
 };
 

@@ -76,7 +76,7 @@
 .projectActions {
   display: flex;
   flex-direction: row-reverse;
-  margin: 1.2rem 0 0 0;
+  margin: 1rem 0;
 }
 
 .projectActions .updateButton {
@@ -107,7 +107,7 @@
 }
 
 .projectActions .deleteButton {
-  margin: 0 1rem 0 0;
+  margin: 0 0 0 0;
   border: 2px solid #ed5e68;
   color: #ed5e68;
   border-radius: 0.3rem;

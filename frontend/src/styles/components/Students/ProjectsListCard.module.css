@@ -2,6 +2,14 @@
   padding: 1.25rem 1.5rem;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .projectTitle,
 .facultyName {
   font-size: 1.5rem;

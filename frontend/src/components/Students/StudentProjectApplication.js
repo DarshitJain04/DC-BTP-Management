@@ -30,7 +30,20 @@ const StudentProjectApplication = ({ data }) => {
 	return (
 		<FadeUpWhenVisible>
 			<Paper elevation={3} className={styles.project}>
-				<div className={styles.projectTitle}>{data.project.title}</div>
+				<div className={styles.header}>
+					<div className={styles.projectTitle}>{data.project.title}</div>
+					<div className={styles.status}>
+						{data.is_accepted ? (
+							<span style={{ color: '#3DBE29', fontWeight: 'bold' }}>
+								ACCEPTED
+							</span>
+						) : (
+							<span style={{ color: '#ed5e68', fontWeight: 'bold' }}>
+								PENDING
+							</span>
+						)}
+					</div>
+				</div>
 				<button className={styles.faculty} onClick={() => handleClickOpen()}>
 					{`${data.project.faculty.user.full_name} (${data.project.faculty.program_branch.name})`}
 				</button>

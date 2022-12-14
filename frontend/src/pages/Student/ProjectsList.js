@@ -62,6 +62,7 @@ const ProjectsList = () => {
       .get('projects/available_projects/')
       .then((res) => {
         console.log(res.data);
+        setSearchQuery('');
         setProjects(res.data);
         setFilteredData(res.data);
       })

@@ -77,3 +77,8 @@
   background-color: #3758f9;
   color: #fff;
 }
+
+.skillsChips,
+.coursesChips {
+  margin-bottom: 1rem;
+}
