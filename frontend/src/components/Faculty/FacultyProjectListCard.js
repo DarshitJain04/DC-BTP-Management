@@ -5,6 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Paper from '@material-ui/core/Paper';
 import FadeUpWhenVisible from '../Animation/FadeUp';
 import FacultyProjectEdit from './FacultyProjectEdit';
+import FacultyApplicationList from './FacultyApplicationList';
 import styles from '../../styles/components/Faculty/FacultyProjectListCard.module.css';
 import IconButton from '@mui/material/IconButton';
 
@@ -67,7 +68,16 @@ const FacultyProjectListCard = ({ data }) => {
             <FacultyProjectDescription data={data} />
           </div>
           <div className={styles.applications}>
-            Applicants: {applications.length}
+            {/* <a
+              href="/faculty-applications-list/"
+              className={styles.applicationNo}
+            >
+              Applicants: {applications.length}
+            </a> */}
+            <FacultyApplicationList
+              project={data}
+              applications={applications}
+            />
           </div>
         </div>
       </Paper>

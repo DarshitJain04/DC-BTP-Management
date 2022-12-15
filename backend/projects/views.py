@@ -219,6 +219,30 @@ class FacultyApplicationsClass(APIView):
         applications = Application.objects.filter(project__faculty=faculty)
         return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
 
+    def put(self, request, pk = None, *args, **kwargs):
+        faculty = Faculty.objects.get(user=request.user)
+        if pk is not None:
+            data = {}
+            for key in request.data.keys():
+                data[key] = request.data.get(key)
+
+            is_accepted = data.pop('is_accepted')
+            notes = data.pop('notes')
+            application = Application.objects.get(id=pk, project__faculty=faculty)
+
+            if is_accepted=='true':
+                application.is_accepted = True
+            else:
+                application.is_accepted = False
+            
+            application.notes = notes
+
+            application.save()
+
+            return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
+        applications = Application.objects.filter(project__faculty=faculty)
+        return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
+
     # TODO: Accept/ Reject Functionality
 
 

@@ -1,0 +1,16 @@
+.applicationNo {
+    text-decoration: none !important;
+    display: block !important;
+    padding: 10px !important;
+    border-radius: 20px !important;
+    margin-left: -10px !important;
+    color: rgb(31, 29, 29) !important;
+    transition: 0.5s !important;
+    text-transform: none !important;
+    transition-timing-function: ease !important;
+}
+  
+.applicationNo:hover {
+    background: #e1e1e1 !important;
+    color: rgb(31, 29, 29) !important;
+}

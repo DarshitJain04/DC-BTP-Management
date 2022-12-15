@@ -1,0 +1,36 @@
+.applicationHeader span {
+    font-size: 1rem !important;
+}
+.skills {
+    margin-bottom: 0.4rem;
+}
+  
+.courses {
+    margin: 1rem 0 0.4rem 0;
+}
+
+.skillsChips,
+.coursesChips {
+  flex-wrap: wrap;
+}
+
+.skillsChips .skill,
+.coursesChips .course {
+  border-radius: 2rem;
+  border: 2px solid #3758f9;
+  background-color: transparent;
+  color: #3758f9;
+  font-weight: 550;
+  padding: 0.5rem 1rem;
+  margin: 0.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.skill:hover,
+.course:hover {
+  border-color: transparent;
+  background-color: #3758f9;
+  color: #fff;
+}
