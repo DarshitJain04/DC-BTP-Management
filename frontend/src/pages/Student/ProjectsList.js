@@ -5,6 +5,7 @@ import Loading from '../../components/Loading';
 import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core';
 import SearchIcon from '@mui/icons-material/Search';
+import { CSVLink } from 'react-csv';
 import ProjectListCard from '../../components/Students/ProjectListCard';
 import styles from '../../styles/pages/Students/ProjectsList.module.css';
 
@@ -13,10 +14,35 @@ const ProjectsList = () => {
   const [projects, setProjects] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [CSVData, setCSVData] = useState([]);
 
   const handleQueryChange = (event) => {
     setSearchQuery(event.target.value);
     filterData(event.target.value);
+  };
+
+  const exportData = () => {
+    if (filteredData.length !== 0) {
+      const data = [];
+      const headers = ['title', 'faculty', 'department', 'category', 'description', 'deliverables', 'skills', 'courses'];
+      data.push(headers);
+      filteredData.forEach((project) => {
+        const exportData = [];
+        headers.forEach((header) => {
+          if (header === 'faculty') {
+            exportData.push(project[header]['user']['full_name']);
+          } else if (header === 'department') {
+            exportData.push(project['faculty']['program_branch']['name']);
+          } else if (header === 'category') {
+            exportData.push(project['category']['category']);
+          } else {
+            exportData.push(project[header]);
+          }
+        });
+        data.push(exportData);
+      });
+      setCSVData(data);
+    }
   };
 
   const filterData = (value) => {
@@ -77,21 +103,27 @@ const ProjectsList = () => {
       ) : (
         <>
           <Container maxWidth="lg">
-            <div className={styles.searchbar}>
-              <SearchIcon className={styles.searchInput} />
-              <input
-                type="text"
-                placeholder="Search projects..."
-                onChange={(event) => handleQueryChange(event)}
-                value={searchQuery}
-                className={styles.searchInput}
-              />
+            <div className={styles.header}>
+              <div className={styles.searchbar}>
+                <SearchIcon className={styles.searchInput} />
+                <input
+                  type="text"
+                  placeholder="Search projects..."
+                  onChange={(event) => handleQueryChange(event)}
+                  value={searchQuery}
+                  className={styles.searchInput}
+                />
+              </div>
+              <div className={styles.exportButton}>
+                <button onClick={() => exportData()}><CSVLink className={styles.csvLink} filename={'Projects'} data={CSVData}>Export</CSVLink>
+                </button>
+              </div>
             </div>
             <Grid
               container
               direction="row"
               spacing={5}
-              style={{ width: '100%', margin: 'auto' }}
+              style={{ width: '100%', margin: '8rem auto auto auto' }}
             >
               {filteredData.length === 0 ? <h1>No projects available</h1> : filteredData.map((project) => {
                 return (

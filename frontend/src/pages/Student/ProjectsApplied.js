@@ -5,6 +5,7 @@ import Loading from '../../components/Loading';
 import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core';
 import SearchIcon from '@mui/icons-material/Search';
+import { CSVLink } from 'react-csv';
 import StudentProjectApplication from '../../components/Students/StudentProjectApplication';
 import styles from '../../styles/pages/Students/ProjectsApplied.module.css';
 
@@ -13,10 +14,49 @@ const ProjectsApplied = () => {
 	const [applications, setApplications] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
+	const [CSVData, setCSVData] = useState([]);
 
 	const handleQueryChange = (event) => {
 		setSearchQuery(event.target.value);
 		filterData(event.target.value);
+	};
+
+	const exportData = () => {
+		if (filteredData.length !== 0) {
+			const data = [];
+			const headers = ['title', 'faculty', 'department', 'category', 'description', 'deliverables', 'skills', 'courses', 'application_type', 'course_code', 'course_name', 'status', 'resume_link', 'notes'];
+			data.push(headers);
+			filteredData.forEach((application) => {
+				const exportData = [];
+				headers.forEach((header) => {
+					if (header === 'title' || header === 'description' || header === 'deliverables' || header === 'skills' || header === 'courses') {
+						exportData.push(application['project'][header]);
+					} else if (header === 'faculty') {
+						exportData.push(application['project'][header]['user']['full_name']);
+					} else if (header === 'department') {
+						exportData.push(application['project']['faculty']['program_branch']['name']);
+					} else if (header === 'category') {
+						exportData.push(application['project']['category']['category']);
+					} else if (header === 'application_type') {
+						exportData.push(application[header]['application_type']);
+					} else if (header === 'course_code') {
+						exportData.push(application[header]['course_code']);
+					} else if (header === 'course_name') {
+						exportData.push(application['course_code']['course_name']);
+					} else if (header === 'status') {
+						if (application['is_accepted']) {
+							exportData.push('Accepted');
+						} else {
+							exportData.push('Pending');
+						}
+					} else {
+						exportData.push(application[header]);
+					}
+				});
+				data.push(exportData);
+			});
+			setCSVData(data);
+		}
 	};
 
 	const filterData = (value) => {
@@ -112,21 +152,27 @@ const ProjectsApplied = () => {
 			) : (
 				<>
 					<Container maxWidth="lg">
-						<div className={styles.searchbar}>
-							<SearchIcon className={styles.searchInput} />
-							<input
-								type="text"
-								placeholder="Search projects..."
-								onChange={(event) => handleQueryChange(event)}
-								value={searchQuery}
-								className={styles.searchInput}
-							/>
+						<div className={styles.header}>
+							<div className={styles.searchbar}>
+								<SearchIcon className={styles.searchInput} />
+								<input
+									type="text"
+									placeholder="Search projects..."
+									onChange={(event) => handleQueryChange(event)}
+									value={searchQuery}
+									className={styles.searchInput}
+								/>
+							</div>
+							<div className={styles.exportButton}>
+								<button onClick={() => exportData()}><CSVLink className={styles.csvLink} filename={'Applications'} data={CSVData}>Export</CSVLink>
+								</button>
+							</div>
 						</div>
 						<Grid
 							container
 							direction="row"
 							spacing={5}
-							style={{ width: '100%', margin: 'auto' }}
+							style={{ width: '100%', margin: '8rem auto auto auto' }}
 						>
 							{filteredData.length === 0 ? <h1>No projects applied</h1> : filteredData.map((application) => {
 								return (
