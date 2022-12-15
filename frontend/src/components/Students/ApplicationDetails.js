@@ -257,32 +257,28 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 									/>
 								</Form.Group>
 								<div className={applicationStyles.projectActions}>
-									{applicationData.is_accepted ? (
-										<Button
-											className={applicationStyles.deleteButton}
-											variant="primary"
-											type="submit"
-										>
-											Withdraw
-										</Button>) :
-										<Button
-											className={applicationStyles.deleteButton}
-											variant="primary"
-											type="submit"
-											onClick={() => handleDeleteApplication()}
-										>
-											Delete
-										</Button>
+									{applicationData.is_accepted ?
+										null :
+										<>
+											<Button
+												className={applicationStyles.deleteButton}
+												variant="primary"
+												type="submit"
+												onClick={() => handleDeleteApplication()}
+											>
+												Delete
+											</Button>
+											<Button
+												className={applicationStyles.updateButton}
+												variant="primary"
+												type="submit"
+												disabled={!validateResumeLink()}
+												onClick={() => handleUpdateApplication()}
+											>
+												Update
+											</Button>
+										</>
 									}
-									<Button
-										className={applicationStyles.updateButton}
-										variant="primary"
-										type="submit"
-										disabled={!validateResumeLink()}
-										onClick={() => handleUpdateApplication()}
-									>
-										Update
-									</Button>
 								</div>
 							</Form>
 						</>
