@@ -14,13 +14,46 @@ import FacultyProjectCreate from '../../components/Faculty/FacultyProjectCreate.
 const FacultyProjectsList = () => {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleQueryChange = (event) => {
+    setSearchQuery(event.target.value);
+    filterData(event.target.value);
+  };
+
+  const filterData = (value) => {
+    if (value === '') {
+      setFilteredData(projects);
+    } else {
+      setFilteredData(
+        projects.filter((project) => {
+          return Object.keys(project).some((key) => {
+            if (key === 'category') {
+              return project[key]['category']
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase());
+            } else {
+              return project[key]
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase());
+            }
+          });
+        })
+      );
+    }
+  };
 
   const getAvailableProjects = () => {
     instance
       .get('projects/projects_floated/')
       .then((res) => {
         console.log(res.data);
+        setSearchQuery('');
         setProjects(res.data);
+        setFilteredData(res.data);
       })
       .then(() => setLoading(false))
       .catch((error) => console.log(error));
@@ -45,8 +78,8 @@ const FacultyProjectsList = () => {
                   <input
                     type="text"
                     placeholder="Search projects..."
-                    // onChange={(event) => handleQueryChange(event)}
-                    // value={searchQuery}
+                    onChange={(event) => handleQueryChange(event)}
+                    value={searchQuery}
                     className={styles.searchInput}
                   />
                 </div>
@@ -61,13 +94,17 @@ const FacultyProjectsList = () => {
               spacing={5}
               style={{ width: '100%', margin: 'auto' }}
             >
-              {projects?.map((project) => {
-                return (
-                  <Grid key={project.id} item xs={12} sm={12} md={6} lg={6}>
-                    <FacultyProjectListCard data={project} />
-                  </Grid>
-                );
-              })}
+              {filteredData.length === 0 ? (
+                <h1>No projects available</h1>
+              ) : (
+                filteredData.map((project) => {
+                  return (
+                    <Grid key={project.id} item xs={12} sm={12} md={6} lg={6}>
+                      <FacultyProjectListCard data={project} />
+                    </Grid>
+                  );
+                })
+              )}
             </Grid>
           </Container>
         </>
