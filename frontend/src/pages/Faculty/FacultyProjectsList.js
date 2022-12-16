@@ -5,6 +5,11 @@ import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core';
 import FacultyProjectListCard from '../../components/Faculty/FacultyProjectListCard';
 import Navbar from '../../components/Navbar/Navbar';
+import SearchIcon from '@mui/icons-material/Search';
+import styles from '../../styles/pages/Faculty/FacultyProjectsList.module.css';
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import FacultyProjectCreate from '../../components/Faculty/FacultyProjectCreate.js';
 
 const FacultyProjectsList = () => {
   const [loading, setLoading] = useState(true);
@@ -33,6 +38,23 @@ const FacultyProjectsList = () => {
         <>
           <Navbar />
           <Container maxWidth="lg">
+            <Grid container spacing={2} className={styles.listHeader}>
+              <Grid item xs={10}>
+                <div className={styles.searchbar}>
+                  <SearchIcon className={styles.searchInput} />
+                  <input
+                    type="text"
+                    placeholder="Search projects..."
+                    // onChange={(event) => handleQueryChange(event)}
+                    // value={searchQuery}
+                    className={styles.searchInput}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={2}>
+                <FacultyProjectCreate />
+              </Grid>
+            </Grid>
             <Grid
               container
               direction="row"
