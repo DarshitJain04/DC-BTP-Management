@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import EmailIcon from '@material-ui/icons/Email';
 import IconButton from '@mui/material/IconButton';
 import ApplicationDetails from '../../components/Students/ApplicationDetails';
+import ApplicationWithdraw from './ApplicationWithdraw';
 
 const StudentProjectApplication = ({ data }) => {
 
@@ -85,6 +86,7 @@ const StudentProjectApplication = ({ data }) => {
 				</Dialog>
 				<div className={styles.projectActions}>
 					<ApplicationDetails applicationData={data} projectData={data.project} />
+					{data.is_accepted ? <ApplicationWithdraw className={styles.applicationWithdraw} data={data} /> : null}
 				</div>
 			</Paper>
 		</FadeUpWhenVisible>

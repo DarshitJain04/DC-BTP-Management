@@ -180,21 +180,29 @@ class StudentApplicationsClass(APIView):
         project = Project.objects.get(id=project_id)
         course = ApplicationCourse.objects.get(course_code=data['course_code'])
         data.pop('course_code')
-        _ = Application.objects.filter(project=project, student=student, id=pk).update(**data, application_type=application_type, course_code=course)
-        application = Application.objects.get(id=pk, project=project, student=student, application_type=application_type)
-        return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
-    
+        currentApplication = Application.objects.filter(project=project, student=student, id=pk)
+        if(currentApplication.is_accepted == False):
+            _ = Application.objects.filter(project=project, student=student, id=pk).update(**data, application_type=application_type, course_code=course)
+            application = Application.objects.get(id=pk, project=project, student=student, application_type=application_type)
+            return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
+        respone = {}
+        respone['status'] = 'Can not update accepted applications. Please contact the concerned Faculty for the same.'
+        return Response(respone, status=status.HTTP_200_OK)
+
     # Delete an existing application
     def delete(self, request, pk, *args, **kwargs):
         print(request)
         data = {}
         student = Student.objects.get(user=request.user)
         application = Application.objects.filter(id=pk, student=student)
-        delete_application = application.delete()
-        if delete_application:
-            data["status"] = "Successfully deleted the application"
+        if(application.get().is_accepted == False):
+            delete_application = application.delete()
+            if delete_application:
+                data["status"] = "Successfully deleted the application"
+            else:
+                data["status"] = "Failed to delete the application"
         else:
-            data["status"] = "Failed to delete the application"
+            data["status"] = "Can not delete accepted application"
         return Response(data=data)
 
 
