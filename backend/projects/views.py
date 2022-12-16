@@ -53,22 +53,23 @@ class ProjectsFloatedClass(APIView):
     
     # Float a new project
     def post(self, request, *args, **kwargs):
-        user = request.user
         data = {}
+        user = request.user
         for key in request.data.keys():
             data[key] = request.data.get(key)
-        category = data.pop('category')
-        skills = data.pop('skills')
-        courses = data.pop('courses')
-        faculty = Faculty.objects.get(user=user)
-        category = Categories.objects.get(category=category)
-        project = Project.objects.create(faculty=faculty, category=category, **data)
-        for skill in skills:
-            skill, _ = Skills.objects.get_or_create(skill=skill)
-            project.skills.add(skill)
-        for course in courses:
-            course, _ = Courses.objects.get_or_create(course=course)
-            project.courses.add(course)
+
+        category = data['category']
+        
+        if(data['active'] == "true"):
+            data['active'] = True
+        else:
+            data['active'] = False
+
+        faculty_obj = Faculty.objects.get(user=user)
+        category_obj = Categories.objects.get(category=category)
+        data.pop("category")
+
+        project = Project.objects.create(faculty=faculty_obj, category=category_obj, **data)
         project.save()
         return Response(ProjectSerializer(project).data, status=status.HTTP_200_OK)
     
