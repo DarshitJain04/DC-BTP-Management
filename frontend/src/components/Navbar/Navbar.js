@@ -17,7 +17,6 @@ import { Link } from 'react-router-dom';
 import styles from '../../styles/components/Navbar/Navbar.module.css';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
 
 function Navbar(props) {
   const { window } = props;
@@ -32,7 +31,7 @@ function Navbar(props) {
       <Typography
         variant="h6"
         sx={{ my: 2 }}
-        style={{ backgroundColor: '#8f384d', margin: '0px', padding: '15px' }}
+        style={{ backgroundColor: '#3758f9', margin: '0px', padding: '15px' }}
       >
         <Link to="/">
           <img
@@ -67,7 +66,7 @@ function Navbar(props) {
 
   return (
     <Box sx={{ display: 'flex', marginBottom: '55px' }}>
-      <AppBar component="nav" style={{ backgroundColor: '#8f384d' }}>
+      <AppBar component="nav" style={{ backgroundColor: '#3758f9' }}>
         <Toolbar>
           <IconButton
             color="inherit"

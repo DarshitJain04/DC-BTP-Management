@@ -181,7 +181,7 @@ class StudentApplicationsClass(APIView):
         course = ApplicationCourse.objects.get(course_code=data['course_code'])
         data.pop('course_code')
         currentApplication = Application.objects.filter(project=project, student=student, id=pk)
-        if(currentApplication.is_accepted == False):
+        if(currentApplication.get().is_accepted == False):
             _ = Application.objects.filter(project=project, student=student, id=pk).update(**data, application_type=application_type, course_code=course)
             application = Application.objects.get(id=pk, project=project, student=student, application_type=application_type)
             return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)

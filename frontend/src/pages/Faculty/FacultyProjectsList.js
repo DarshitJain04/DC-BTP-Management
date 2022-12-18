@@ -7,8 +7,6 @@ import FacultyProjectListCard from '../../components/Faculty/FacultyProjectListC
 import Navbar from '../../components/Navbar/Navbar';
 import SearchIcon from '@mui/icons-material/Search';
 import styles from '../../styles/pages/Faculty/FacultyProjectsList.module.css';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
 import FacultyProjectCreate from '../../components/Faculty/FacultyProjectCreate.js';
 
 const FacultyProjectsList = () => {
@@ -84,7 +82,7 @@ const FacultyProjectsList = () => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={2}>
+              <Grid style={{ width: '100%', margin: '1rem 0 0 0' }} item xs={2}>
                 <FacultyProjectCreate />
               </Grid>
             </Grid>
@@ -92,7 +90,7 @@ const FacultyProjectsList = () => {
               container
               direction="row"
               spacing={5}
-              style={{ width: '100%', margin: 'auto' }}
+              style={{ width: '100%', margin: '0 auto 0 auto' }}
             >
               {filteredData.length === 0 ? (
                 <h1>No projects available</h1>

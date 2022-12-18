@@ -1,12 +1,104 @@
-.applicationHeader span {
-    font-size: 1rem !important;
+.studentApplications {
+  padding: 1.5rem 1.25rem;
+  box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
+    0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%) !important;
+  border-radius: 4px;
 }
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.applicationActions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.applicationActions > a,
+.applicationActions > a:hover,
+.applicationActions > a:visited,
+.applicationActions > a:link,
+.applicationActions > a:active {
+  color: #848484 !important;
+}
+
+.studentName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #383838;
+}
+
+.department {
+  font-size: 1rem;
+  font-weight: 550;
+  color: #848484;
+}
+
+.basicProfileDetails {
+  margin-top: 0rem;
+  font-size: 1rem;
+  font-weight: 550;
+  color: #383838;
+}
+
+.expandCard {
+  margin-top: 2rem;
+  font-size: 1rem;
+  font-weight: 550;
+  color: #383838;
+  padding: 0 !important;
+}
+
+.cardContent {
+  padding: 0 !important;
+  margin-top: 2rem;
+}
+
+.courseCode,
+.applicationType,
+.skills,
+.courses,
+.resume,
+.notes {
+  font-size: 1.1rem;
+  font-weight: 650;
+  color: #383838;
+}
+
+.courseCodeContent,
+.applicationTypeContent,
+.resumeContent,
+.notesContent {
+  font-size: 1rem;
+  color: #383838;
+  padding: 0.4rem 0 0.6rem 0;
+}
+
+.resumeContent {
+  padding: 0.4rem 0 0.6rem 0;
+}
+
+.resumeContent > a:hover,
+.resumeContent > a:visited,
+.resumeContent > a:link,
+.resumeContent > a:active {
+  text-decoration: none;
+  color: #207de9 !important;
+}
+
 .skills {
-    margin-bottom: 0.4rem;
+  margin-bottom: 0.4rem;
 }
-  
+
 .courses {
-    margin: 1rem 0 0.4rem 0;
+  margin: 1rem 0 0.4rem 0;
 }
 
 .skillsChips,
@@ -23,7 +115,7 @@
   font-weight: 550;
   padding: 0.5rem 1rem;
   margin: 0.2rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }

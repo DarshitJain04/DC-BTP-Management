@@ -56,7 +56,7 @@
 }
 
 .exportButton > button:hover {
-  box-shadow: 3px 3px 0px #848484;
+  box-shadow: 3px 3px 0px #e1e1e1;
   transform: translateY(-3px) translateX(-3px);
 }
 

@@ -40,13 +40,24 @@ export default function FacultyProjectCreate() {
     return false;
   };
 
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setDeliverables('');
+    setSkills('');
+    setCourses('');
+    setActive(false);
+    setCategory(categories[0]['category']);
+  };
+
   useEffect(() => {
     instance
       .get('/projects/categories/')
       .then((res) => {
+        console.log(res.data);
         setCategories(res.data);
         console.log(res.data);
-        setCategory(res.data['0']['category']);
+        setCategory(res.data[0]['category']);
       })
       .then(() => setLoading(false))
       .catch((error) => console.log(error));
@@ -80,15 +91,14 @@ export default function FacultyProjectCreate() {
 
   return (
     <div>
-      <div className={styles.projectActions}>
-        <Button
-          className={styles.submitButton}
-          variant="primary"
+      <div className={styles.addProjectAction}>
+        <button
+          className={styles.addProjectButton}
           type="submit"
           onClick={() => handleOpen()}
         >
-          <AddIcon /> Add
-        </Button>
+          <AddIcon fontSize="small" /> Add
+        </button>
       </div>
       <Dialog
         fullWidth
@@ -192,6 +202,13 @@ export default function FacultyProjectCreate() {
                 />
               </Form.Group>
               <div className={styles.projectActions}>
+                <Button
+                  variant="primary"
+                  type="button"
+                  onClick={() => resetForm()}
+                >
+                  Clear
+                </Button>
                 <Button
                   className={styles.submitButton}
                   variant="primary"

@@ -68,12 +68,6 @@ const FacultyProjectListCard = ({ data }) => {
             <FacultyProjectDescription data={data} />
           </div>
           <div className={styles.applications}>
-            {/* <a
-              href="/faculty-applications-list/"
-              className={styles.applicationNo}
-            >
-              Applicants: {applications.length}
-            </a> */}
             <FacultyApplicationList
               project={data}
               applications={applications}

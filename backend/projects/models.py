@@ -65,7 +65,7 @@ class ApplicationCourse(models.Model):
 
 
 class Application(models.Model):
-    project = models.OneToOneField(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     application_type = models.ForeignKey(Type, on_delete=models.PROTECT)
     course_code = models.ForeignKey(ApplicationCourse, on_delete=models.PROTECT)

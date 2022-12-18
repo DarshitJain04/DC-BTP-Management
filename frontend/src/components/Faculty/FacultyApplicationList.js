@@ -1,18 +1,16 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
+import Grid from '@material-ui/core/Grid';
+import { Container } from '@material-ui/core';
 import styles from '../../styles/components/Faculty/FacultyApplicationList.module.css';
-import FucultyApplicationCard from './FacultyApplicationCard';
+import FacultyApplicationCard from './FacultyApplicationCard';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -31,17 +29,13 @@ export default function FacultyApplicationList({ project, applications }) {
 
   return (
     <div>
-      <Button
-        // variant="outlined"
-        className={styles.applicationNo}
-        onClick={handleClickOpen}
-      >
+      <button className={styles.applicants} onClick={() => handleClickOpen()}>
         Applicants: {applications.length}
-      </Button>
+      </button>
       <Dialog
         fullScreen
         open={open}
-        onClose={handleClose}
+        onClose={() => handleClose()}
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: 'relative' }}>
@@ -59,11 +53,22 @@ export default function FacultyApplicationList({ project, applications }) {
             </Typography>
           </Toolbar>
         </AppBar>
-        <List style={{ margin: '30px' }}>
-          {applications?.map((application) => {
-            return <FucultyApplicationCard application={application} />;
-          })}
-        </List>
+        <Container maxWidth="lg">
+          <Grid
+            container
+            direction="row"
+            spacing={5}
+            style={{ width: '100%', margin: '4rem auto auto auto' }}
+          >
+            {applications?.map((application) => {
+              return (
+                <Grid key={project.id} item xs={12} sm={12} md={6} lg={6}>
+                  <FacultyApplicationCard application={application} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Container>
       </Dialog>
     </div>
   );

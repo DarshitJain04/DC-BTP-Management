@@ -1,19 +1,14 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
+import EmailIcon from '@material-ui/icons/Email';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import FacultyApplicationEdit from './FacultyApplicationEdit.js';
@@ -31,6 +26,7 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function FacultyApplicationCard({ application }) {
+  console.log(application);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -38,44 +34,49 @@ export default function FacultyApplicationCard({ application }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 600 }}>
-      <CardHeader
-        // className={styles.applicationHeader}
-        title={application.student.user.full_name}
-        // subheader={application.student.user.email}
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          Email: {application.student.user.email}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Program: {application.student.program_branch.program}
-        </Typography>
-
-        <Typography variant="body2" color="text.secondary">
-          Branch: {application.student.program_branch.name}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Application type: {application.application_type.application_type}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Status:{' '}
-          {application.is_accepted ? (
+    <Card class={styles.studentApplications}>
+      <div className={styles.header}>
+        <div className={styles.studentName}>{application.student.user.full_name} ({application.student.roll_number})</div>
+        <div className={styles.applicationActions}>
+          <FacultyApplicationEdit className={styles.editApplication} data={application} />
+          <IconButton
+            className={styles.email}
+            href={`mailto:${application.student.user.email}`}
+          >
+            <EmailIcon />
+          </IconButton>
+        </div>
+      </div>
+      <div className={styles.department}>{application.student.program_branch.program} {application.student.program_branch.name}</div>
+      <div className={styles.basicProfileDetails}>
+        Year: <span style={{ color: '#848484', fontWeight: '550' }}>
+          {application.student.year}{' '}
+        </span>
+        <span style={{ marginLeft: '1rem' }}>
+          CGPA: <span style={{ color: '#848484', fontWeight: '550' }}>
+            {application.student.cgpa}{' '}
+          </span>
+        </span>
+      </div>
+      <CardActions className={styles.expandCard}>
+        {application.is_accepted ? (
+          <span>
+            Status: {' '}
             <span style={{ color: '#3DBE29', fontWeight: 'bold' }}>
               Approved
             </span>
-          ) : (
+          </span>
+        ) : (
+          <span>
+            Status: {' '}
             <span style={{ color: '#ed5e68', fontWeight: 'bold' }}>
               Not Approved
             </span>
-          )}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <FacultyApplicationEdit data={application} />
+          </span>
+        )}
         <ExpandMore
           expand={expanded}
-          onClick={handleExpandClick}
+          onClick={() => handleExpandClick()}
           aria-expanded={expanded}
           aria-label="show more"
         >
@@ -83,44 +84,35 @@ export default function FacultyApplicationCard({ application }) {
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>
-            Roll No.: {application.student.roll_number}
-          </Typography>
-          <Typography paragraph>CGPA: {application.student.cgpa}</Typography>
-          <Typography paragraph>Year: {application.student.year}</Typography>
-          <Typography paragraph>
-            Course Code: {application.course_code.course_code}
-          </Typography>
-          <Typography paragraph>Resume: {application.resume_link}</Typography>
-          <Typography paragraph>
-            {application.student.skills &&
-            application.student.skills.length > 0 ? (
-              <>
-                <div className={styles.skills}>Skills</div>
-                <Stack direction="row" className={styles.skillsChips}>
-                  {application.student.skills?.split(',').map((skill) => {
-                    return <Chip className={styles.skill} label={skill} />;
-                  })}
-                </Stack>
-              </>
-            ) : null}
-          </Typography>
-          <Typography paragraph>
-            {application.student.courses &&
-            application.student.courses.length > 0 ? (
-              <>
-                <div className={styles.courses}>Courses</div>
-                <Stack direction="row" className={styles.coursesChips}>
-                  {application.student.courses?.split(',').map((course) => {
-                    return <Chip className={styles.course} label={course} />;
-                  })}
-                </Stack>
-              </>
-            ) : null}
-          </Typography>
-          <Typography paragraph>Notes:</Typography>
-          <Typography paragraph>{application.notes}</Typography>
+        <CardContent className={styles.cardContent}>
+          <div className={styles.courseCode}>Course Code</div>
+          <Typography gutterBottom className={styles.courseCodeContent}>{`${application.course_code.course_code} ${application.course_code.course_name}`}</Typography>
+          <div className={styles.applicationType}>Application Type</div>
+          <Typography gutterBottom className={styles.applicationTypeContent}>{application.application_type.application_type}</Typography>
+          <div className={styles.resume}>Resume</div>
+          <Typography gutterBottom className={styles.resumeContent}>{application.resume_link === '' ? '-' : <a href={application.resume_link}>Link</a>}</Typography>
+          <div className={styles.notes}>Notes</div>
+          <Typography paragraph className={styles.notesContent}>{application.notes === '' ? '-' : application.notes}</Typography>
+          {application.student.skills && application.student.skills.length > 0 ? (
+            <>
+              <div className={styles.skills}>Skills</div>
+              <Stack direction="row" className={styles.skillsChips}>
+                {application.student.skills?.split(',').map((skill) => {
+                  return <Chip className={styles.skill} label={skill} />;
+                })}
+              </Stack>
+            </>
+          ) : null}
+          {application.student.courses && application.student.courses.length > 0 ? (
+            <>
+              <div className={styles.courses}>Courses</div>
+              <Stack direction="row" className={styles.coursesChips}>
+                {application.student.courses?.split(',').map((course) => {
+                  return <Chip className={styles.course} label={course} />;
+                })}
+              </Stack>
+            </>
+          ) : null}
         </CardContent>
       </Collapse>
     </Card>
