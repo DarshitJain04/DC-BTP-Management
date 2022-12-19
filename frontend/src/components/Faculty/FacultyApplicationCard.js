@@ -49,13 +49,9 @@ export default function FacultyApplicationCard({ application }) {
       </div>
       <div className={styles.department}>{application.student.program_branch.program} {application.student.program_branch.name}</div>
       <div className={styles.basicProfileDetails}>
-        Year: <span style={{ color: '#848484', fontWeight: '550' }}>
-          {application.student.year}{' '}
-        </span>
+        Year: {application.student.year}{' '}
         <span style={{ marginLeft: '1rem' }}>
-          CGPA: <span style={{ color: '#848484', fontWeight: '550' }}>
-            {application.student.cgpa}{' '}
-          </span>
+          CGPA: {application.student.cgpa}{' '}
         </span>
       </div>
       <CardActions className={styles.expandCard}>

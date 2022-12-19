@@ -97,28 +97,6 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 			});
 	};
 
-	const handleDeleteApplication = () => {
-		setLoading(true);
-		instance
-			.delete(`/projects/student_applications/${applicationData.id}`)
-			.then((res) => {
-				console.log('Res');
-				console.log(res);
-				if (res.status === 200) {
-					handleClose();
-					window.alert('Application deleted successfully');
-					window.location.reload();
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-				if (error.response) {
-					setError('There was some issue in deleting the application');
-				}
-				setLoading(false);
-			});
-	};
-
 	const createText = (text) => {
 		return { __html: text };
 	};
@@ -172,6 +150,12 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 				<DialogContent style={{ paddingBottom: 0 }} dividers="true">
 					{tab === 0 ? (
 						<>
+							<div className={projectStyles.categories}>Categories</div>
+							<Stack direction="row" className={projectStyles.categoryChips}>
+								{projectData.category.map((category) => {
+									return <Chip className={projectStyles.category} label={category.category} />;
+								})}
+							</Stack>
 							<div className={projectStyles.description}>Description</div>
 							<Typography
 								gutterBottom
@@ -260,14 +244,6 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 									{applicationData.is_accepted ?
 										null :
 										<>
-											<Button
-												className={applicationStyles.deleteButton}
-												variant="primary"
-												type="submit"
-												onClick={() => handleDeleteApplication()}
-											>
-												Delete
-											</Button>
 											<Button
 												className={applicationStyles.updateButton}
 												variant="primary"

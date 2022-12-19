@@ -90,7 +90,6 @@ const ProjectsApplied = () => {
 									.toLowerCase()
 									.includes(value.toLowerCase());
 							} else if (key === 'is_accepted') {
-								console.log(application[key]);
 								let target = '';
 								if (application[key].toString().toLowerCase() === 'true') {
 									target = 'accepted';
@@ -99,12 +98,13 @@ const ProjectsApplied = () => {
 								}
 								return target.includes(value.toLowerCase());
 							} else if (key === 'project') {
-								Object.keys(application[key]).some((projectKey) => {
+								return Object.keys(application[key]).some((projectKey) => {
 									if (projectKey === 'category') {
-										return application[key][projectKey]['category']
-											.toString()
-											.toLowerCase()
-											.includes(value.toLowerCase());
+										var present = false;
+										application[key][projectKey].forEach((category) => {
+											present = present || category.category.toLowerCase().includes(value.toLowerCase());
+										})
+										return present;
 									} else if (projectKey === 'faculty') {
 										const branch = application[key][projectKey]['program_branch']['name']
 											.toString()

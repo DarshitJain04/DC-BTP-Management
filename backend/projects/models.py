@@ -41,7 +41,7 @@ class Categories(models.Model):
 
 class Project(models.Model):
     faculty = models.ForeignKey(Faculty, on_delete=models.PROTECT)
-    category = models.ForeignKey(Categories, on_delete=models.PROTECT)
+    category = models.ManyToManyField(Categories)
     title = models.CharField(max_length=255)
     description = models.TextField()
     deliverables = models.TextField()

@@ -54,7 +54,7 @@ const ApplicationWithdraw = ({ data }) => {
                 className={styles.withdrawButton}
                 onClick={() => handleClickOpen()}
             >
-                Withdraw
+                Withdraw Request
             </button>
             <Dialog
                 fullWidth

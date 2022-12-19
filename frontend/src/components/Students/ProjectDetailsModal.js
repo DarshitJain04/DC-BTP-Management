@@ -57,6 +57,12 @@ const ProjectDetailsModal = ({ data }) => {
           </div>
         </DialogTitle>
         <DialogContent dividers="true">
+          <div className={styles.categories}>Categories</div>
+          <Stack direction="row" className={styles.categoryChips}>
+            {data.category.map((category) => {
+              return <Chip className={styles.category} label={category.category} />;
+            })}
+          </Stack>
           <div className={styles.description}>Description</div>
           <Typography
             gutterBottom

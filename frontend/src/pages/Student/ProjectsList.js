@@ -54,10 +54,11 @@ const ProjectsList = () => {
           return (
             Object.keys(project).some((key) => {
               if (key === 'category') {
-                return project[key]['category']
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase());
+                var present = false;
+                project[key].forEach((category) => {
+                  present = present || category.category.toLowerCase().includes(value.toLowerCase());
+                })
+                return present;
               } else if (key === 'faculty') {
                 const branch = project[key]['program_branch']['name']
                   .toString()
