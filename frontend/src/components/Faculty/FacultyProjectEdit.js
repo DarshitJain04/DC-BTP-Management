@@ -9,12 +9,17 @@ import EditIcon from '@material-ui/icons/Edit';
 import Form from 'react-bootstrap/Form';
 import IconButton from '@mui/material/IconButton';
 import Loading from '../../components/Loading';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Checkbox from '@mui/material/Checkbox';
+import ListItemText from '@mui/material/ListItemText';
 
 export default function FacultyProjectEdit({ data }) {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(data.title);
-  const [category, setCategory] = useState(data.category.category);
+  const [category, setCategory] = useState([]);
   const [description, setDescription] = useState(data.description);
   const [deliverables, setDeliverables] = useState(data.deliverables);
   const [skills, setSkills] = useState(data.skills);
@@ -39,6 +44,21 @@ export default function FacultyProjectEdit({ data }) {
       return true;
     }
     return false;
+  };
+
+  const setExistingCategories = () => {
+    const tempData = [];
+    data.category.forEach((existingCategory) => {
+      tempData.push(existingCategory.category);
+    });
+    setCategory(tempData);
+  };
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setCategory(typeof value === 'string' ? value.split(',') : value);
   };
 
   const handleSubmit = (project_id) => {
@@ -77,6 +97,7 @@ export default function FacultyProjectEdit({ data }) {
       .get('/projects/categories/')
       .then((res) => {
         setCategories(res.data);
+        setExistingCategories();
       })
       .then(() => setLoading(false))
       .catch((error) => console.log(error));
@@ -159,16 +180,52 @@ export default function FacultyProjectEdit({ data }) {
                   />
                 </div>
                 <Form.Label className={styles.category}>Category</Form.Label>
-                <Form.Select
-                  aria-label="Category"
-                  onChange={(e) => setCategory(e.target.value)}
-                  className={styles.dropDown}
-                  value={category}
-                >
-                  {categories?.map((c) => {
-                    return <option value={c.category}>{c.category}</option>;
-                  })}
-                </Form.Select>
+                <div>
+                  <Select
+                    labelId="demo-multiple-name-label"
+                    id="demo-multiple-name"
+                    multiple
+                    displayEmpty
+                    value={category}
+                    onChange={(event) => handleChange(event)}
+                    input={<OutlinedInput />}
+                    labelStyle={{ color: '#ff0000' }}
+                    sx={{
+                      '.MuiOutlinedInput-notchedOutline': {
+                        border: '1px solid #ced4da',
+                      },
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        border: '1px solid #86b7fe',
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        border: '1px solid #ced4da',
+                      },
+                    }}
+                    style={{ width: '50%' }}
+                    renderValue={(selected) => {
+                      if (selected.length === 0) {
+                        return (
+                          <span style={{ color: '#848484' }}>
+                            Select Categories
+                          </span>
+                        );
+                      }
+                      return (
+                        <span style={{ color: '#848484' }}>
+                          {selected.join(', ')}
+                        </span>
+                      );
+                    }}
+                    inputProps={{ 'aria-label': 'Without label' }}
+                  >
+                    {categories.map((c) => (
+                      <MenuItem key={c.category} value={c.category}>
+                        <Checkbox checked={category.indexOf(c.category) > -1} />
+                        <ListItemText primary={c.category} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
                 <Form.Label className={styles.skills}>
                   Skills (comma seperated)
                 </Form.Label>

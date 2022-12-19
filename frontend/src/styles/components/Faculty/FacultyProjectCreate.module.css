@@ -28,7 +28,7 @@
   margin-top: 1rem;
 }
 
-.dropDown {
+.selectCategories .MuiSelect-select {
   color: #848484 !important;
   font-size: 1rem !important;
   box-shadow: none !important;
@@ -42,6 +42,11 @@
 
 .dropDown:focus,
 .inputBox:focus {
+  outline: none;
+  border: 1px solid #ced4da;
+}
+
+.selectCategories .MuiSelect-select:focus {
   outline: none;
   border: 1px solid #ced4da;
 }

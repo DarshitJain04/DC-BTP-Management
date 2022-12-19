@@ -57,20 +57,21 @@ class ProjectsFloatedClass(APIView):
         user = request.user
         for key in request.data.keys():
             data[key] = request.data.get(key)
-
-        category = data['category']
         
         if(data['active'] == "true"):
             data['active'] = True
         else:
             data['active'] = False
-
         faculty_obj = Faculty.objects.get(user=user)
-        category_obj = Categories.objects.get(category=category)
-        data.pop("category")
+        categories = data.pop("category")
+        categories = categories.split(',')
+        project = Project.objects.create(faculty=faculty_obj, **data)
 
-        project = Project.objects.create(faculty=faculty_obj, category=category_obj, **data)
+        for category in categories:
+            category = Categories.objects.get(category=category)
+            project.category.add(category)
         project.save()
+
         return Response(ProjectSerializer(project).data, status=status.HTTP_200_OK)
     
     # Update an existing project
@@ -80,17 +81,16 @@ class ProjectsFloatedClass(APIView):
         for key in request.data.keys():
             data[key] = request.data.get(key)
         title = data['title']
-        category = data['category']
+        categories = data['category']
+        categories = categories.split(',')
         description = data['description']
         deliverables = data['deliverables']
         active = data['active']
         skills = data['skills']
         courses = data['courses']
         faculty = Faculty.objects.get(user=user)
-        category_obj = Categories.objects.get(category=category)
         project = Project.objects.get(faculty=faculty, id=pk)
         project.title = title
-        project.category = category_obj
         project.description = description
         project.deliverables = deliverables
         
@@ -101,6 +101,12 @@ class ProjectsFloatedClass(APIView):
 
         project.skills = skills
         project.courses = courses
+
+        project.category.clear()
+        for category in categories:
+            category = Categories.objects.get(category=category)
+            project.category.add(category)
+
         project.save()
         return Response(ProjectSerializer(project).data, status=status.HTTP_200_OK)
     

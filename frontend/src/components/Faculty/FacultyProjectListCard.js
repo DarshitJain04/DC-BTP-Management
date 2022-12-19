@@ -58,10 +58,17 @@ const FacultyProjectListCard = ({ data }) => {
             )}
           </div>
         </div>
-        <div className={styles.faculty}>{data.category.category}</div>
+        <div className={styles.categories}>
+          {data.category.map((c, index, []) => {
+            if (index === data.category.length - 1) {
+              return <span>{c.category}</span>;
+            }
+            return <span>{c.category}, </span>;
+          })}
+        </div>
         <div className={styles.footer}>
           <div className={styles.projectActions}>
-            <IconButton onClick={() => handleDelete()}>
+            <IconButton onClick={() => handleDelete(data.id)}>
               <DeleteIcon />
             </IconButton>
             <FacultyProjectEdit data={data} />

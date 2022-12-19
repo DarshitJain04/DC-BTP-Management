@@ -33,7 +33,6 @@ export default function FacultyProjectDescription({ data }) {
         <DialogTitle id={data.id}>
           <div className={styles.title}>{data.title}</div>
           <div className={styles.faculty}>
-            <span>{data.category.category}</span>{' '}
             <span>
               {' '}
               Status:{' '}
@@ -50,6 +49,14 @@ export default function FacultyProjectDescription({ data }) {
           </div>
         </DialogTitle>
         <DialogContent dividers="true">
+          <div className={styles.categories}>Categories</div>
+          <Stack direction="row" className={styles.categoryChips}>
+            {data.category.map((category) => {
+              return (
+                <Chip className={styles.category} label={category.category} />
+              );
+            })}
+          </Stack>
           <div className={styles.description}>Description</div>
           <Typography gutterBottom className={styles.descriptionContent}>
             {data.description}

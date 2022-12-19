@@ -34,6 +34,13 @@
   justify-content: space-between;
 }
 
+.categories {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #383838;
+  margin-bottom: 0.4rem;
+}
+
 .description,
 .deliverables,
 .skills,
@@ -63,8 +70,15 @@
   flex-wrap: wrap;
 }
 
+.skillsChips,
+.coursesChips,
+.categoryChips {
+  flex-wrap: wrap;
+}
+
 .skillsChips .skill,
-.coursesChips .course {
+.coursesChips .course,
+.categoryChips .category {
   border-radius: 2rem;
   border: 2px solid #3758f9;
   background-color: transparent;
@@ -78,8 +92,15 @@
 }
 
 .skill:hover,
-.course:hover {
+.course:hover,
+.category:hover {
   border-color: transparent;
   background-color: #3758f9;
   color: #fff;
+}
+
+.skillsChips,
+.coursesChips,
+.categoryChips {
+  margin-bottom: 1rem;
 }
