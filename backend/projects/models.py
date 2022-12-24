@@ -59,12 +59,31 @@ class Project(models.Model):
 class ApplicationCourse(models.Model):
     course_code = models.CharField(max_length=10)
     course_name = models.CharField(max_length=50)
+    faculty = models.ForeignKey(Faculty, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return (self.course_code + ' (' + self.course_name + ')')
 
 
 class Application(models.Model):
+    GRADES = (
+        ('A*', 'A*'),
+        ('A', 'A'),
+        ('A-', 'A-'),
+        ('B', 'B'),
+        ('B-', 'B-'),
+        ('C', 'C'),
+        ('C-', 'C-'),
+        ('D', 'D'),
+        ('E', 'E'),
+        ('F', 'F'),
+        ('I', 'I'),
+        ('S', 'S'),
+        ('X', 'X'),
+        ('U', 'U'),
+        ('W', 'W'),
+        ('None', 'None'),
+    )
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     application_type = models.ForeignKey(Type, on_delete=models.PROTECT)
@@ -72,6 +91,7 @@ class Application(models.Model):
     is_accepted = models.BooleanField(default=False)
     resume_link = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True)
+    grade = models.CharField(max_length=10, choices=GRADES, default="None")
 
     def __str__(self):
         return str(self.project.title) + " (" + str(self.student.roll_number) + ")" 

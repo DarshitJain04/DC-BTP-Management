@@ -9,12 +9,17 @@ import EditIcon from '@material-ui/icons/Edit';
 import Form from 'react-bootstrap/Form';
 import IconButton from '@mui/material/IconButton';
 import Loading from '../../components/Loading';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 export default function FacultyApplicationEdit({ data }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [is_accepted, setis_accepted] = useState(data.is_accepted);
   const [notes, setNotes] = useState(data.notes);
+  const [grade, setGrade] = useState(data.grade);
 
   const handleOpen = () => {
     setOpen(true);
@@ -32,6 +37,7 @@ export default function FacultyApplicationEdit({ data }) {
     var form = new FormData();
     form.append('is_accepted', is_accepted);
     form.append('notes', notes);
+    form.append('grade', grade);
     console.log(form);
     instance
       .put(`/projects/faculty_applications/${application_id}`, form)
@@ -95,6 +101,32 @@ export default function FacultyApplicationEdit({ data }) {
                     className={styles.toggleButton}
                   />
                 </div>
+                <Form.Label className={styles.deliverables}>Grade</Form.Label>
+                <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    value={grade}
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    onChange={(e) => setGrade(e.target.value)}
+                  >
+                    <MenuItem value="None">None</MenuItem>
+                    <MenuItem value="A*">A*</MenuItem>
+                    <MenuItem value="A">A</MenuItem>
+                    <MenuItem value="A-">A-</MenuItem>
+                    <MenuItem value="B">B</MenuItem>
+                    <MenuItem value="B-">B-</MenuItem>
+                    <MenuItem value="C">C</MenuItem>
+                    <MenuItem value="C-">C-</MenuItem>
+                    <MenuItem value="D">D</MenuItem>
+                    <MenuItem value="E">E</MenuItem>
+                    <MenuItem value="F">F</MenuItem>
+                    <MenuItem value="I">I</MenuItem>
+                    <MenuItem value="S">S</MenuItem>
+                    <MenuItem value="X">X</MenuItem>
+                    <MenuItem value="U">U</MenuItem>
+                    <MenuItem value="W">W</MenuItem>
+                  </Select>
+                </FormControl>
                 <Form.Label className={styles.deliverables}>Notes</Form.Label>
                 <Form.Control
                   as="textarea"
