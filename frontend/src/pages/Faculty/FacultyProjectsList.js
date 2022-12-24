@@ -28,10 +28,13 @@ const FacultyProjectsList = () => {
         projects.filter((project) => {
           return Object.keys(project).some((key) => {
             if (key === 'category') {
-              return project[key]['category']
-                .toString()
-                .toLowerCase()
-                .includes(value.toLowerCase());
+              var present = false;
+              project[key].forEach((category) => {
+                present =
+                  present ||
+                  category.category.toLowerCase().includes(value.toLowerCase());
+              });
+              return present;
             } else {
               return project[key]
                 .toString()
