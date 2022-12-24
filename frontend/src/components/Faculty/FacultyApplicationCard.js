@@ -13,6 +13,8 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import FacultyApplicationEdit from './FacultyApplicationEdit.js';
 import styles from '../../styles/components/Faculty/FacultyApplicationCard.module.css';
+import Tooltip from '@mui/material/Tooltip';
+import Fade from '@mui/material/Fade';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -39,12 +41,15 @@ export default function FacultyApplicationCard({ application }) {
         <div className={styles.studentName}>{application.student.user.full_name} ({application.student.roll_number})</div>
         <div className={styles.applicationActions}>
           <FacultyApplicationEdit className={styles.editApplication} data={application} />
-          <IconButton
-            className={styles.email}
-            href={`mailto:${application.student.user.email}`}
-          >
-            <EmailIcon />
-          </IconButton>
+          <Tooltip placement="top" title={application.student.user.email}>
+            <IconButton
+              className={styles.email}
+              href={`mailto:${application.student.user.email}`}
+            >
+              
+                <EmailIcon />
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
       <div className={styles.department}>{application.student.program_branch.program} {application.student.program_branch.name}</div>
