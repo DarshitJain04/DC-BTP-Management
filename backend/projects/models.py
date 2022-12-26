@@ -1,5 +1,5 @@
 from django.db import models
-from main.models import Skills, Courses, Student, Faculty
+from main.models import Skills, Courses, Student, Faculty, ProgramAndBranch
 
 
 class Type(models.Model):
@@ -59,6 +59,7 @@ class Project(models.Model):
 class ApplicationCourse(models.Model):
     course_code = models.CharField(max_length=10)
     course_name = models.CharField(max_length=50)
+    program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.CASCADE)
     faculty = models.ForeignKey(Faculty, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
