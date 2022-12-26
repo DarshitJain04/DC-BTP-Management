@@ -274,5 +274,17 @@ class FacultyCourses(APIView):
         if pk is not None:
             faculty_courses = ApplicationCourse.objects.get(id=pk)
             return Response(ApplicationCourseSerializer(faculty_courses).data, status=status.HTTP_200_OK)
-        faculty_courses = ApplicationCourse.objects.get(faculty=faculty)
-        return Response(ApplicationCourseSerializer(faculty_courses).data, status=status.HTTP_200_OK)
+        faculty_courses = ApplicationCourse.objects.filter(faculty=faculty)
+        return Response(ApplicationCourseSerializer(faculty_courses, many=True).data, status=status.HTTP_200_OK)
+
+
+class CourseApplicationsClass(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk = None, *args, **kwargs):
+        if pk is not None:
+            course = ApplicationCourse.objects.get(id=pk)
+            application = Application.objects.filter(course_code=course, is_accepted=True)
+            return Response(ApplicationSerializer(application, many=True).data, status=status.HTTP_200_OK)
+        return Response('Course Id Missing', status=status.HTTP_400_BAD_REQUEST)
+        

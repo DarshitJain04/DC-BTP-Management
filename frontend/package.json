@@ -12,6 +12,7 @@
     "@material-ui/pickers": "^3.3.10",
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.17",
+    "@mui/x-data-grid": "^5.17.17",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",

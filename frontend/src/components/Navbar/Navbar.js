@@ -57,6 +57,11 @@ function Navbar(props) {
             <ListItemText primary="Profile" />
           </ListItemButton>
         </ListItem>
+        <ListItem key="My Courses" disablePadding>
+          <ListItemButton sx={{ textAlign: 'center' }} href="/faculty-courses">
+            <ListItemText primary="My Courses" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -105,6 +110,13 @@ function Navbar(props) {
               className={styles.navOption}
             >
               All Projects
+            </Button>
+            <Button
+              key="My Courses"
+              href="/faculty-courses"
+              className={styles.navOption}
+            >
+              My Courses
             </Button>
           </Box>
         </Toolbar>

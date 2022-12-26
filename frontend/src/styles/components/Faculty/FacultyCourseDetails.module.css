@@ -1,0 +1,21 @@
+.courseCard {
+    margin: 10px !important;
+    background: #eeeeee;
+    text-align: center;
+    padding: 10px;
+    max-width: 250px !important;
+    min-width: 200px !important;
+    min-height: 150px !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border: 2px solid #a3a3a3;
+    border-radius: 20px;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.courseCard:hover {
+    box-shadow: 0px 5px 5px 2px #d7d0fb;
+    cursor: pointer;
+}

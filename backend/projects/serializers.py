@@ -25,6 +25,8 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class ApplicationCourseSerializer(serializers.ModelSerializer):
+    faculty = FacultySerializer(read_only=True)
+    
     class Meta:
         model = ApplicationCourse
         fields = '__all__'
