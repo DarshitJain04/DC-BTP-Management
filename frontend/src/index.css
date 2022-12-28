@@ -13,7 +13,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: -1px;
 }
 
 ::-webkit-scrollbar-track {
@@ -30,4 +30,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.css-pdct74-MuiTablePagination-selectLabel, .css-levciy-MuiTablePagination-displayedRows {
+  margin-bottom: 0px !important;
 }

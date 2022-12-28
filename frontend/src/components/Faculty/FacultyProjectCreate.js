@@ -111,7 +111,7 @@ export default function FacultyProjectCreate() {
           type="submit"
           onClick={() => handleOpen()}
         >
-          <AddIcon fontSize="small" /> Add
+          <AddIcon fontSize="small" /> <span className={styles.AddIconText}>Add</span>
         </button>
       </div>
       <Dialog
