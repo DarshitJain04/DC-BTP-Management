@@ -5,9 +5,9 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Categories, Project, Type, Application, ApplicationCourse
+from .models import Categories, Project, Type, Application, ApplicationCourse, ApplicationComment
 from .serializers import (ApplicationSerializer, CategoriesSerializer,
-                          ProjectSerializer, TypeSerializer, ApplicationCourseSerializer)
+                          ProjectSerializer, TypeSerializer, ApplicationCourseSerializer, ApplicationCommentSerializer)
 
 
 class TypeClass(ListAPIView):
@@ -288,3 +288,29 @@ class CourseApplicationsClass(APIView):
             return Response(ApplicationSerializer(application, many=True).data, status=status.HTTP_200_OK)
         return Response('Course Id Missing', status=status.HTTP_400_BAD_REQUEST)
         
+class CommentsForApplication(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk, *args, **kwargs):
+        faculty = Faculty.objects.filter(user=request.user)
+        student = Student.objects.filter(user=request.user)
+        if not faculty:
+           application = Application.objects.filter(id=pk, student=student.get())
+        else:
+            application = Application.objects.filter(id=pk, project__faculty=faculty.get())
+        comments = ApplicationComment.objects.filter(application=application.get())
+        return Response(ApplicationCommentSerializer(comments, many=True).data, status=status.HTTP_200_OK)
+    
+    def post(self, request, pk, *args, **kwargs):
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+        faculty = Faculty.objects.filter(user=request.user)
+        student = Student.objects.filter(user=request.user)
+        if not faculty:
+           application = Application.objects.filter(id=pk, student=student.get())
+        else:
+            application = Application.objects.filter(id=pk, project__faculty=faculty.get())
+        comment = data.pop('comment')
+        comment = ApplicationComment.objects.create(application=application.get(), comment=comment, user=request.user)
+        return Response(ApplicationCommentSerializer(comment).data, status=status.HTTP_200_OK)

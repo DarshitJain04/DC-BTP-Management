@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import instance from '../../api/axios';
 import styles from '../../styles/components/Faculty/FacultyProjectEdit.module.css';
 import Button from '@mui/material/Button';

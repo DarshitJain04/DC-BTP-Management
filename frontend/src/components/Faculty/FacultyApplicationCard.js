@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+import instance from '../../api/axios';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -9,12 +10,12 @@ import IconButton from '@mui/material/IconButton';
 import EmailIcon from '@material-ui/icons/Email';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Form from 'react-bootstrap/Form';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import FacultyApplicationEdit from './FacultyApplicationEdit.js';
 import styles from '../../styles/components/Faculty/FacultyApplicationCard.module.css';
 import Tooltip from '@mui/material/Tooltip';
-import Fade from '@mui/material/Fade';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -28,12 +29,64 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function FacultyApplicationCard({ application }) {
-  console.log(application);
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [comment, setComment] = useState('');
+  const [commentsList, setCommentsList] = useState([]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const handleComment = (event) => {
+    setComment(event.target.value);
+  };
+
+  const resetComment = () => {
+    setComment('');
+  };
+
+  const validateComment = () => {
+    if (comment === '') {
+      return true;
+    }
+    return false;
+  };
+
+  const handleSubmit = () => {
+    var form = new FormData();
+    form.append('comment', comment);
+    instance
+      .post(`/projects/applications_comments/${application.id}`, form)
+      .then((res) => {
+        if (res.status === 200) {
+          window.alert('Comment posted successfully');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response) {
+          window.alert('Invalid Form');
+        }
+      });
+  };
+
+  const sortComments = (data) => {
+    return (
+      data.sort((x, y) => {
+        return new Date(x.timestamp) > new Date(y.timestamp) ? 1 : -1
+      })
+    ).reverse()
+  };
+
+  useEffect(() => {
+    instance
+      .get(`/projects/applications_comments/${application.id}`)
+      .then((res) => {
+        console.log(sortComments(res.data));
+        setCommentsList(sortComments(res.data));
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <Card class={styles.studentApplications}>
@@ -46,8 +99,8 @@ export default function FacultyApplicationCard({ application }) {
               className={styles.email}
               href={`mailto:${application.student.user.email}`}
             >
-              
-                <EmailIcon />
+
+              <EmailIcon />
             </IconButton>
           </Tooltip>
         </div>
@@ -112,6 +165,53 @@ export default function FacultyApplicationCard({ application }) {
                   return <Chip className={styles.course} label={course} />;
                 })}
               </Stack>
+            </>
+          ) : null}
+        </CardContent>
+        <div className={styles.comments}>Comments (Track Progress)</div>
+        <Form>
+          <Form.Group className="mb-3" controlId="Comment Section">
+            <Form.Control
+              as="textarea"
+              value={comment}
+              className={styles.commentTextArea}
+              rows={3}
+              onChange={(event) => handleComment(event)}
+            />
+          </Form.Group>
+          <div className={styles.projectActions}>
+            <button
+              variant="primary"
+              type="button"
+              onClick={() => resetComment()}
+            >
+              Clear
+            </button>
+            <button
+              className={styles.submitButton}
+              variant="primary"
+              type="submit"
+              disabled={validateComment()}
+              onClick={() => handleSubmit()}
+            >
+              Submit
+            </button>
+          </div>
+        </Form>
+        <CardContent className={styles.commentsContent}>
+          {commentsList && commentsList.length > 0 ? (
+            <>
+              {commentsList.map((commentContent) => {
+                return (
+                  <div>
+                    <div className={styles.commentHeader}>
+                      <span className={styles.commentUser}>{commentContent.user.full_name}</span>
+                      <span className={styles.commentTimestamp}>{new Date(commentContent.timestamp).toLocaleString()}</span>
+                    </div>
+                    <span className={styles.comment}>{commentContent.comment}</span>
+                  </div>
+                );
+              })}
             </>
           ) : null}
         </CardContent>

@@ -17,4 +17,5 @@ urlpatterns = [
     path('faculty_courses/', views.FacultyCourses.as_view(), name="faculty-courses"),
     path('faculty_courses/<int:pk>', views.FacultyCourses.as_view(), name="faculty-courses"),
     path('course_applications/<int:pk>', views.CourseApplicationsClass.as_view(), name="course-applications"),
+    path('applications_comments/<int:pk>', views.CommentsForApplication.as_view(), name="application-comments"),
 ]
