@@ -93,6 +93,7 @@ class Application(models.Model):
     resume_link = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True)
     grade = models.CharField(max_length=10, choices=GRADES, default="None")
+    is_withdrawn = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.project.title) + " (" + str(self.student.roll_number) + ")" 

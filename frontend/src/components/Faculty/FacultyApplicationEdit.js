@@ -17,8 +17,8 @@ import Select from '@mui/material/Select';
 export default function FacultyApplicationEdit({ data }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [is_accepted, setis_accepted] = useState(data.is_accepted);
-  const [notes, setNotes] = useState(data.notes);
+  const [isAccepted, setIsAccepted] = useState(data.is_accepted);
+  const [isWithdrawn, setIsWithdrawn] = useState(data.is_withdrawn);
   const [grade, setGrade] = useState(data.grade);
 
   const handleOpen = () => {
@@ -30,13 +30,17 @@ export default function FacultyApplicationEdit({ data }) {
   };
 
   const toggleActive = () => {
-    setis_accepted(!is_accepted);
+    setIsAccepted(!isAccepted);
+  };
+
+  const toggleWithdraw = () => {
+    setIsWithdrawn(!isWithdrawn);
   };
 
   const handleSubmit = (application_id) => {
     var form = new FormData();
-    form.append('is_accepted', is_accepted);
-    form.append('notes', notes);
+    form.append('is_accepted', isAccepted);
+    form.append('is_withdrawn', isWithdrawn);
     form.append('grade', grade);
     console.log(form);
     instance
@@ -85,9 +89,9 @@ export default function FacultyApplicationEdit({ data }) {
                   <Form.Check
                     type="switch"
                     id="custom-switch"
-                    checked={is_accepted}
+                    checked={isAccepted}
                     label={
-                      is_accepted ? (
+                      isAccepted ? (
                         <span style={{ color: '#3DBE29', fontWeight: 'bold' }}>
                           Accepted
                         </span>
@@ -98,6 +102,27 @@ export default function FacultyApplicationEdit({ data }) {
                       )
                     }
                     onClick={(e) => toggleActive()}
+                    className={styles.toggleButton}
+                  />
+                  <Form.Label className={styles.status}>
+                    Application Withdraw
+                  </Form.Label>
+                  <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    checked={isWithdrawn}
+                    label={
+                      isWithdrawn ? (
+                        <span style={{ color: '#ed5e68', fontWeight: 'bold' }}>
+                          YES
+                        </span>
+                      ) : (
+                        <span style={{ color: '#3DBE29', fontWeight: 'bold' }}>
+                          NO
+                        </span>
+                      )
+                    }
+                    onClick={(e) => toggleWithdraw()}
                     className={styles.toggleButton}
                   />
                 </div>
@@ -127,15 +152,6 @@ export default function FacultyApplicationEdit({ data }) {
                     <MenuItem value="W">W</MenuItem>
                   </Select>
                 </FormControl>
-                <Form.Label className={styles.deliverables}>Notes</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  className={styles.inputBox}
-                  rows={8}
-                  placeholder="Notes"
-                  onChange={(e) => setNotes(e.target.value)}
-                  value={notes}
-                />
               </Form.Group>
               <div className={styles.projectActions}>
                 <Button

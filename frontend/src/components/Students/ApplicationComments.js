@@ -79,35 +79,37 @@ const ApplicationComments = ({ data }) => {
                     </>
                 ) : null}
             </div>
-            <Form>
-                <Form.Group className="mb-3" controlId="Comment Section">
-                    <Form.Control
-                        as="textarea"
-                        value={comment}
-                        className={styles.commentTextArea}
-                        rows={3}
-                        onChange={(event) => handleComment(event)}
-                    />
-                </Form.Group>
-                <div className={styles.projectActions}>
-                    <button
-                        variant="primary"
-                        type="button"
-                        onClick={() => resetComment()}
-                    >
-                        Clear
-                    </button>
-                    <button
-                        className={styles.submitButton}
-                        variant="primary"
-                        type="submit"
-                        disabled={validateComment()}
-                        onClick={() => handleSubmit()}
-                    >
-                        Submit
-                    </button>
-                </div>
-            </Form>
+            {data.is_withdrawn ? null :
+                <Form>
+                    <Form.Group className="mb-3" controlId="Comment Section">
+                        <Form.Control
+                            as="textarea"
+                            value={comment}
+                            className={styles.commentTextArea}
+                            rows={3}
+                            onChange={(event) => handleComment(event)}
+                        />
+                    </Form.Group>
+                    <div className={styles.projectActions}>
+                        <button
+                            variant="primary"
+                            type="button"
+                            onClick={() => resetComment()}
+                        >
+                            Clear
+                        </button>
+                        <button
+                            className={styles.submitButton}
+                            variant="primary"
+                            type="submit"
+                            disabled={validateComment()}
+                            onClick={() => handleSubmit()}
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </Form>
+            }
         </FadeUpWhenVisible>
     );
 };

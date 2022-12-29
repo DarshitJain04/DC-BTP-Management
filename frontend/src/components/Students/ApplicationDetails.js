@@ -242,7 +242,7 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 										/>
 									</Form.Group>
 									<div className={applicationStyles.projectActions}>
-										{applicationData.is_accepted ?
+										{applicationData.is_accepted || applicationData.is_withdrawn ?
 											null :
 											<>
 												<Button
