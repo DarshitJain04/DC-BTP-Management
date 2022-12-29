@@ -9,6 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import ApplicationNavbar from './ApplicationNavbar';
+import ApplicationComments from './ApplicationComments';
 import projectStyles from '../../styles/components/Students/ProjectDetailsModal.module.css';
 import applicationStyles from '../../styles/components/Students/ApplicationDetails.module.css';
 import Form from 'react-bootstrap/Form';
@@ -188,77 +189,77 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 									</Stack>
 								</>
 							) : null}
-						</>) : (
-						<>
-							<Form>
-								<Form.Group className="mb-3" controlId="Application Type">
-									<Form.Label className={applicationStyles.applicationType}>
-										Application Type
-									</Form.Label>
-									<Form.Select
-										aria-label="Application Type"
-										onChange={(event) => handleApplicationType(event)}
-										className={applicationStyles.dropDown}
-										value={applicationType}
-									>
-										<option value="Design Credits">Design Credits</option>
-										<option value="B.Tech. Project">B.Tech. Project</option>
-									</Form.Select>
-									<Form.Label className={applicationStyles.courseCodes}>
-										Course Code
-									</Form.Label>
-									<Form.Select
-										aria-label="Course Code"
-										onChange={(event) => handleCourseCode(event)}
-										className={applicationStyles.courseCode}
-										value={courseCode}
-									>
-										{courseCodes?.map((courseCode) => {
-											return (
-												<option value={courseCode.course_code}>
-													{courseCode.course_code} ({courseCode.course_name})
-												</option>
-											);
-										})}
-									</Form.Select>
-									<Form.Label className={applicationStyles.resume}>Resume Link</Form.Label>
-									<Form.Control
-										type="text"
-										placeholder="Resume Link (Google Drive Folder/File Link)"
-										className={applicationStyles.resumeLink}
-										onChange={(event) => handleResume(event)}
-										value={resumeLink}
-									/>
-									<Form.Label className={applicationStyles.notes}>
-										Notes (If Any)
-									</Form.Label>
-									<Form.Control
-										as="textarea"
-										value={notes}
-										className={applicationStyles.notesTextArea}
-										rows={4}
-										onChange={(event) => handleNote(event)}
-									/>
-								</Form.Group>
-								<div className={applicationStyles.projectActions}>
-									{applicationData.is_accepted ?
-										null :
-										<>
-											<Button
-												className={applicationStyles.updateButton}
-												variant="primary"
-												type="submit"
-												disabled={!validateResumeLink()}
-												onClick={() => handleUpdateApplication()}
-											>
-												Update
-											</Button>
-										</>
-									}
-								</div>
-							</Form>
-						</>
-					)}
+						</>) : tab === 1 ? (
+							<>
+								<Form>
+									<Form.Group className="mb-3" controlId="Application Type">
+										<Form.Label className={applicationStyles.applicationType}>
+											Application Type
+										</Form.Label>
+										<Form.Select
+											aria-label="Application Type"
+											onChange={(event) => handleApplicationType(event)}
+											className={applicationStyles.dropDown}
+											value={applicationType}
+										>
+											<option value="Design Credits">Design Credits</option>
+											<option value="B.Tech. Project">B.Tech. Project</option>
+										</Form.Select>
+										<Form.Label className={applicationStyles.courseCodes}>
+											Course Code
+										</Form.Label>
+										<Form.Select
+											aria-label="Course Code"
+											onChange={(event) => handleCourseCode(event)}
+											className={applicationStyles.courseCode}
+											value={courseCode}
+										>
+											{courseCodes?.map((courseCode) => {
+												return (
+													<option value={courseCode.course_code}>
+														{courseCode.course_code} ({courseCode.course_name})
+													</option>
+												);
+											})}
+										</Form.Select>
+										<Form.Label className={applicationStyles.resume}>Resume Link</Form.Label>
+										<Form.Control
+											type="text"
+											placeholder="Resume Link (Google Drive Folder/File Link)"
+											className={applicationStyles.resumeLink}
+											onChange={(event) => handleResume(event)}
+											value={resumeLink}
+										/>
+										<Form.Label className={applicationStyles.notes}>
+											Notes (If Any)
+										</Form.Label>
+										<Form.Control
+											as="textarea"
+											value={notes}
+											className={applicationStyles.notesTextArea}
+											rows={4}
+											onChange={(event) => handleNote(event)}
+										/>
+									</Form.Group>
+									<div className={applicationStyles.projectActions}>
+										{applicationData.is_accepted ?
+											null :
+											<>
+												<Button
+													className={applicationStyles.updateButton}
+													variant="primary"
+													type="submit"
+													disabled={!validateResumeLink()}
+													onClick={() => handleUpdateApplication()}
+												>
+													Update
+												</Button>
+											</>
+										}
+									</div>
+								</Form>
+							</>
+						) : <ApplicationComments data={applicationData} />}
 				</DialogContent>
 				<DialogActions style={{ padding: 0 }}>
 					<ApplicationNavbar changeTab={changeTab} />
