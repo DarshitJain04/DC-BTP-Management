@@ -91,6 +91,7 @@ class Application(models.Model):
     course_code = models.ForeignKey(ApplicationCourse, on_delete=models.PROTECT)
     is_accepted = models.BooleanField(default=False)
     resume_link = models.TextField(blank=True, null=True)
+    report_link = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True)
     grade = models.CharField(max_length=10, choices=GRADES, default="None")
 
