@@ -19,30 +19,18 @@
 }
 
 .header {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 600;
   color: #383838;
 }
 
-.notes {
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
-  color: #383838 !important;
-  font-size: 1rem !important;
-  font-weight: 550 !important;
-}
-
-.notesTextArea {
-  color: #848484 !important;
-  font-size: 1rem !important;
-  box-shadow: none !important;
-}
-
 .projectActions > button {
+  margin: 0 1rem 0 0;
+  border: 2px solid #ed5e68;
+  color: #ed5e68;
   border-radius: 0.3rem;
-  border: 2px solid #3758f9;
   background-color: transparent;
-  outline: none;
-  color: #3758f9;
+  outline: none !important;
   font-weight: 550;
   padding: 0.5rem 1rem;
   font-size: 1rem;
@@ -51,8 +39,8 @@
 }
 
 .projectActions > button:hover {
+  background-color: #ed5e68;
   border-color: transparent;
-  background-color: #3758f9;
   color: #fff;
 }
 
@@ -63,7 +51,7 @@
 }
 
 .projectActions .submitButton {
-  margin: 0 1rem 0 0;
+  margin: 1rem 0 0 0;
 }
 
 .projectActions .submitButton:disabled {

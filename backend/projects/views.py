@@ -5,9 +5,9 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Categories, Project, Type, Application, ApplicationCourse
+from .models import Categories, Project, Type, Application, ApplicationCourse, ApplicationComment
 from .serializers import (ApplicationSerializer, CategoriesSerializer,
-                          ProjectSerializer, TypeSerializer, ApplicationCourseSerializer)
+                          ProjectSerializer, TypeSerializer, ApplicationCourseSerializer, ApplicationCommentSerializer)
 from main.serializers import FacultySerializer
 
 class TypeClass(ListAPIView):
@@ -154,9 +154,9 @@ class StudentApplicationsClass(APIView):
     def get(self, request, pk = None, *args, **kwargs):
         student = Student.objects.get(user=request.user)
         if pk is not None:
-            application = Application.objects.get(student=student, id=pk)
+            application = Application.objects.get(id=pk, student=student, is_withdrawn=False)
             return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
-        applications = Application.objects.filter(student=student)
+        applications = Application.objects.filter(student=student, is_withdrawn=False)
         return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
     
     # Create new application for a project
@@ -187,12 +187,12 @@ class StudentApplicationsClass(APIView):
         course = ApplicationCourse.objects.get(course_code=data['course_code'])
         data.pop('course_code')
         currentApplication = Application.objects.filter(project=project, student=student, id=pk)
-        if(currentApplication.get().is_accepted == False):
+        if(currentApplication.get().is_accepted == False & currentApplication.get().is_withdrawn == False):
             _ = Application.objects.filter(project=project, student=student, id=pk).update(**data, application_type=application_type, course_code=course)
             application = Application.objects.get(id=pk, project=project, student=student, application_type=application_type)
             return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
         respone = {}
-        respone['status'] = 'Can not update accepted applications. Please contact the concerned Faculty for the same.'
+        respone['status'] = 'Can not update accepted/withdrawn applications. Please contact the concerned Faculty for the same.'
         return Response(respone, status=status.HTTP_200_OK)
 
     # Delete an existing application
@@ -200,15 +200,25 @@ class StudentApplicationsClass(APIView):
         data = {}
         student = Student.objects.get(user=request.user)
         application = Application.objects.filter(id=pk, student=student)
-        if(application.get().is_accepted == False):
+        if(application.get().is_accepted == False & application.get().is_withdrawn == False):
             delete_application = application.delete()
             if delete_application:
                 data["status"] = "Successfully deleted the application"
             else:
                 data["status"] = "Failed to delete the application"
         else:
-            data["status"] = "Can not delete accepted application"
+            data["status"] = "Can not delete accepted/withdrawn application"
         return Response(data=data)
+
+
+class StudentArchivedApplications(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    # List of all the applications withdrawn
+    def get(self, request, *args, **kwargs):
+        student = Student.objects.get(user=request.user)
+        applications = Application.objects.filter(student=student, is_withdrawn=True)
+        return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
 
 
 # View all the applications to the projects floated (Faculty)
@@ -220,9 +230,9 @@ class FacultyApplicationsClass(APIView):
     def get(self, request, pk = None, *args, **kwargs):
         faculty = Faculty.objects.get(user=request.user)
         if pk is not None:
-            application = Application.objects.get(id=pk, project__faculty=faculty)
+            application = Application.objects.get(id=pk, project__faculty=faculty, is_withdrawn=False)
             return Response(ApplicationSerializer(application).data, status=status.HTTP_200_OK)
-        applications = Application.objects.filter(project__faculty=faculty)
+        applications = Application.objects.filter(project__faculty=faculty, is_withdrawn=False)
         return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
 
     def put(self, request, pk = None, *args, **kwargs):
@@ -233,17 +243,22 @@ class FacultyApplicationsClass(APIView):
                 data[key] = request.data.get(key)
 
             is_accepted = data.pop('is_accepted')
-            notes = data.pop('notes')
+            is_withdrawn = data.pop('is_withdrawn')
             grade = data.pop('grade')
             
             application = Application.objects.get(id=pk, project__faculty=faculty)
 
-            if is_accepted=='true':
+            if is_accepted == 'true':
                 application.is_accepted = True
             else:
                 application.is_accepted = False
+
+            if is_withdrawn == 'true':
+                application.is_withdrawn = True
+                application.is_accepted = False
+            else:
+                application.is_withdrawn = False
             
-            application.notes = notes
             application.grade = grade
 
             application.save()
@@ -261,7 +276,17 @@ class ApplicationsForProject(APIView):
     def get(self, request, pk, *args, **kwargs):
         faculty = Faculty.objects.get(user=request.user)
         project = Project.objects.get(faculty=faculty, id=pk)
-        applications = Application.objects.filter(project=project)
+        applications = Application.objects.filter(project=project, is_withdrawn=False)
+        return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
+
+
+class ArchivedApplicationsForProject(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk, *args, **kwargs):
+        faculty = Faculty.objects.get(user=request.user)
+        project = Project.objects.get(faculty=faculty, id=pk)
+        applications = Application.objects.filter(project=project, is_withdrawn=True)
         return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
 
 
@@ -328,3 +353,33 @@ class DepartmentFacultyClass(APIView):
         department_office = DepartmentOffice.objects.get(user=request.user)
         faculty_list = Faculty.objects.filter(program_branch=department_office.program_branch)
         return Response(FacultySerializer(faculty_list, many=True).data, status=status.HTTP_200_OK)
+class CommentsForApplication(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk, *args, **kwargs):
+        faculty = Faculty.objects.filter(user=request.user)
+        student = Student.objects.filter(user=request.user)
+        if not faculty:
+           application = Application.objects.filter(id=pk, student=student.get())
+        else:
+            application = Application.objects.filter(id=pk, project__faculty=faculty.get())
+        comments = ApplicationComment.objects.filter(application=application.get())
+        return Response(ApplicationCommentSerializer(comments, many=True).data, status=status.HTTP_200_OK)
+    
+    def post(self, request, pk, *args, **kwargs):
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+        faculty = Faculty.objects.filter(user=request.user)
+        student = Student.objects.filter(user=request.user)
+        if not faculty:
+           application = Application.objects.filter(id=pk, student=student.get())
+        else:
+            application = Application.objects.filter(id=pk, project__faculty=faculty.get())
+        comment = data.pop('comment')
+        if(application.get().is_withdrawn == False):
+            comment = ApplicationComment.objects.create(application=application.get(), comment=comment, user=request.user)
+            return Response(ApplicationCommentSerializer(comment).data, status=status.HTTP_200_OK)
+        respone = {}
+        respone['status'] = 'Can not comment on withdrawn applications. Please contact the concerned Faculty for the same.'
+        return Response(respone, status=status.HTTP_200_OK)

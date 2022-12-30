@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Type, Categories, Project, Application, ApplicationCourse
-from main.serializers import StudentSerializer, FacultySerializer
+from .models import Type, Categories, Project, Application, ApplicationCourse, ApplicationComment
+from main.serializers import UserSerializer, StudentSerializer, FacultySerializer
 
 
 class TypeSerializer(serializers.ModelSerializer):
@@ -39,4 +39,21 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Application
+        fields = '__all__'
+
+
+
+# class RecursiveField(serializers.Serializer):
+#     def to_representation(self, value):
+#         serializer = self.parent.parent.__class__(value, context=self.context)
+#         return serializer.data
+
+
+class ApplicationCommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    # application = ApplicationSerializer(read_only=True)
+    # replies = RecursiveField(many=True)
+
+    class Meta:
+        model = ApplicationComment
         fields = '__all__'

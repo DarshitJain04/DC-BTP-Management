@@ -10,6 +10,7 @@ import Footer from './components/Footer/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import ProjectsList from './pages/Student/ProjectsList';
 import ProjectsApplied from './pages/Student/ProjectsApplied';
+import ArchivedApplications from './pages/Student/ArchivedApplications';
 
 function App() {
   return (
@@ -23,6 +24,10 @@ function App() {
         <Route path="/department-courses" component={DepartmentCourseList} />
         <Route path="/student-projects" component={ProjectsList} />
         <Route path="/student-projects-applied" component={ProjectsApplied} />
+        <Route
+          path="/student-archived-applications"
+          component={ArchivedApplications}
+        />
         <Route default component={NotFound} />
       </Switch>
       <Footer />

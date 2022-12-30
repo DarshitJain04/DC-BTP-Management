@@ -6,18 +6,27 @@ import Paper from '@material-ui/core/Paper';
 import FadeUpWhenVisible from '../Animation/FadeUp';
 import FacultyProjectEdit from './FacultyProjectEdit';
 import FacultyApplicationList from './FacultyApplicationList';
+import ArchivedApplications from './ArchivedApplications';
 import styles from '../../styles/components/Faculty/FacultyProjectListCard.module.css';
 import IconButton from '@mui/material/IconButton';
 
 const FacultyProjectListCard = ({ data }) => {
   const [loading, setLoading] = useState(true);
   const [applications, setApplications] = useState([]);
+  const [withdrawnApplications, setwithdrawnApplications] = useState([]);
 
   useEffect(() => {
     instance
       .get(`/projects/applications_project/${data.id}`)
       .then((res) => {
         setApplications(res.data);
+      })
+      .catch((error) => console.log(error));
+
+    instance
+      .get(`/projects/archived_applications_project/${data.id}`)
+      .then((res) => {
+        setwithdrawnApplications(res.data);
       })
       .then(() => setLoading(false))
       .catch((error) => console.log(error));
@@ -75,10 +84,8 @@ const FacultyProjectListCard = ({ data }) => {
             <FacultyProjectDescription data={data} />
           </div>
           <div className={styles.applications}>
-            <FacultyApplicationList
-              project={data}
-              applications={applications}
-            />
+            <FacultyApplicationList applications={applications} />
+            <ArchivedApplications applications={withdrawnApplications} />
           </div>
         </div>
       </Paper>

@@ -1,5 +1,6 @@
 from django.db import models
-from main.models import Skills, Courses, Student, Faculty, ProgramAndBranch
+from django.contrib.auth.models import User
+from main.models import Student, Faculty, ProgramAndBranch
 
 
 class Type(models.Model):
@@ -94,6 +95,18 @@ class Application(models.Model):
     report_link = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True)
     grade = models.CharField(max_length=10, choices=GRADES, default="None")
+    is_withdrawn = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.project.title) + " (" + str(self.student.roll_number) + ")" 
+
+
+class ApplicationComment(models.Model):
+    comment = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    # reply = models.ForeignKey('ApplicationComment', on_delete=models.CASCADE, blank=True, null=True, related_name="replies")
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment[0:13] + "(" + self.user.get_full_name() + ", " + self.application.project.title + ")"
