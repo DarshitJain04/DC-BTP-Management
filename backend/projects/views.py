@@ -1,4 +1,4 @@
-from main.models import Student, Faculty, Skills, Courses
+from main.models import Student, Faculty, Skills, Courses, ProgramAndBranch, DepartmentOffice
 from rest_framework import status
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListAPIView
@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from .models import Categories, Project, Type, Application, ApplicationCourse
 from .serializers import (ApplicationSerializer, CategoriesSerializer,
                           ProjectSerializer, TypeSerializer, ApplicationCourseSerializer)
-
+from main.serializers import FacultySerializer
 
 class TypeClass(ListAPIView):
     queryset = Type.objects.all()
@@ -197,7 +197,6 @@ class StudentApplicationsClass(APIView):
 
     # Delete an existing application
     def delete(self, request, pk, *args, **kwargs):
-        print(request)
         data = {}
         student = Student.objects.get(user=request.user)
         application = Application.objects.filter(id=pk, student=student)
@@ -287,4 +286,45 @@ class CourseApplicationsClass(APIView):
             application = Application.objects.filter(course_code=course, is_accepted=True)
             return Response(ApplicationSerializer(application, many=True).data, status=status.HTTP_200_OK)
         return Response('Course Id Missing', status=status.HTTP_400_BAD_REQUEST)
-        
+
+
+class DepartmentCoursesClass(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk = None, *args, **kwargs):
+        department_office = DepartmentOffice.objects.get(user=request.user)
+        courses = ApplicationCourse.objects.filter(program_branch=department_office.program_branch)
+        return Response(ApplicationCourseSerializer(courses, many=True).data, status=status.HTTP_200_OK)
+    
+    def post(self, request, pk = None, *args, **kwargs):
+        department_office = DepartmentOffice.objects.get(user=request.user)
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+
+        faculty = Faculty.objects.get(id=data['course_advisor_id'])
+        application_course = ApplicationCourse.objects.create(course_code=data['course_code'], course_name=data['course_name'], program_branch=department_office.program_branch, faculty=faculty)
+        return Response(ApplicationCourseSerializer(application_course).data, status=status.HTTP_200_OK)
+
+    def put(self, request, pk = None, *args, **kwargs):
+        department_office = DepartmentOffice.objects.get(user=request.user)
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+
+        faculty = Faculty.objects.get(id=data['course_advisor_id'])
+        application_course = ApplicationCourse.objects.get(id=data['course_code_id'])
+        application_course.course_code = data['course_code']
+        application_course.course_name = data['course_name']
+        application_course.faculty = faculty
+        application_course.save()
+        return Response(ApplicationCourseSerializer(application_course).data, status=status.HTTP_200_OK)
+
+
+class DepartmentFacultyClass(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk = None, *args, **kwargs):
+        department_office = DepartmentOffice.objects.get(user=request.user)
+        faculty_list = Faculty.objects.filter(program_branch=department_office.program_branch)
+        return Response(FacultySerializer(faculty_list, many=True).data, status=status.HTTP_200_OK)
