@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'main',
-    'projects'
+    'projects',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

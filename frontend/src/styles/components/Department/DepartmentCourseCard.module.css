@@ -1,0 +1,25 @@
+.footer {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 2rem;
+}
+  
+.projectActions {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 0;
+    align-items: center;
+}
+  
+.projectActions > button {
+    color: #848484;
+}
+  
+.applications {
+    font-size: 1rem;
+    font-weight: 550;
+}
+  

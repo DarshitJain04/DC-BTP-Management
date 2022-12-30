@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from main.models import Student, Faculty
+from main.models import Student, Faculty, ProgramAndBranch
 
 
 class Type(models.Model):
@@ -60,6 +60,7 @@ class Project(models.Model):
 class ApplicationCourse(models.Model):
     course_code = models.CharField(max_length=10)
     course_name = models.CharField(max_length=50)
+    program_branch = models.ForeignKey(ProgramAndBranch, on_delete=models.CASCADE)
     faculty = models.ForeignKey(Faculty, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
@@ -91,6 +92,7 @@ class Application(models.Model):
     course_code = models.ForeignKey(ApplicationCourse, on_delete=models.PROTECT)
     is_accepted = models.BooleanField(default=False)
     resume_link = models.TextField(blank=True, null=True)
+    report_link = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True)
     grade = models.CharField(max_length=10, choices=GRADES, default="None")
     is_withdrawn = models.BooleanField(default=False)
