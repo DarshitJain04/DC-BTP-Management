@@ -6,6 +6,7 @@ import { Container } from '@material-ui/core';
 import Box from '@mui/material/Box';
 import styles from '../../styles/pages/Faculty/FacultyCourseList.module.css';
 import FacultyCourseDetails from '../../components/Faculty/FacultyCourseDetails';
+import Footer from '../../components/Footer/Footer';
 
 const FacultyCourseList = () => {
   const [loading, setLoading] = useState(true);
@@ -48,6 +49,7 @@ const FacultyCourseList = () => {
           </Container>
         </>
       )}
+      <Footer />
     </div>
   );
 };

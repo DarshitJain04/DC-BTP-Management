@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { CSVLink } from 'react-csv';
 import ProjectListCard from '../../components/Students/ProjectListCard';
 import styles from '../../styles/pages/Students/ProjectsList.module.css';
+import Footer from '../../components/Footer/Footer';
 
 const ProjectsList = () => {
   const [loading, setLoading] = useState(true);
@@ -102,41 +103,40 @@ const ProjectsList = () => {
       {loading ? (
         <Loading />
       ) : (
-        <>
-          <Container maxWidth="lg">
-            <div className={styles.header}>
-              <div className={styles.searchbar}>
-                <SearchIcon className={styles.searchInput} />
-                <input
-                  type="text"
-                  placeholder="Search projects..."
-                  onChange={(event) => handleQueryChange(event)}
-                  value={searchQuery}
-                  className={styles.searchInput}
-                />
-              </div>
-              <div className={styles.exportButton}>
-                <button onClick={() => exportData()}><CSVLink className={styles.csvLink} filename={'Projects'} data={CSVData}>Export</CSVLink>
-                </button>
-              </div>
+        <Container maxWidth="lg">
+          <div className={styles.header}>
+            <div className={styles.searchbar}>
+              <SearchIcon className={styles.searchInput} />
+              <input
+                type="text"
+                placeholder="Search projects..."
+                onChange={(event) => handleQueryChange(event)}
+                value={searchQuery}
+                className={styles.searchInput}
+              />
             </div>
-            <Grid
-              container
-              direction="row"
-              spacing={5}
-              style={{ width: '100%', margin: '12rem auto auto auto' }}
-            >
-              {filteredData.length === 0 ? <h1>No projects available</h1> : filteredData.map((project) => {
-                return (
-                  <Grid key={project.id} item xs={12} sm={12} md={6} lg={6}>
-                    <ProjectListCard data={project} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Container>
-        </>
+            <div className={styles.exportButton}>
+              <button onClick={() => exportData()}><CSVLink className={styles.csvLink} filename={'Projects'} data={CSVData}>Export</CSVLink>
+              </button>
+            </div>
+          </div>
+          <Grid
+            container
+            direction="row"
+            spacing={5}
+            style={{ width: '100%', margin: '12rem auto auto auto' }}
+          >
+            {filteredData.length === 0 ? <h1>No projects available</h1> : filteredData.map((project) => {
+              return (
+                <Grid key={project.id} item xs={12} sm={12} md={6} lg={6}>
+                  <ProjectListCard data={project} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Container>
       )}
+      <Footer />
     </div>
   );
 };

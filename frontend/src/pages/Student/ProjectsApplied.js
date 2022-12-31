@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { CSVLink } from 'react-csv';
 import StudentProjectApplication from '../../components/Students/StudentProjectApplication';
 import styles from '../../styles/pages/Students/ProjectsApplied.module.css';
+import Footer from '../../components/Footer/Footer';
 
 const ProjectsApplied = () => {
 	const [loading, setLoading] = useState(true);
@@ -185,6 +186,7 @@ const ProjectsApplied = () => {
 					</Container>
 				</>
 			)}
+			<Footer />
 		</div>
 	);
 };

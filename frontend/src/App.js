@@ -5,7 +5,7 @@ import FacultyDashboard from './pages/FacultyDashboard';
 import FacultyProjectsList from './pages/Faculty/FacultyProjectsList';
 import FacultyCourseList from './pages/Faculty/FacultyCourseList';
 import DepartmentCourseList from './pages/Department/DepartmentCourseList';
-import Footer from './components/Footer/Footer';
+// import Footer from './components/Footer/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import ProjectsList from './pages/Student/ProjectsList';
 import ProjectsApplied from './pages/Student/ProjectsApplied';
@@ -50,7 +50,6 @@ const App = () => {
         />
         <Route default component={NotFound} />
       </Switch>
-      <Footer />
     </Router>
   );
 };

@@ -7,6 +7,7 @@ import Loading from '../components/Loading';
 import jwt_decode from 'jwt-decode';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
+import Footer from '../components/Footer/Footer';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -21,7 +22,7 @@ const Login = () => {
   const clearForm = () => {
     setUsername('');
     setPassword('');
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -77,7 +78,7 @@ const Login = () => {
         background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${backgroundImage}) no-repeat fixed`,
         backgroundSize: 'cover',
         backgroundPosition: '50%',
-        padding: '3%',
+        paddingTop: '6.8rem',
         justifyContent: 'center',
       }}
     >
@@ -85,9 +86,7 @@ const Login = () => {
         <Loading />
       ) : (
         <div className={styles.Login}>
-          <div className={styles.heading}>
-            LOGIN
-          </div>
+          <div className={styles.heading}>LOGIN</div>
           <div className={styles.form}>
             <div className={styles.username}>
               <PersonIcon className={styles.personIcon} />
@@ -131,8 +130,8 @@ const Login = () => {
           </center>
         </div>
       )}
+      <Footer />
     </div>
-
   );
 };
 

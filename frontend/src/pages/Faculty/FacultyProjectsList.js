@@ -7,6 +7,7 @@ import FacultyProjectListCard from '../../components/Faculty/FacultyProjectListC
 import SearchIcon from '@mui/icons-material/Search';
 import styles from '../../styles/pages/Faculty/FacultyProjectsList.module.css';
 import FacultyProjectCreate from '../../components/Faculty/FacultyProjectCreate.js';
+import Footer from '../../components/Footer/Footer';
 
 const FacultyProjectsList = () => {
   const [loading, setLoading] = useState(true);
@@ -108,6 +109,7 @@ const FacultyProjectsList = () => {
           </Container>
         </>
       )}
+      <Footer />
     </div>
   );
 };
