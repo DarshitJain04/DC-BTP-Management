@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from './pages/Home';
 import NotFound from './pages/404';
 import FacultyDashboard from './pages/FacultyDashboard';
 import FacultyProjectsList from './pages/Faculty/FacultyProjectsList';
@@ -10,13 +9,16 @@ import ScrollToTop from './components/ScrollToTop';
 import ProjectsList from './pages/Student/ProjectsList';
 import ProjectsApplied from './pages/Student/ProjectsApplied';
 import ArchivedApplications from './pages/Student/ArchivedApplications';
+import Login from './pages/Login';
+import Navbar from './components/Navbar/Navbar';
 
-function App() {
+const App = () => {
   return (
     <Router>
+      <Navbar />
       <ScrollToTop />
       <Switch>
-        <Route path="/" exact component={Home} />
+        <Route path="/" exact component={Login} />
         <Route path="/faculty-dashboard" component={FacultyDashboard} />
         <Route path="/faculty-projects" component={FacultyProjectsList} />
         <Route path="/faculty-courses" component={FacultyCourseList} />
@@ -31,6 +33,6 @@ function App() {
       <Footer />
     </Router>
   );
-}
+};
 
 export default App;
