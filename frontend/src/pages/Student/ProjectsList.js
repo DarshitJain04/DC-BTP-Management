@@ -124,7 +124,7 @@ const ProjectsList = () => {
             container
             direction="row"
             spacing={5}
-            style={{ width: '100%', margin: '12rem auto auto auto' }}
+            style={{ width: '100%', margin: '12rem auto 100vh auto' }}
           >
             {filteredData.length === 0 ? <h1>No projects available</h1> : filteredData.map((project) => {
               return (

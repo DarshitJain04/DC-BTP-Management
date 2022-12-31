@@ -203,11 +203,17 @@ const Navbar = () => {
                   </label>
                   <ul>
                     {localStorage.getItem('btp_dc_portal_role') ===
-                      'department' ? null : (
-                      <li onClick={() => setIsChecked(!isChecked)}>
-                        <a href="/">Profile</a>
-                      </li>
-                    )}
+                      'department' ? null : localStorage.getItem('btp_dc_portal_role') === 'student' ?
+                      (
+                        <li onClick={() => setIsChecked(!isChecked)}>
+                          <a href="/student-profile">Profile</a>
+                        </li>
+                      ) : (
+                        <li onClick={() => setIsChecked(!isChecked)}>
+                          <a href="/faculty-profile">Profile</a>
+                        </li>
+                      )
+                    }
                     <li onClick={(event) => handleLogout(event)}>
                       <Link to="#">Logout</Link>
                     </li>
