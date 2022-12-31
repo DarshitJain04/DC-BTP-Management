@@ -4,6 +4,7 @@ import NotFound from './pages/404';
 import FacultyDashboard from './pages/FacultyDashboard';
 import FacultyProjectsList from './pages/Faculty/FacultyProjectsList';
 import FacultyCourseList from './pages/Faculty/FacultyCourseList';
+import DepartmentCourseList from './pages/Department/DepartmentCourseList';
 import Footer from './components/Footer/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import ProjectsList from './pages/Student/ProjectsList';
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/faculty-dashboard" component={FacultyDashboard} />
         <Route path="/faculty-projects" component={FacultyProjectsList} />
         <Route path="/faculty-courses" component={FacultyCourseList} />
+        <Route path="/department-courses" component={DepartmentCourseList} />
         <Route path="/student-projects" component={ProjectsList} />
         <Route path="/student-projects-applied" component={ProjectsApplied} />
         <Route
