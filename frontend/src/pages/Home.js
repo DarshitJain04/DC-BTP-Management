@@ -5,7 +5,7 @@ import FadeInWhenVisible from '../components/Animation/FadeIn';
 
 const Home = () => {
   return (
-    <div style={{ height: 'auto', width: '100%' }}>
+    <div style={{ height: '100vh', width: '100%' }}>
       <div className={styles.homeWrapper}>
         <FadeInWhenVisible>
           <HeroSection />

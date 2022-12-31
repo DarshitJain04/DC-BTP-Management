@@ -5,7 +5,8 @@ import FacultyDashboard from './pages/FacultyDashboard';
 import FacultyProjectsList from './pages/Faculty/FacultyProjectsList';
 import FacultyCourseList from './pages/Faculty/FacultyCourseList';
 import DepartmentCourseList from './pages/Department/DepartmentCourseList';
-import Footer from './components/Footer/Footer';
+import StudentProfile from './pages/Student/StudentProfile';
+import FacultyProfile from './pages/Faculty/FacultyProfile';
 import ScrollToTop from './components/ScrollToTop';
 import ProjectsList from './pages/Student/ProjectsList';
 import ProjectsApplied from './pages/Student/ProjectsApplied';
@@ -27,6 +28,7 @@ const App = () => {
           path="/faculty-dashboard"
           component={FacultyDashboard}
         />
+        <FacultyProtected path="/faculty-profile" component={FacultyProfile} />
         <FacultyProtected
           path="/faculty-projects"
           component={FacultyProjectsList}
@@ -39,6 +41,7 @@ const App = () => {
           path="/department-courses"
           component={DepartmentCourseList}
         />
+        <StudentProtected path="/student-profile" component={StudentProfile} />
         <StudentProtected path="/student-projects" component={ProjectsList} />
         <StudentProtected
           path="/student-projects-applied"
@@ -50,7 +53,6 @@ const App = () => {
         />
         <Route default component={NotFound} />
       </Switch>
-      <Footer />
     </Router>
   );
 };

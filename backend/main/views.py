@@ -93,8 +93,10 @@ class StudentProfile(APIView):
         data.pop('user')
         data.pop('roll_number')
         data['roll_number'] = user.username
-        skills = data.pop('skills', [])
-        courses = data.pop('courses', [])
+        skills = data.pop('skills')
+        skills = skills.split(',')
+        courses = data.pop('courses')
+        courses = courses.split(',')
         data_from_roll_number = self.get_data_from_roll_number(user.username)
         data["year"] = data_from_roll_number["batch"]
         if data_from_roll_number["roll_number"] == -1:

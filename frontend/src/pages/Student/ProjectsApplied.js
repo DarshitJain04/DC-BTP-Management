@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { CSVLink } from 'react-csv';
 import StudentProjectApplication from '../../components/Students/StudentProjectApplication';
 import styles from '../../styles/pages/Students/ProjectsApplied.module.css';
+import Footer from '../../components/Footer/Footer';
 
 const ProjectsApplied = () => {
 	const [loading, setLoading] = useState(true);
@@ -172,7 +173,7 @@ const ProjectsApplied = () => {
 							container
 							direction="row"
 							spacing={5}
-							style={{ width: '100%', margin: '12rem auto auto auto' }}
+							style={{ width: '100%', margin: '12rem auto 100vh auto' }}
 						>
 							{filteredData.length === 0 ? <h1>No projects applied</h1> : filteredData.map((application) => {
 								return (
@@ -185,6 +186,7 @@ const ProjectsApplied = () => {
 					</Container>
 				</>
 			)}
+			<Footer />
 		</div>
 	);
 };
