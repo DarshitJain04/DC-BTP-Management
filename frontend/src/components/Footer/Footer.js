@@ -4,7 +4,7 @@ import styles from '../../styles/components/Footer.module.css';
 
 const Footer = (props) => {
   return (
-    <div className={styles.footer}>
+    <footer className={styles.footer}>
       <span className={styles.maintainers}>
         Designed & Maintained by{' '}
         <a href="mailto:santosh.2@iitj.ac.in" target="_blank" rel="noreferrer">
@@ -23,7 +23,7 @@ const Footer = (props) => {
         {new Date().getFullYear()}
         {'.'}
       </span>
-    </div>
+    </footer>
   );
 };
 

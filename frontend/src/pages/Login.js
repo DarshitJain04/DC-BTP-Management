@@ -42,8 +42,10 @@ const Login = () => {
         localStorage.setItem('btp_dc_portal_role', data.role);
         if (data.role === 'faculty') {
           window.location = '/faculty-projects';
-        } else {
+        } else if (data.role === 'student') {
           window.location = '/student-projects';
+        } else {
+          window.location = '/department-courses';
         }
       })
       .then(() => setLoading(false))
@@ -56,12 +58,14 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('btp_dc_portal_loggedIn')) {
+    if (localStorage.getItem('btp_dc_portal_loggedIn') === 'true') {
       const role = localStorage.getItem('btp_dc_portal_role');
       if (role === 'faculty') {
         window.location = '/faculty-projects';
-      } else {
+      } else if (role === 'student') {
         window.location = '/student-projects';
+      } else {
+        window.location = '/department-courses';
       }
     }
   });
@@ -69,7 +73,7 @@ const Login = () => {
   return (
     <div
       style={{
-        height: '100%',
+        height: '100vh',
         background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${backgroundImage}) no-repeat fixed`,
         backgroundSize: 'cover',
         backgroundPosition: '50%',

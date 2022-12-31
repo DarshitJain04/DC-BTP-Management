@@ -12,6 +12,9 @@ import ProjectsApplied from './pages/Student/ProjectsApplied';
 import ArchivedApplications from './pages/Student/ArchivedApplications';
 import Login from './pages/Login';
 import Navbar from './components/Navbar/Navbar';
+import StudentProtected from './components/RestrictedRoutes/StudentProtected';
+import FacultyProtected from './components/RestrictedRoutes/FacultyProtected';
+import DepartmentProtected from './components/RestrictedRoutes/DepartmentProtected';
 
 const App = () => {
   return (
@@ -20,13 +23,28 @@ const App = () => {
       <ScrollToTop />
       <Switch>
         <Route path="/" exact component={Login} />
-        <Route path="/faculty-dashboard" component={FacultyDashboard} />
-        <Route path="/faculty-projects" component={FacultyProjectsList} />
-        <Route path="/faculty-courses" component={FacultyCourseList} />
-        <Route path="/department-courses" component={DepartmentCourseList} />
-        <Route path="/student-projects" component={ProjectsList} />
-        <Route path="/student-projects-applied" component={ProjectsApplied} />
-        <Route
+        <FacultyProtected
+          path="/faculty-dashboard"
+          component={FacultyDashboard}
+        />
+        <FacultyProtected
+          path="/faculty-projects"
+          component={FacultyProjectsList}
+        />
+        <FacultyProtected
+          path="/faculty-courses"
+          component={FacultyCourseList}
+        />
+        <DepartmentProtected
+          path="/department-courses"
+          component={DepartmentCourseList}
+        />
+        <StudentProtected path="/student-projects" component={ProjectsList} />
+        <StudentProtected
+          path="/student-projects-applied"
+          component={ProjectsApplied}
+        />
+        <StudentProtected
           path="/student-archived-applications"
           component={ArchivedApplications}
         />

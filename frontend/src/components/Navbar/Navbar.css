@@ -1,0 +1,231 @@
+.wrapper {
+  background: #3758f9;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 3px 5px 0 rgb(0 0 0 / 19%);
+  position: fixed;
+  width: 100%;
+  z-index: 200;
+}
+
+.wrapper nav {
+  position: relative;
+  display: flex;
+  max-width: calc(100% - 200px);
+  margin: 0 auto;
+  height: 4rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav .content {
+  display: flex;
+  align-items: center;
+  height: 4rem;
+}
+
+nav .content .links {
+  height: 4rem;
+  margin-left: 15rem;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content .logo a {
+  font-size: 30px;
+  font-weight: 600;
+  margin-right: 10px;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
+.content .links li {
+  list-style: none;
+  line-height: 4rem;
+  color: #ffffff;
+}
+
+.content .links li a,
+.content .links li label {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 9px 17px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.content .links li label {
+  display: none;
+}
+.content .links li a:hover {
+  background: #f1f1f1;
+  color: #012970;
+}
+.content .links li label:hover {
+  background: #f1f1f1;
+  color: #012970;
+}
+.wrapper .search-icon,
+.wrapper .menu-icon {
+  color: #fff !important;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 70px;
+  width: 70px;
+  text-align: center;
+}
+.wrapper .menu-icon {
+  display: none;
+}
+.wrapper input[type='checkbox'] {
+  display: none;
+}
+
+/* Dropdown Menu code start */
+.content .links ul {
+  position: absolute;
+  background: #ffffff;
+  top: 80px;
+  z-index: -1;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+.content .links li:hover > ul {
+  top: 70px;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.3s ease;
+}
+.content .links ul li a {
+  display: block;
+  width: -webkit-fill-available;
+  line-height: 30px;
+  border-radius: 0px !important;
+  color: #3758f9;
+}
+
+.content .links ul ul {
+  position: absolute;
+  top: 0;
+  right: calc(-100% + 8px);
+}
+
+.content .links ul li {
+  position: relative;
+}
+
+.content .links ul li:hover ul {
+  top: 0;
+}
+
+/* Responsive code start */
+@media screen and (max-width: 1250px) {
+  .wrapper nav {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+  nav .content .links {
+    margin-left: 30px;
+  }
+  .content .links li a {
+    padding: 8px 13px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .content .links ul {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .wrapper .menu-icon {
+    display: block;
+  }
+  .wrapper #show-menu:checked ~ .menu-icon i::before {
+    content: '\f00d';
+  }
+  nav .content .links {
+    display: block;
+    position: fixed;
+    background: #3758f9;
+    height: 100%;
+    width: 100%;
+    top: 64px;
+    left: -100%;
+    margin-left: 0;
+    max-width: 350px;
+    max-height: -webkit-fill-available;
+    overflow-y: auto;
+    padding-bottom: 100px;
+    transition: all 0.4s ease;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  nav #show-menu:checked ~ .content .links {
+    left: 0%;
+  }
+  .content .links li {
+    margin: 15px 20px;
+  }
+  .content .links li a,
+  .content .links li label {
+    line-height: 40px;
+    font-size: 14px;
+    display: block;
+    padding: 8px 18px;
+    cursor: pointer;
+  }
+  .content .links li label {
+    text-align-last: justify;
+  }
+  .content .links li a.desktop-link {
+    display: none;
+  }
+
+  /* dropdown responsive code start */
+  .content .links ul,
+  .content .links ul ul {
+    position: static;
+    opacity: 1;
+    background: #fff;
+    visibility: visible;
+    background: none;
+    max-height: 0px;
+    overflow: hidden;
+  }
+  .content .links #show-home:checked ~ ul,
+  .content .links #show-academics:checked ~ ul,
+  .content .links #show-students:checked ~ ul,
+  .content .links #show-recruiter:checked ~ ul,
+  .content .links #show-forms:checked ~ ul,
+  .content .links #show-cdc-team:checked ~ ul,
+  .content .links #show-login:checked ~ ul,
+  .content .links #show-auth-options:checked ~ ul {
+    max-height: 100vh;
+  }
+  .content .links ul {
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 20%), 0 3px 4px 0 rgb(0 0 0 / 19%);
+  }
+  .content .links ul li {
+    margin: 7px 20px;
+  }
+  .content .links ul li a {
+    font-size: 14px;
+    line-height: 30px;
+    border-radius: 5px !important;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .wrapper nav {
+    padding: 0 10px;
+  }
+  .content .logo a {
+    font-size: 27px;
+  }
+}

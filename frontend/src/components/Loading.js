@@ -13,7 +13,7 @@ const Loading = () => {
       style={{ height: '100vh' }}
     >
       <Grid item xs={3}>
-        <CircularProgress size="5rem" style={{ color: '#012970' }} />
+        <CircularProgress size="5rem" style={{ color: '#3758f9' }} />
       </Grid>
     </Grid>
   );

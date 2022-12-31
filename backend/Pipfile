@@ -19,6 +19,7 @@ pyjwt="*"
 flake8 = "*"
 djangorestframework = "==3.14.0"
 djangorestframework-simplejwt="*"
+django_extensions="*"
 
 [requires]
 python_version = "3.9"

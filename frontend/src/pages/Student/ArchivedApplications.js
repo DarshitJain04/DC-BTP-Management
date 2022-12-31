@@ -145,7 +145,7 @@ const ArchivedApplications = () => {
     }, []);
 
     return (
-        <div style={{ height: 'auto', width: '100%' }}>
+        <div style={{ height: '100vh', width: '100%' }}>
             {loading ? (
                 <Loading />
             ) : (
@@ -171,7 +171,7 @@ const ArchivedApplications = () => {
                             container
                             direction="row"
                             spacing={5}
-                            style={{ width: '100%', margin: '8rem auto auto auto' }}
+                            style={{ width: '100%', margin: '12rem auto auto auto' }}
                         >
                             {filteredData.length === 0 ? <h1>No applications withdrawn</h1> : filteredData.map((application) => {
                                 return (

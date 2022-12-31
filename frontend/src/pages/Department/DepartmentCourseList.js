@@ -4,10 +4,8 @@ import Loading from '../../components/Loading';
 import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core';
 import Box from '@mui/material/Box';
-import Navbar from '../../components/Navbar/Navbar';
 import SearchIcon from '@mui/icons-material/Search';
 import styles from '../../styles/pages/Department/DepartmentCourseList.module.css';
-import FacultyCourseDetails from '../../components/Faculty/FacultyCourseDetails';
 import DepartmentCourseCreate from '../../components/Department/DepartmentCourseCreate';
 import DepartmentCourseCard from '../../components/Department/DepartmentCourseCard';
 
@@ -76,7 +74,6 @@ const DepartmentCourseList = () => {
         <Loading />
       ) : (
         <>
-          <Navbar />
           <Container maxWidth="lg">
             <Grid container spacing={2} className={styles.listHeader}>
               <Grid item xs={10}>
