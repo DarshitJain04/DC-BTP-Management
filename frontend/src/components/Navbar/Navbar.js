@@ -176,6 +176,11 @@ const Navbar = () => {
                           Archived
                         </Link>
                       </li>
+                      <li onClick={() => setIsChecked(!isChecked)}>
+                        <Link to="/student-industry-applications">
+                          Industry
+                        </Link>
+                      </li>
                     </ul>
                   </li>
                 ) : null}

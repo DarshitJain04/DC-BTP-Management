@@ -5,9 +5,9 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Categories, Project, Type, Application, ApplicationCourse, ApplicationComment
+from .models import Categories, Project, Type, Application, ApplicationCourse, ApplicationComment, IndustryApplication
 from .serializers import (ApplicationSerializer, CategoriesSerializer,
-                          ProjectSerializer, TypeSerializer, ApplicationCourseSerializer, ApplicationCommentSerializer)
+                          ProjectSerializer, TypeSerializer, ApplicationCourseSerializer, ApplicationCommentSerializer, IndustryApplicationSerializer)
 from main.serializers import FacultySerializer
 
 class TypeClass(ListAPIView):
@@ -221,6 +221,18 @@ class StudentArchivedApplications(APIView):
         return Response(ApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
 
 
+class StudentIndustryApplication(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    # Get Application details you (Student) have applied for
+    def get(self, request, pk = None, *args, **kwargs):
+        student = Student.objects.get(user=request.user)
+        if pk is not None:
+            application = IndustryApplication.objects.get(id=pk, student=student, is_withdrawn=False)
+            return Response(IndustryApplicationSerializer(application).data, status=status.HTTP_200_OK)
+        applications = IndustryApplication.objects.filter(student=student, is_withdrawn=False)
+        return Response(IndustryApplicationSerializer(applications, many=True).data, status=status.HTTP_200_OK)
+
 # View all the applications to the projects floated (Faculty)
 # Accept/ Reject applications for projects (Faculty)
 class FacultyApplicationsClass(APIView):
@@ -353,6 +365,8 @@ class DepartmentFacultyClass(APIView):
         department_office = DepartmentOffice.objects.get(user=request.user)
         faculty_list = Faculty.objects.filter(program_branch=department_office.program_branch)
         return Response(FacultySerializer(faculty_list, many=True).data, status=status.HTTP_200_OK)
+
+
 class CommentsForApplication(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -383,3 +397,73 @@ class CommentsForApplication(APIView):
         respone = {}
         respone['status'] = 'Can not comment on withdrawn applications. Please contact the concerned Faculty for the same.'
         return Response(respone, status=status.HTTP_200_OK)
+
+
+class CourseIndustryApplicationClass(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    # Get Application details you (Student) have applied for
+    def get(self, request, pk = None, *args, **kwargs):
+        faculty = Faculty.objects.get(user=request.user)
+        if((pk is not None) and (faculty is not None)):
+            course  = ApplicationCourse.objects.get(id=pk, faculty=faculty)
+            industry_applications = IndustryApplication.objects.filter(course=course, is_withdrawn=False)
+            return Response(IndustryApplicationSerializer(industry_applications, many=True).data, status=status.HTTP_200_OK)
+                
+        return Response({}, status=status.HTTP_200_OK)
+
+
+class DepartmentIndustryApplicationClass(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    # Get Application details you (Student) have applied for
+    def get(self, request, pk = None, *args, **kwargs):
+        department = DepartmentOffice.objects.get(user=request.user)
+        if((pk is not None) and (department is not None)):
+            course  = ApplicationCourse.objects.get(id=pk, program_branch=(department.program_branch))
+            industry_applications = IndustryApplication.objects.filter(course=course, is_withdrawn=False)
+            return Response(IndustryApplicationSerializer(industry_applications, many=True).data, status=status.HTTP_200_OK)
+                
+        return Response({}, status=status.HTTP_200_OK)
+
+
+class StudentIndustryApplicationClass(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    # Get Application details you (Student) have applied for
+    def get(self, request, pk = None, *args, **kwargs):
+        student = Student.objects.get(user=request.user)
+        if student is not None:
+            industry_applications = IndustryApplication.objects.filter(student=student)
+            return Response(IndustryApplicationSerializer(industry_applications, many=True).data, status=status.HTTP_200_OK)
+                
+        return Response({}, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+        student = Student.objects.get(user=request.user)
+        application_type = Type.objects.get(application_type=data['application_type'])
+        data.pop('application_type')
+        category = Categories.objects.get(category=data['category'])
+        data.pop('category')
+        course = ApplicationCourse.objects.get(course_code=data['course_code'])
+        data.pop('course_code')
+        application = IndustryApplication.objects.create(student=student, application_type=application_type, category=category, course=course, **data)
+        return Response(IndustryApplicationSerializer(application).data, status=status.HTTP_200_OK)
+    
+    # Delete an existing application
+    def delete(self, request, pk, *args, **kwargs):
+        data = {}
+        student = Student.objects.get(user=request.user)
+        application = IndustryApplication.objects.filter(id=pk, student=student)
+        if(application.get().is_accepted == False & application.get().is_withdrawn == False):
+            delete_application = application.delete()
+            if delete_application:
+                data["status"] = "Successfully deleted the application"
+            else:
+                data["status"] = "Failed to delete the application"
+        else:
+            data["status"] = "Can not delete accepted/withdrawn application"
+        return Response(data=data)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Type, Categories, Project, Application, ApplicationCourse, ApplicationComment
+from .models import Type, Categories, Project, Application, ApplicationCourse, ApplicationComment, IndustryApplication
 from main.serializers import UserSerializer, StudentSerializer, FacultySerializer
 
 
@@ -41,6 +41,16 @@ class ApplicationSerializer(serializers.ModelSerializer):
         model = Application
         fields = '__all__'
 
+
+class IndustryApplicationSerializer(serializers.ModelSerializer):
+    student = StudentSerializer(read_only=True)
+    application_type = TypeSerializer(read_only=True)
+    course = ApplicationCourseSerializer(read_only=True)
+    Category = CategoriesSerializer(read_only=True)
+
+    class Meta:
+        model = IndustryApplication
+        fields = '__all__'
 
 
 # class RecursiveField(serializers.Serializer):

@@ -45,7 +45,7 @@ export default function DepartmentCourseEdit({ course }) {
 
   useEffect(() => {
     instance
-      .get('/projects/department_courses/')
+      .get('/projects/department_faculties/')
       .then((res) => {
         setDeptFaculty(res.data);
       })
@@ -150,13 +150,6 @@ export default function DepartmentCourseEdit({ course }) {
                 />
               </Form.Group>
               <div className={styles.projectActions}>
-                <Button
-                  variant="primary"
-                  type="button"
-                  onClick={() => resetForm()}
-                >
-                  Clear
-                </Button>
                 <Button
                   className={styles.submitButton}
                   variant="primary"
