@@ -11,6 +11,7 @@ import ScrollToTop from './components/ScrollToTop';
 import ProjectsList from './pages/Student/ProjectsList';
 import ProjectsApplied from './pages/Student/ProjectsApplied';
 import ArchivedApplications from './pages/Student/ArchivedApplications';
+import IndustryProjects from './pages/Student/IndustryProjects';
 
 function App() {
   return (
@@ -27,6 +28,10 @@ function App() {
         <Route
           path="/student-archived-applications"
           component={ArchivedApplications}
+        />
+        <Route
+          path="/student-industry-applications"
+          component={IndustryProjects}
         />
         <Route default component={NotFound} />
       </Switch>

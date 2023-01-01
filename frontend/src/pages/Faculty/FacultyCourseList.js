@@ -42,9 +42,13 @@ const FacultyCourseList = () => {
                 columns={{ xs: 1, sm: 2, md: 3 }}
                 style={{ justifyContent: 'space-around' }}
               >
-                {courses.map((course) => {
-                  return <FacultyCourseDetails course={course} />;
-                })}
+                {courses.length === 0 ? (
+                  <p>You are not advisor of any course</p>
+                ) : (
+                  courses.map((course) => {
+                    return <FacultyCourseDetails course={course} />;
+                  })
+                )}
               </Grid>
             </Box>
           </Container>
