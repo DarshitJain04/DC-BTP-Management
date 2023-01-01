@@ -68,139 +68,141 @@ const StudentProfile = () => {
     }, []);
 
     return (
-        <div style={{ height: '100vh', width: '100%' }}>
-            {loading ? (
-                <Loading />
-            ) : (
-                <Container maxWidth="lg" style={{ display: 'flex', marginTop: '4rem', paddingLeft: '2rem', paddingRight: '2rem' }}>
-                    <Grid style={{ width: '100%', paddingTop: '3rem', margin: '0 auto' }} item lg={12} md={12} sm={12} xs={12}>
-                        <Form>
-                            <Form.Group className="mb-3" controlId="Application Type">
-                                <div className={styles.header}>
-                                    <PersonIcon />
-                                    <div className={styles.studentName}>Name</div>
-                                </div>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter Full Name"
-                                    className={styles.studentNameForm}
-                                    value={studentProfile.user.full_name}
-                                    disabled
-                                    readOnly
-                                />
-                                <div className={styles.header}>
-                                    <InfoIcon />
-                                    <div className={styles.studentRollNumber}>Roll Number</div>
-                                </div>
-                                <Form.Control
-                                    placeholder="Enter Roll Number"
-                                    className={styles.studentRollNumberForm}
-                                    value={studentProfile.roll_number}
-                                    disabled
-                                    type="text"
-                                    readOnly
-                                />
-                                <div className={styles.header}>
-                                    <EmailIcon />
-                                    <div className={styles.studentEmail}>Email</div>
-                                </div>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter Email ID"
-                                    className={styles.studentEmailForm}
-                                    value={studentProfile.user.email}
-                                    disabled
-                                    readOnly
-                                />
-                                <div className={styles.header}>
-                                    <BadgeIcon />
-                                    <div className={styles.studentDepartment}>Department</div>
-                                </div>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter Department"
-                                    className={styles.studentDepartmentForm}
-                                    value={studentProfile.program_branch.name}
-                                    disabled
-                                    readOnly
-                                />
-                                <div style={{ display: 'flex', width: '100%' }}>
-                                    <div style={{ width: '50%', marginRight: '1rem' }}>
-                                        <div className={styles.header}>
-                                            <SchoolIcon />
-                                            <div className={styles.studentYear}>Year</div>
-                                        </div>
-                                        <Form.Control
-                                            type="number"
-                                            placeholder="Enter Year"
-                                            className={styles.studentYearForm}
-                                            value={studentProfile.year}
-                                            disabled
-                                            readOnly
-                                        />
+        <>
+            <div style={{ height: '100vh', width: '100%' }}>
+                {loading ? (
+                    <Loading />
+                ) : (
+                    <Container maxWidth="lg" style={{ display: 'flex', marginTop: '4rem', paddingLeft: '2rem', paddingRight: '2rem' }}>
+                        <Grid style={{ width: '100%', paddingTop: '1rem', margin: '0 auto' }} item lg={12} md={12} sm={12} xs={12}>
+                            <Form>
+                                <Form.Group className="mb-3" controlId="Application Type">
+                                    <div className={styles.header}>
+                                        <PersonIcon />
+                                        <div className={styles.studentName}>Name</div>
                                     </div>
-                                    <div style={{ width: '50%', marginLeft: '1rem' }}>
-                                        <div className={styles.header}>
-                                            <EngineeringIcon />
-                                            <div className={styles.studentCGPA}>CGPA</div>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter Full Name"
+                                        className={styles.studentNameForm}
+                                        value={studentProfile.user.full_name}
+                                        disabled
+                                        readOnly
+                                    />
+                                    <div className={styles.header}>
+                                        <InfoIcon />
+                                        <div className={styles.studentRollNumber}>Roll Number</div>
+                                    </div>
+                                    <Form.Control
+                                        placeholder="Enter Roll Number"
+                                        className={styles.studentRollNumberForm}
+                                        value={studentProfile.roll_number}
+                                        disabled
+                                        type="text"
+                                        readOnly
+                                    />
+                                    <div className={styles.header}>
+                                        <EmailIcon />
+                                        <div className={styles.studentEmail}>Email</div>
+                                    </div>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter Email ID"
+                                        className={styles.studentEmailForm}
+                                        value={studentProfile.user.email}
+                                        disabled
+                                        readOnly
+                                    />
+                                    <div className={styles.header}>
+                                        <BadgeIcon />
+                                        <div className={styles.studentDepartment}>Department</div>
+                                    </div>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter Department"
+                                        className={styles.studentDepartmentForm}
+                                        value={studentProfile.program_branch.name}
+                                        disabled
+                                        readOnly
+                                    />
+                                    <div style={{ display: 'flex', width: '100%' }}>
+                                        <div style={{ width: '50%', marginRight: '1rem' }}>
+                                            <div className={styles.header}>
+                                                <SchoolIcon />
+                                                <div className={styles.studentYear}>Year</div>
+                                            </div>
+                                            <Form.Control
+                                                type="number"
+                                                placeholder="Enter Year"
+                                                className={styles.studentYearForm}
+                                                value={studentProfile.year}
+                                                disabled
+                                                readOnly
+                                            />
                                         </div>
-                                        <Form.Control
-                                            type="number"
-                                            placeholder="Enter CGPA"
-                                            className={styles.studentCGPAForm}
-                                            value={studentProfile.cgpa}
-                                            disabled
-                                            readOnly
-                                        /></div>
+                                        <div style={{ width: '50%', marginLeft: '1rem' }}>
+                                            <div className={styles.header}>
+                                                <EngineeringIcon />
+                                                <div className={styles.studentCGPA}>CGPA</div>
+                                            </div>
+                                            <Form.Control
+                                                type="number"
+                                                placeholder="Enter CGPA"
+                                                className={styles.studentCGPAForm}
+                                                value={studentProfile.cgpa}
+                                                disabled
+                                                readOnly
+                                            /></div>
+                                    </div>
+                                    <div className={styles.header}>
+                                        <SettingsIcon />
+                                        <div className={styles.studentSkills}>Skills (comma seperated)</div>
+                                    </div>
+                                    <Form.Control
+                                        as="textarea"
+                                        value={skills}
+                                        className={styles.studentSkillsForm}
+                                        rows={3}
+                                        onChange={(e) => setSkills(e.target.value)}
+                                    />
+                                    <div className={styles.header}>
+                                        <MenuBookIcon />
+                                        <div className={styles.studentCourses}>Courses (comma seperated)</div>
+                                    </div>
+                                    <Form.Control
+                                        as="textarea"
+                                        value={courses}
+                                        className={styles.studentCoursesForm}
+                                        rows={3}
+                                        onChange={(e) => setCourses(e.target.value)}
+                                    />
+                                </Form.Group>
+                                <div className={styles.projectActions}>
+                                    <button
+                                        variant="primary"
+                                        type="button"
+                                        onClick={() => resetForm()}
+                                    >
+                                        Reset
+                                    </button>
+                                    <button
+                                        className={styles.submitButton}
+                                        variant="primary"
+                                        type="submit"
+                                        disabled={checkDisabled(studentProfile)}
+                                        onClick={() => handleSubmit()}
+                                    >
+                                        Submit
+                                    </button>
                                 </div>
-                                <div className={styles.header}>
-                                    <SettingsIcon />
-                                    <div className={styles.studentSkills}>Skills (comma seperated)</div>
-                                </div>
-                                <Form.Control
-                                    as="textarea"
-                                    value={skills}
-                                    className={styles.studentSkillsForm}
-                                    rows={3}
-                                    onChange={(e) => setSkills(e.target.value)}
-                                />
-                                <div className={styles.header}>
-                                    <MenuBookIcon />
-                                    <div className={styles.studentCourses}>Courses (comma seperated)</div>
-                                </div>
-                                <Form.Control
-                                    as="textarea"
-                                    value={courses}
-                                    className={styles.studentCoursesForm}
-                                    rows={3}
-                                    onChange={(e) => setCourses(e.target.value)}
-                                />
-                            </Form.Group>
-                            <div className={styles.projectActions}>
-                                <button
-                                    variant="primary"
-                                    type="button"
-                                    onClick={() => resetForm()}
-                                >
-                                    Reset
-                                </button>
-                                <button
-                                    className={styles.submitButton}
-                                    variant="primary"
-                                    type="submit"
-                                    disabled={checkDisabled(studentProfile)}
-                                    onClick={() => handleSubmit()}
-                                >
-                                    Submit
-                                </button>
-                            </div>
-                        </Form>
-                    </Grid>
-                </Container>
-            )
-            }
+                            </Form>
+                        </Grid>
+                    </Container>
+                )
+                }
+            </div >
             <Footer />
-        </div >
+        </>
     );
 };
 

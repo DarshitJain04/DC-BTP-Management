@@ -108,66 +108,68 @@ const ProjectsList = () => {
   }, []);
 
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      {loading ? (
-        <Loading />
-      ) : (
-        <Container maxWidth="lg">
-          <div className={styles.header}>
-            <div className={styles.searchbar}>
-              <SearchIcon className={styles.searchInput} />
-              <input
-                type="text"
-                placeholder="Search projects..."
-                onChange={(event) => handleQueryChange(event)}
-                value={searchQuery}
-                className={styles.searchInput}
-              />
-            </div>
-            <div className={styles.exportButton}>
-              <button onClick={() => exportData()}>
-                <CSVLink
-                  className={styles.csvLink}
-                  filename={'Projects'}
-                  data={CSVData}
-                >
-                  Export
-                </CSVLink>
-              </button>
-            </div>
-          </div>
-          <Grid
-            container
-            direction="row"
-            spacing={5}
-            style={{ width: '100%', margin: '12rem auto 100vh auto' }}
-          >
-            {filteredData.length === 0 ? (
-              <div
-                style={{
-                  height: '100vh',
-                  width: '100%',
-                  marginTop: '-10rem',
-                  textAlign: 'center',
-                  lineHeight: '100vh',
-                }}
-              >
-                NO PROJECTS AVAILABLE
+    <>
+      <div style={{ height: '100vh', width: '100%' }}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <Container maxWidth="lg">
+            <div className={styles.header}>
+              <div className={styles.searchbar}>
+                <SearchIcon className={styles.searchInput} />
+                <input
+                  type="text"
+                  placeholder="Search projects..."
+                  onChange={(event) => handleQueryChange(event)}
+                  value={searchQuery}
+                  className={styles.searchInput}
+                />
               </div>
-            ) : (
-              filteredData.map((project) => {
-                return (
-                  <Grid key={project.id} item xs={12} sm={12} md={6} lg={6}>
-                    <ProjectListCard data={project} />
-                  </Grid>
-                );
-              })
-            )}
-          </Grid>
-        </Container>
-      )}
+              <div className={styles.exportButton}>
+                <button onClick={() => exportData()}>
+                  <CSVLink
+                    className={styles.csvLink}
+                    filename={'Projects'}
+                    data={CSVData}
+                  >
+                    Export
+                  </CSVLink>
+                </button>
+              </div>
+            </div>
+            <Grid
+              container
+              direction="row"
+              spacing={5}
+              style={{ width: '100%', margin: '12rem auto 100vh auto' }}
+            >
+              {filteredData.length === 0 ? (
+                <div
+                  style={{
+                    height: '100vh',
+                    width: '100%',
+                    marginTop: '-10rem',
+                    textAlign: 'center',
+                    lineHeight: '100vh',
+                  }}
+                >
+                  NO PROJECTS AVAILABLE
+                </div>
+              ) : (
+                filteredData.map((project) => {
+                  return (
+                    <Grid key={project.id} item xs={12} sm={12} md={6} lg={6}>
+                      <ProjectListCard data={project} />
+                    </Grid>
+                  );
+                })
+              )}
+            </Grid>
+          </Container>
+        )}
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

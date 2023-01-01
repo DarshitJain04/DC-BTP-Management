@@ -24,33 +24,47 @@ const FacultyCourseList = () => {
   }, []);
 
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <Container className={styles.courseContainer}>
-            <Box sx={{ flexGrow: 1 }}>
+    <>
+      <div style={{ height: '100vh', width: '100%' }}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <Container maxWidth="lg">
               <Grid
                 container
-                spacing={{ xs: 2, md: 3 }}
-                columns={{ xs: 1, sm: 2, md: 3 }}
-                style={{ justifyContent: 'space-around' }}
+                direction="row"
+                spacing={5}
+                style={{ width: '100%', margin: '8rem auto 0 auto' }}
               >
                 {courses.length === 0 ? (
-                  <p>You are not advisor of any course</p>
+                  <div
+                    style={{
+                      height: '100vh',
+                      width: '100%',
+                      marginTop: '-10rem',
+                      textAlign: 'center',
+                      lineHeight: '100vh',
+                    }}
+                  >
+                    NOT A FACULTY ADVISOR
+                  </div>
                 ) : (
                   courses.map((course) => {
-                    return <FacultyCourseDetails course={course} />;
+                    return (
+                      <Grid key={course.id} item xs={12} sm={12} md={6} lg={6}>
+                        <FacultyCourseDetails course={course} />;
+                      </Grid>
+                    );
                   })
                 )}
               </Grid>
-            </Box>
-          </Container>
-        </>
-      )}
+            </Container>
+          </>
+        )}
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

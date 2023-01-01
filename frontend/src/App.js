@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import NotFound from './pages/404';
-import FacultyDashboard from './pages/FacultyDashboard';
 import FacultyProjectsList from './pages/Faculty/FacultyProjectsList';
 import FacultyCourseList from './pages/Faculty/FacultyCourseList';
 import DepartmentCourseList from './pages/Department/DepartmentCourseList';
@@ -13,6 +12,8 @@ import ProjectsApplied from './pages/Student/ProjectsApplied';
 import ArchivedApplications from './pages/Student/ArchivedApplications';
 import IndustryProjects from './pages/Student/IndustryProjects';
 import Login from './pages/Login';
+import Grading from './pages/Grading';
+import Categories from './pages/Categories';
 import Navbar from './components/Navbar/Navbar';
 import StudentProtected from './components/RestrictedRoutes/StudentProtected';
 import FacultyProtected from './components/RestrictedRoutes/FacultyProtected';
@@ -25,10 +26,8 @@ const App = () => {
       <ScrollToTop />
       <Switch>
         <Route path="/" exact component={Login} />
-        <FacultyProtected
-          path="/faculty-dashboard"
-          component={FacultyDashboard}
-        />
+        <Route path="/grading" component={Grading} />
+        <Route path="/categories" component={Categories} />
         <FacultyProtected path="/faculty-profile" component={FacultyProfile} />
         <FacultyProtected
           path="/faculty-projects"

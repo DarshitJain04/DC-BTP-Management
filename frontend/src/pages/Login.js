@@ -78,7 +78,7 @@ const Login = () => {
         background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${backgroundImage}) no-repeat fixed`,
         backgroundSize: 'cover',
         backgroundPosition: '50%',
-        paddingTop: '6.8rem',
+        paddingTop: '7rem',
         justifyContent: 'center',
       }}
     >

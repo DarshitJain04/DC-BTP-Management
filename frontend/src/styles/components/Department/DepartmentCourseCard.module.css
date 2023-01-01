@@ -1,25 +1,45 @@
+.project {
+  padding: 1.25rem 1.5rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.courseCode {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #383838;
+}
+
+.courseAdvisor {
+  font-size: 1rem;
+  font-weight: 550;
+  color: #848484;
+}
+
+.courseActions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .footer {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-top: 2rem;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 2rem;
 }
-  
-.projectActions {
-    display: flex;
-    flex-direction: row-reverse;
-    margin: 0;
-    align-items: center;
-}
-  
-.projectActions > button {
-    color: #848484;
-}
-  
+
 .applications {
-    font-size: 1rem;
-    font-weight: 550;
+  font-size: 1rem;
+  font-weight: 550;
 }
-  

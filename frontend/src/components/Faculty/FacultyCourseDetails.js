@@ -12,6 +12,7 @@ import { Container } from '@material-ui/core';
 import styles from '../../styles/components/Faculty/FacultyCourseDetails.module.css';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
+import Paper from '@material-ui/core/Paper';
 import FacultyProjectDescription from './FacultyProjectDescription';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -254,18 +255,32 @@ export default function FacultyCourseDetails({ course }) {
   };
 
   return (
-    <div>
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        md={6}
-        lg={4}
-        className={styles.courseCard}
-        onClick={() => handleClickOpen()}
-      >
-        {course.course_code}
-      </Grid>
+    <>
+      <Container maxWidth="lg">
+        <Grid container spacing={2} className={styles.listHeader}>
+          <Grid
+            container
+            direction="row"
+            spacing={5}
+            style={{ width: '100%', margin: '0 auto' }}
+          >
+            <Paper elevation={3} className={styles.course}>
+              <div className={styles.courseCode}>{course.course_code}</div>
+              <div className={styles.courseName}>{course.course_name}</div>
+              <div className={styles.footer}>
+                <div className={styles.applications}>
+                  <button
+                    className={styles.applicants}
+                    onClick={() => handleClickOpen()}
+                  >
+                    Applicants: {applications.length}
+                  </button>
+                </div>
+              </div>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Container>
       <Dialog
         fullScreen
         open={open}
@@ -334,6 +349,6 @@ export default function FacultyCourseDetails({ course }) {
           </Grid>
         </Container>
       </Dialog>
-    </div>
+    </>
   );
 }

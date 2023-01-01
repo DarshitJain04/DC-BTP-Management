@@ -22,13 +22,13 @@ services:
       - postgresql
     networks:
       - app-network
-    command: gunicorn -b :8000 dc_btp_management.wsgi
+    command: gunicorn -b :8000 dc_btp_management_portal.wsgi
 
   frontend:
     build:
       context: ../frontend
       dockerfile: Dockerfile.prod
-    image: "cdc-web-frontend-1:latest"
+    image: "dc-btp-web-frontend-1:latest"
     container_name: frontend
     restart: unless-stopped
     env_file: .env
@@ -46,7 +46,7 @@ services:
 
   postgresql:
     image: "bitnami/postgresql:latest"
-    container_name: postgresql
+    container_name: dc-btp-web-postgresql
     restart: unless-stopped
     env_file: .env
     environment:

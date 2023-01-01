@@ -99,7 +99,6 @@ export default function FacultyApplicationCard({ application }) {
               className={styles.email}
               href={`mailto:${application.student.user.email}`}
             >
-
               <EmailIcon />
             </IconButton>
           </Tooltip>
