@@ -4,10 +4,10 @@ import Loading from '../../components/Loading';
 import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core';
 import FacultyProjectListCard from '../../components/Faculty/FacultyProjectListCard';
-import Navbar from '../../components/Navbar/Navbar';
 import SearchIcon from '@mui/icons-material/Search';
 import styles from '../../styles/pages/Faculty/FacultyProjectsList.module.css';
 import FacultyProjectCreate from '../../components/Faculty/FacultyProjectCreate.js';
+import Footer from '../../components/Footer/Footer';
 
 const FacultyProjectsList = () => {
   const [loading, setLoading] = useState(true);
@@ -65,12 +65,11 @@ const FacultyProjectsList = () => {
   }, []);
 
   return (
-    <div style={{ height: 'auto', width: '100%' }}>
+    <div style={{ height: '100vh', width: '100%' }}>
       {loading ? (
         <Loading />
       ) : (
         <>
-          <Navbar />
           <Container maxWidth="lg">
             <Grid container spacing={2} className={styles.listHeader}>
               <Grid item xs={10}>
@@ -96,7 +95,17 @@ const FacultyProjectsList = () => {
               style={{ width: '100%', margin: '0 auto 0 auto' }}
             >
               {filteredData.length === 0 ? (
-                <h1>No projects available</h1>
+                <div
+                  style={{
+                    height: '100vh',
+                    width: '100%',
+                    marginTop: '-10rem',
+                    textAlign: 'center',
+                    lineHeight: '100vh',
+                  }}
+                >
+                  NO PROJECTS AVAILABLE
+                </div>
               ) : (
                 filteredData.map((project) => {
                   return (
@@ -110,6 +119,7 @@ const FacultyProjectsList = () => {
           </Container>
         </>
       )}
+      <Footer />
     </div>
   );
 };

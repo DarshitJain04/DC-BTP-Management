@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { CSVLink } from 'react-csv';
 import ProjectListCard from '../../components/Students/ProjectListCard';
 import styles from '../../styles/pages/Students/ProjectsList.module.css';
+import Footer from '../../components/Footer/Footer';
 
 const ProjectsList = () => {
   const [loading, setLoading] = useState(true);
@@ -24,7 +25,16 @@ const ProjectsList = () => {
   const exportData = () => {
     if (filteredData.length !== 0) {
       const data = [];
-      const headers = ['title', 'faculty', 'department', 'category', 'description', 'deliverables', 'skills', 'courses'];
+      const headers = [
+        'title',
+        'faculty',
+        'department',
+        'category',
+        'description',
+        'deliverables',
+        'skills',
+        'courses',
+      ];
       data.push(headers);
       filteredData.forEach((project) => {
         const exportData = [];
@@ -51,34 +61,34 @@ const ProjectsList = () => {
     } else {
       setFilteredData(
         projects.filter((project) => {
-          return (
-            Object.keys(project).some((key) => {
-              if (key === 'category') {
-                var present = false;
-                project[key].forEach((category) => {
-                  present = present || category.category.toLowerCase().includes(value.toLowerCase());
-                })
-                return present;
-              } else if (key === 'faculty') {
-                const branch = project[key]['program_branch']['name']
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase());
+          return Object.keys(project).some((key) => {
+            if (key === 'category') {
+              var present = false;
+              project[key].forEach((category) => {
+                present =
+                  present ||
+                  category.category.toLowerCase().includes(value.toLowerCase());
+              });
+              return present;
+            } else if (key === 'faculty') {
+              const branch = project[key]['program_branch']['name']
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase());
 
-                const full_name = project[key]['user']['full_name']
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase());
+              const full_name = project[key]['user']['full_name']
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase());
 
-                return branch || full_name;
-              } else {
-                return project[key]
-                  .toString()
-                  .toLowerCase()
-                  .includes(value.toLowerCase());
-              }
-            })
-          );
+              return branch || full_name;
+            } else {
+              return project[key]
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase());
+            }
+          });
         })
       );
     }
@@ -98,45 +108,65 @@ const ProjectsList = () => {
   }, []);
 
   return (
-    <div style={{ height: 'auto', width: '100%' }}>
+    <div style={{ height: '100vh', width: '100%' }}>
       {loading ? (
         <Loading />
       ) : (
-        <>
-          <Container maxWidth="lg">
-            <div className={styles.header}>
-              <div className={styles.searchbar}>
-                <SearchIcon className={styles.searchInput} />
-                <input
-                  type="text"
-                  placeholder="Search projects..."
-                  onChange={(event) => handleQueryChange(event)}
-                  value={searchQuery}
-                  className={styles.searchInput}
-                />
-              </div>
-              <div className={styles.exportButton}>
-                <button onClick={() => exportData()}><CSVLink className={styles.csvLink} filename={'Projects'} data={CSVData}>Export</CSVLink>
-                </button>
-              </div>
+        <Container maxWidth="lg">
+          <div className={styles.header}>
+            <div className={styles.searchbar}>
+              <SearchIcon className={styles.searchInput} />
+              <input
+                type="text"
+                placeholder="Search projects..."
+                onChange={(event) => handleQueryChange(event)}
+                value={searchQuery}
+                className={styles.searchInput}
+              />
             </div>
-            <Grid
-              container
-              direction="row"
-              spacing={5}
-              style={{ width: '100%', margin: '8rem auto auto auto' }}
-            >
-              {filteredData.length === 0 ? <h1>No projects available</h1> : filteredData.map((project) => {
+            <div className={styles.exportButton}>
+              <button onClick={() => exportData()}>
+                <CSVLink
+                  className={styles.csvLink}
+                  filename={'Projects'}
+                  data={CSVData}
+                >
+                  Export
+                </CSVLink>
+              </button>
+            </div>
+          </div>
+          <Grid
+            container
+            direction="row"
+            spacing={5}
+            style={{ width: '100%', margin: '12rem auto 100vh auto' }}
+          >
+            {filteredData.length === 0 ? (
+              <div
+                style={{
+                  height: '100vh',
+                  width: '100%',
+                  marginTop: '-10rem',
+                  textAlign: 'center',
+                  lineHeight: '100vh',
+                }}
+              >
+                NO PROJECTS AVAILABLE
+              </div>
+            ) : (
+              filteredData.map((project) => {
                 return (
                   <Grid key={project.id} item xs={12} sm={12} md={6} lg={6}>
                     <ProjectListCard data={project} />
                   </Grid>
                 );
-              })}
-            </Grid>
-          </Container>
-        </>
+              })
+            )}
+          </Grid>
+        </Container>
       )}
+      <Footer />
     </div>
   );
 };

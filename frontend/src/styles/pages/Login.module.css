@@ -1,7 +1,33 @@
 .heading {
   text-align: center;
   font-size: 1.4rem;
-  margin-top: 0;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.username,
+.password {
+  background-color: #fff;
+  position: relative;
+  margin: 3% auto;
+  border: 2px solid #b4b4b4;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 0.2rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.usernameInput,
+.passwordInput,
+.personIcon,
+.lockIcon {
+  width: 100%;
+  margin: 0 1rem 0 0;
+  font-size: 1rem;
+  color: #848484;
+  outline: none;
+  border: none;
 }
 
 .form {
@@ -80,16 +106,16 @@
 }
 
 .loginButton {
-  margin: 1rem 1rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 100px;
-  outline: none;
-  padding: 0.5rem 1.5rem;
-  border: 2px solid #012970;
+  border-radius: 0.3rem;
+  border: 2px solid #3758f9;
+  background-color: #3758f9;
   color: #fff;
-  background-color: #012970;
+  font-weight: 550;
+  padding: 0.5rem 1.5rem;
+  margin: 1rem 1rem 0;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .loginButton:disabled {
@@ -97,62 +123,21 @@
   cursor: not-allowed;
 }
 
-.registerButton {
-  margin: 1rem 1rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 100px;
-  outline: none;
+.clearButton {
+  border-radius: 0.3rem;
+  border: 2px solid #3758f9;
+  background-color: transparent;
+  color: #3758f9;
+  font-weight: 550;
   padding: 0.5rem 1.5rem;
-  border: 2px solid #012970;
-  color: #012970;
+  margin: 1rem 1rem 0;
+  font-size: 1rem;
   cursor: pointer;
-  background-color: #fff;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.registerButton:hover {
-  background-color: #012970;
+.clearButton:hover {
+  border-color: transparent;
+  background-color: #3758f9;
   color: #fff;
-}
-
-.error {
-  position: absolute;
-  font-size: medium;
-  color: orangered;
-}
-
-.buttons > hr {
-  width: 80%;
-  margin-top: 1.5rem;
-  border-top: 0.5px solid#b4b4b4;
-}
-
-.buttons > p {
-  color: #7c7c7c;
-  width: 3rem;
-  margin: -1.2rem auto 2rem;
-  background: #fff;
-}
-
-.googleSignIn {
-  margin: 1rem 1rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 100px;
-  outline: none;
-  padding: 0.5rem 1.5rem;
-  border: 2px solid #4285f4;
-  color: #4285f4;
-  cursor: pointer;
-  background-color: #fff;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-}
-
-.googleButton {
-  margin: 0 0.6rem 0 0;
-  width: 1rem;
-  height: 1rem;
 }

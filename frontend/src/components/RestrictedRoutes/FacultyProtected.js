@@ -1,21 +1,21 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-const StudentProtected = ({ component: Component, ...rest }) => {
+const FacultyProtected = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) => {
         return localStorage.getItem('btp_dc_portal_loggedIn') === 'true' &&
-          localStorage.getItem('btp_dc_portal_role') === 'student' ? (
+          localStorage.getItem('btp_dc_portal_role') === 'faculty' ? (
           <Component {...props} />
         ) : (
           <Redirect
             to={{
               pathname:
                 localStorage.getItem('btp_dc_portal_loggedIn') === 'true'
-                  ? localStorage.getItem('btp_dc_portal_role') === 'faculty'
-                    ? '/faculty-projects'
+                  ? localStorage.getItem('btp_dc_portal_role') === 'student'
+                    ? '/student-projects'
                     : '/department-courses'
                   : '/',
               state: {
@@ -29,4 +29,4 @@ const StudentProtected = ({ component: Component, ...rest }) => {
   );
 };
 
-export default StudentProtected;
+export default FacultyProtected;

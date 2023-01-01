@@ -1,11 +1,5 @@
 .hero_container {
-  background: linear-gradient(
-      to top,
-      #070f29da,
-      rgba(25, 34, 61, 0.623) 20%,
-      rgba(84, 103, 161, 0.39),
-      rgba(255, 255, 255, 0)
-    ),
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
     url('../../assets/loginback.jpg') center center/cover no-repeat;
   background-size: auto;
   height: 100vh;

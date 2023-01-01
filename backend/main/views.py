@@ -89,37 +89,13 @@ class StudentProfile(APIView):
         data = {}
         for key in request.data.keys():
             data[key] = request.data.get(key)
-        user = request.user
-        data.pop('user')
-        data.pop('roll_number')
-        data['roll_number'] = user.username
-        skills = data.pop('skills', [])
-        courses = data.pop('courses', [])
-        data_from_roll_number = self.get_data_from_roll_number(user.username)
-        data["year"] = data_from_roll_number["batch"]
-        if data_from_roll_number["roll_number"] == -1:
-            data["roll_number"] = "Unknown"
-        getter = data_from_roll_number["program"] + '/' + data_from_roll_number["branch"] # BTech EE: B/EE
-        program_branch = ProgramAndBranch.objects.filter(getter=getter)
-        if not program_branch.exists():
-            program_branch = ProgramAndBranch.objects.create(getter=getter, name="Unknown Branch" + user.username)
-        else:
-            program_branch = program_branch.first()
-        try:
-            _ = Student.objects.filter(user=user).update(**data)
-            profile = Student.objects.get(user=user)
-            profile.skills.clear()
-            profile.courses.clear()
-            for skill in skills:
-                    skill, _ = Skills.objects.get_or_create(skill=skill)
-                    profile.skills.add(skill)
-            for course in courses:
-                course, _ = Courses.objects.get_or_create(course=course)
-                profile.courses.add(course)
-            profile.save()
-        except IntegrityError:
-            return Response({'Error': 'Invalid/Empty fields in the form'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response(StudentSerializer(profile).data, status=status.HTTP_200_OK)
+        student = Student.objects.get(user=request.user)
+        skills = data.pop('skills')
+        student.skills = skills
+        courses = data.pop('courses')
+        student.courses = courses
+        student.save()
+        return Response(StudentSerializer(student).data, status=status.HTTP_200_OK)
 
 
     def get(self, request, *args, **kwargs):
@@ -132,6 +108,16 @@ class FacultyProfile(APIView):
 
     def get(self, request, *args, **kwargs):
         faculty = get_object_or_404(Faculty, user=request.user)
+        return Response(FacultySerializer(faculty).data, status=status.HTTP_200_OK)
+
+    def put(self, request, *args, **kwargs):
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+        faculty = Faculty.objects.get(user=request.user)
+        description = data.pop('description')
+        faculty.description = description
+        faculty.save()
         return Response(FacultySerializer(faculty).data, status=status.HTTP_200_OK)
 
 
