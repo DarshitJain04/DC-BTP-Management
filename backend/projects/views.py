@@ -439,6 +439,20 @@ class StudentIndustryApplicationClass(APIView):
                 
         return Response({}, status=status.HTTP_200_OK)
 
+    def post(self, request, *args, **kwargs):
+        data = {}
+        for key in request.data.keys():
+            data[key] = request.data.get(key)
+        student = Student.objects.get(user=request.user)
+        application_type = Type.objects.get(application_type=data['application_type'])
+        data.pop('application_type')
+        category = Categories.objects.get(category=data['category'])
+        data.pop('category')
+        course = ApplicationCourse.objects.get(course_code=data['course_code'])
+        data.pop('course_code')
+        application = IndustryApplication.objects.create(student=student, application_type=application_type, category=category, course=course, **data)
+        return Response(IndustryApplicationSerializer(application).data, status=status.HTTP_200_OK)
+    
     # Delete an existing application
     def delete(self, request, pk, *args, **kwargs):
         data = {}
