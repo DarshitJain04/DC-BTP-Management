@@ -65,62 +65,68 @@ const FacultyProjectsList = () => {
   }, []);
 
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <Container maxWidth="lg">
-            <Grid container spacing={2} className={styles.listHeader}>
-              <Grid item xs={10}>
-                <div className={styles.searchbar}>
-                  <SearchIcon className={styles.searchInput} />
-                  <input
-                    type="text"
-                    placeholder="Search projects..."
-                    onChange={(event) => handleQueryChange(event)}
-                    value={searchQuery}
-                    className={styles.searchInput}
-                  />
-                </div>
-              </Grid>
-              <Grid style={{ width: '100%', margin: '1rem 0 0 0' }} item xs={2}>
-                <FacultyProjectCreate />
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              direction="row"
-              spacing={5}
-              style={{ width: '100%', margin: '0 auto 0 auto' }}
-            >
-              {filteredData.length === 0 ? (
-                <div
-                  style={{
-                    height: '100vh',
-                    width: '100%',
-                    marginTop: '-10rem',
-                    textAlign: 'center',
-                    lineHeight: '100vh',
-                  }}
+    <>
+      <div style={{ height: '100vh', width: '100%' }}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <Container maxWidth="lg">
+              <Grid container spacing={2} className={styles.listHeader}>
+                <Grid item xs={10}>
+                  <div className={styles.searchbar}>
+                    <SearchIcon className={styles.searchInput} />
+                    <input
+                      type="text"
+                      placeholder="Search projects..."
+                      onChange={(event) => handleQueryChange(event)}
+                      value={searchQuery}
+                      className={styles.searchInput}
+                    />
+                  </div>
+                </Grid>
+                <Grid
+                  style={{ width: '100%', margin: '1rem 0 0 0' }}
+                  item
+                  xs={2}
                 >
-                  NO PROJECTS AVAILABLE
-                </div>
-              ) : (
-                filteredData.map((project) => {
-                  return (
-                    <Grid key={project.id} item xs={12} sm={12} md={6} lg={6}>
-                      <FacultyProjectListCard data={project} />
-                    </Grid>
-                  );
-                })
-              )}
-            </Grid>
-          </Container>
-        </>
-      )}
+                  <FacultyProjectCreate />
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                direction="row"
+                spacing={5}
+                style={{ width: '100%', margin: '0 auto 0 auto' }}
+              >
+                {filteredData.length === 0 ? (
+                  <div
+                    style={{
+                      height: '100vh',
+                      width: '100%',
+                      marginTop: '-10rem',
+                      textAlign: 'center',
+                      lineHeight: '100vh',
+                    }}
+                  >
+                    NO PROJECTS AVAILABLE
+                  </div>
+                ) : (
+                  filteredData.map((project) => {
+                    return (
+                      <Grid key={project.id} item xs={12} sm={12} md={6} lg={6}>
+                        <FacultyProjectListCard data={project} />
+                      </Grid>
+                    );
+                  })
+                )}
+              </Grid>
+            </Container>
+          </>
+        )}
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

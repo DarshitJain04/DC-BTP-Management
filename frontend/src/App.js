@@ -11,6 +11,8 @@ import ProjectsList from './pages/Student/ProjectsList';
 import ProjectsApplied from './pages/Student/ProjectsApplied';
 import ArchivedApplications from './pages/Student/ArchivedApplications';
 import Login from './pages/Login';
+import Grading from './pages/Grading';
+import Categories from './pages/Categories';
 import Navbar from './components/Navbar/Navbar';
 import StudentProtected from './components/RestrictedRoutes/StudentProtected';
 import FacultyProtected from './components/RestrictedRoutes/FacultyProtected';
@@ -23,6 +25,8 @@ const App = () => {
       <ScrollToTop />
       <Switch>
         <Route path="/" exact component={Login} />
+        <Route path="/grading" component={Grading} />
+        <Route path="/categories" component={Categories} />
         <FacultyProtected path="/faculty-profile" component={FacultyProfile} />
         <FacultyProtected
           path="/faculty-projects"

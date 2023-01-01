@@ -70,54 +70,62 @@ const DepartmentCourseList = () => {
   }, []);
 
   return (
-    <div style={{ minHeight: '80vh', height: 'auto', width: '100%' }}>
-      {loading ? (
-        <Loading />
-      ) : (
-        <Container maxWidth="lg">
-          <Grid container spacing={2} className={styles.listHeader}>
-            <Grid item xs={10}>
-              <div className={styles.searchbar}>
-                <SearchIcon className={styles.searchInput} />
-                <input
-                  type="text"
-                  placeholder="Search courses..."
-                  onChange={(event) => handleQueryChange(event)}
-                  value={searchQuery}
-                  className={styles.searchInput}
-                />
-              </div>
-            </Grid>
-            <Grid style={{ width: '100%', margin: '1rem 0 0 0' }} item xs={2}>
-              <DepartmentCourseCreate />
-            </Grid>
-          </Grid>
-          <Container className={styles.courseContainer}>
-            <Box sx={{ flexGrow: 1 }}>
-              <Grid
-                container
-                spacing={{ xs: 2, md: 3 }}
-                columns={{ xs: 1, sm: 2, md: 3 }}
-                style={{ justifyContent: 'space-around' }}
-              >
-                {/* {courses.map((course) => {
-                  return <DepartmentCourseCard course={course} />;
-                })} */}
-
-                {filteredData.length === 0 ? (
-                  <h1>No projects available</h1>
-                ) : (
-                  filteredData.map((course) => {
-                    return <DepartmentCourseCard course={course} />;
-                  })
-                )}
+    <>
+      <div style={{ height: '100vh', width: '100%' }}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <Container maxWidth="lg">
+            <Grid container spacing={2} className={styles.listHeader}>
+              <Grid item xs={10}>
+                <div className={styles.searchbar}>
+                  <SearchIcon className={styles.searchInput} />
+                  <input
+                    type="text"
+                    placeholder="Search courses..."
+                    onChange={(event) => handleQueryChange(event)}
+                    value={searchQuery}
+                    className={styles.searchInput}
+                  />
+                </div>
               </Grid>
-            </Box>
+              <Grid style={{ width: '100%', margin: '1rem 0 0 0' }} item xs={2}>
+                <DepartmentCourseCreate />
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              direction="row"
+              spacing={5}
+              style={{ width: '100%', margin: '0 auto' }}
+            >
+              {filteredData.length === 0 ? (
+                <div
+                  style={{
+                    height: '100vh',
+                    width: '100%',
+                    marginTop: '-10rem',
+                    textAlign: 'center',
+                    lineHeight: '100vh',
+                  }}
+                >
+                  NO COURSES AVAILABLE
+                </div>
+              ) : (
+                filteredData.map((course) => {
+                  return (
+                    <Grid key={course.id} item xs={12} sm={12} md={6} lg={6}>
+                      <DepartmentCourseCard course={course} />
+                    </Grid>
+                  );
+                })
+              )}
+            </Grid>
           </Container>
-        </Container>
-      )}
+        )}
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

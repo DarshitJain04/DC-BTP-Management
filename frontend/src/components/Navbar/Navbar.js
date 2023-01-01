@@ -104,10 +104,10 @@ const Navbar = () => {
                   </label>
                   <ul>
                     <li onClick={() => setIsChecked(!isChecked)}>
-                      <Link to="/">Grading</Link>
+                      <Link to="/grading">Grading</Link>
                     </li>
                     <li onClick={() => setIsChecked(!isChecked)}>
-                      <Link to="/">Category Details</Link>
+                      <Link to="/categories">Category Details</Link>
                     </li>
                   </ul>
                 </li>

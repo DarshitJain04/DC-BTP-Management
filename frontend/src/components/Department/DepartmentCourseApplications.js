@@ -128,10 +128,10 @@ export default function DepatmentCourseApplications({ course }) {
             project: a.project,
             report_link: a.report_link,
           });
-          setLoading(false);
           console.log(datarow);
         });
       })
+      .then(() => setLoading(false))
       .catch((error) => console.log(error));
   }, []);
 
