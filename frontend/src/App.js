@@ -52,7 +52,7 @@ const App = () => {
           path="/student-archived-applications"
           component={ArchivedApplications}
         />
-        <Route
+        <StudentProtected
           path="/student-industry-applications"
           component={IndustryProjects}
         />

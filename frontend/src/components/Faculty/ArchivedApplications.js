@@ -34,58 +34,103 @@ export default function ArchivedApplications({ applications }) {
             setFilteredData(
                 applications.filter((application) => {
                     return Object.keys(application).some((key) => {
-                        if (key === 'category') {
-                            return application[key]['category']
-                                .toString()
-                                .toLowerCase()
-                                .includes(value.toLowerCase());
-                        } else if (key === 'application_type') {
+                        if (key === 'application_type') {
                             return application[key]['application_type']
-                                .toString()
-                                .toLowerCase()
-                                .includes(value.toLowerCase());
-                        } else if (key === 'course_code') {
-                            return application[key]['course_code']
-                                .toString()
-                                .toLowerCase()
-                                .includes(value.toLowerCase());
-                        } else if (key === 'student') {
-                            const branch = application[key]['program_branch']['name']
-                                .toString()
-                                .toLowerCase()
-                                .includes(value.toLowerCase());
-
-                            const abbreviation = application[key]['program_branch'][
-                                'abbreviation'
-                            ]
-                                .toString()
-                                .toLowerCase()
-                                .includes(value.toLowerCase());
-
-                            const roll_number = application[key]['roll_number']
-                                .toString()
-                                .toLowerCase()
-                                .includes(value.toLowerCase());
-
-                            const full_name = application[key]['user']['full_name']
-                                .toString()
-                                .toLowerCase()
-                                .includes(value.toLowerCase());
-
-                            const email = application[key]['user']['email']
-                                .toString()
-                                .toLowerCase()
-                                .includes(value.toLowerCase());
-
-                            return (
-                                branch || abbreviation || roll_number || full_name || email
-                            );
-                        } else {
+                              .toString()
+                              .toLowerCase()
+                              .includes(value.toLowerCase());
+                          } else if (key === 'course_code') {
+                            const course_code = application[key]['course_code']
+                              .toString()
+                              .toLowerCase()
+                              .includes(value.toLowerCase());
+              
+                            const course_name = application[key]['course_name']
+                              .toString()
+                              .toLowerCase()
+                              .includes(value.toLowerCase());
+              
+                            return course_code || course_name;
+                          } else if (key === 'notes' || key === 'resume_link') {
                             return application[key]
-                                .toString()
-                                .toLowerCase()
-                                .includes(value.toLowerCase());
-                        }
+                              .toString()
+                              .toLowerCase()
+                              .includes(value.toLowerCase());
+                          } else if (key === 'is_accepted') {
+                            let target = '';
+                            if (application[key].toString().toLowerCase() === 'true') {
+                              target = 'accepted';
+                            } else {
+                              target = 'pending';
+                            }
+                            return target.includes(value.toLowerCase());
+                          } else if (key === 'project') {
+                            return Object.keys(application[key]).some((projectKey) => {
+                              if (projectKey === 'category') {
+                                var present = false;
+                                application[key][projectKey].forEach((category) => {
+                                  present =
+                                    present ||
+                                    category.category
+                                      .toLowerCase()
+                                      .includes(value.toLowerCase());
+                                });
+                                return present;
+                              } else if (projectKey === 'faculty') {
+                                const branch = application[key][projectKey]['program_branch'][
+                                  'name'
+                                ]
+                                  .toString()
+                                  .toLowerCase()
+                                  .includes(value.toLowerCase());
+              
+                                const full_name = application[key][projectKey]['user'][
+                                  'full_name'
+                                ]
+                                  .toString()
+                                  .toLowerCase()
+                                  .includes(value.toLowerCase());
+              
+                                return branch || full_name;
+                              } else {
+                                return application[key][projectKey]
+                                  .toString()
+                                  .toLowerCase()
+                                  .includes(value.toLowerCase());
+                              }
+                            });
+                          } else if (key === 'student') {
+                            const branch = application[key]['program_branch']['name']
+                              .toString()
+                              .toLowerCase()
+                              .includes(value.toLowerCase());
+              
+                            const abbreviation = application[key]['program_branch'][
+                              'abbreviation'
+                            ]
+                              .toString()
+                              .toLowerCase()
+                              .includes(value.toLowerCase());
+              
+                            const roll_number = application[key]['roll_number']
+                              .toString()
+                              .toLowerCase()
+                              .includes(value.toLowerCase());
+              
+                            const full_name = application[key]['user']['full_name']
+                              .toString()
+                              .toLowerCase()
+                              .includes(value.toLowerCase());
+              
+                            const email = application[key]['user']['email']
+                              .toString()
+                              .toLowerCase()
+                              .includes(value.toLowerCase());
+              
+                            return (
+                              branch || abbreviation || roll_number || full_name || email
+                            );
+                          }
                     });
                 })
             );

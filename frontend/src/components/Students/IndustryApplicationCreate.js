@@ -22,9 +22,9 @@ export default function IndustryApplicationCreate() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [deliverables, setDeliverables] = useState('');
-  const [application_type, setApplicationType] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [course, setCourse] = useState(null);
+  const [application_type, setApplicationType] = useState('');
+  const [category, setCategory] = useState('');
+  const [course, setCourse] = useState('');
   const [organization_name, setOrganizationName] = useState('');
   const [mentors_name, setMentorsName] = useState('');
   const [mentors_designation, setMentorsDesignation] = useState('');
@@ -44,7 +44,7 @@ export default function IndustryApplicationCreate() {
   };
 
   const validateProjectFields = () => {
-    if (organization_name === '' || mentors_name === '' || mentors_designation === '' || mentors_email === '' || title === '' || description === '' || deliverables === '' || application_type === null || category === null || course === null) {
+    if (organization_name === '' || mentors_name === '' || mentors_designation === '' || mentors_email === '' || title === '' || description === '' || deliverables === '' || application_type === '' || category === '' || course === '') {
       return true;
     }
     return false;
@@ -54,9 +54,9 @@ export default function IndustryApplicationCreate() {
     setTitle('');
     setDescription('');
     setDeliverables('');
-    setApplicationType(null);
-    setCategory(null);
-    setCourse(null);
+    setApplicationType('');
+    setCategory('');
+    setCourse('');
     setOrganizationName('');
     setMentorsName('');
     setMentorsDesignation('');
@@ -90,19 +90,24 @@ export default function IndustryApplicationCreate() {
 
   const handleSubmit = () => {
     var form = new FormData();
-    // form.append('title', title);
-    // form.append('category', category);
-    // form.append('description', description);
-    // form.append('deliverables', deliverables);
-    // form.append('skills', skills);
-    // form.append('courses', courses);
-    // form.append('active', active);
+    form.append('title', title);
+    form.append('description', description);
+    form.append('deliverables', deliverables);
+    form.append('application_type', application_type);
+    form.append('category', category);
+    form.append('course_code', course);
+    form.append('organization_name', organization_name);
+    form.append('mentors_name', mentors_name);
+    form.append('mentors_designation', mentors_designation);
+    form.append('mentors_email', mentors_email);
+    form.append('report_link', report_link);
+    form.append('notes', mentors_name);
     console.log(form);
     instance
-      .post('/projects/projects_floated/', form)
+      .post('/projects/student_industry_applications/', form)
       .then((res) => {
         if (res.status === 200) {
-          window.alert('Project created successfully');
+          window.alert('Application submitted successfully');
         }
       })
       .catch((error) => {
@@ -183,7 +188,7 @@ export default function IndustryApplicationCreate() {
                   >
                     {application_type_list.map((type) => {
                       return (
-                        <MenuItem value={type}>{type.application_type}</MenuItem>
+                        <MenuItem value={type.application_type}>{type.application_type}</MenuItem>
                       )
                     })}
                   </Select>
@@ -194,11 +199,11 @@ export default function IndustryApplicationCreate() {
                     labelId="demo-simple-select-label"
                     value={category}
                     inputProps={{ 'aria-label': 'Without label' }}
-                    onChange={(e) => setApplicationType(e.target.value)}
+                    onChange={(e) => setCategory(e.target.value)}
                   >
                     {categories.map((category) => {
                       return (
-                        <MenuItem value={category}>{category.category}</MenuItem>
+                        <MenuItem value={category.category}>{category.category}</MenuItem>
                       )
                     })}
                   </Select>
@@ -207,13 +212,13 @@ export default function IndustryApplicationCreate() {
                 <FormControl fullWidth>
                   <Select
                     labelId="demo-simple-select-label"
-                    value={course.course_code}
+                    value={course}
                     inputProps={{ 'aria-label': 'Without label' }}
-                    onChange={(e) => setApplicationType(e.target.value)}
+                    onChange={(e) => setCourse(e.target.value)}
                   >
                     {course_list.map((course) => {
                       return (
-                        <MenuItem value={course}>{course.course_code}</MenuItem>
+                        <MenuItem value={course.course_code}>{course.course_code}</MenuItem>
                       )
                     })}
                   </Select>

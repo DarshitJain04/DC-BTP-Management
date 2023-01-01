@@ -40,7 +40,7 @@ const DepartmentCourseList = () => {
                 .includes(value.toLowerCase());
 
               return full_name || email;
-            } else {
+            } else if (key === 'course_code' || key === 'course_name') {
               return course[key]
                 .toString()
                 .toLowerCase()
