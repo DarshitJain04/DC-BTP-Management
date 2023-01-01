@@ -12,7 +12,7 @@ const FacultyCourseList = () => {
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState([]);
 
-  const getCourses = () => {
+  useEffect(() => {
     instance
       .get('projects/faculty_courses/')
       .then((res) => {
@@ -21,10 +21,6 @@ const FacultyCourseList = () => {
       })
       .then(() => setLoading(false))
       .catch((error) => console.log(error));
-  };
-
-  useEffect(() => {
-    getCourses();
   }, []);
 
   return (

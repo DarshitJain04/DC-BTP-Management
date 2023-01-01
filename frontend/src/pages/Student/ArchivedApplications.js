@@ -213,7 +213,17 @@ const ArchivedApplications = () => {
                             style={{ width: '100%', margin: '12rem auto 100vh auto' }}
                         >
                             {filteredData.length === 0 ? (
-                                <h1>No applications withdrawn</h1>
+                                <div
+                                    style={{
+                                        height: '100vh',
+                                        width: '100%',
+                                        marginTop: '-10rem',
+                                        textAlign: 'center',
+                                        lineHeight: '100vh',
+                                    }}
+                                >
+                                    NO APPLICATIONS WITHDRAWN
+                                </div>
                             ) : (
                                 filteredData.map((application) => {
                                     return (

@@ -95,7 +95,17 @@ const FacultyProjectsList = () => {
               style={{ width: '100%', margin: '0 auto 0 auto' }}
             >
               {filteredData.length === 0 ? (
-                <h1>No projects available</h1>
+                <div
+                  style={{
+                    height: '100vh',
+                    width: '100%',
+                    marginTop: '-10rem',
+                    textAlign: 'center',
+                    lineHeight: '100vh',
+                  }}
+                >
+                  NO PROJECTS AVAILABLE
+                </div>
               ) : (
                 filteredData.map((project) => {
                   return (

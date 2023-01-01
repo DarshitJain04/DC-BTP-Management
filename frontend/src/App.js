@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import NotFound from './pages/404';
-import FacultyDashboard from './pages/FacultyDashboard';
 import FacultyProjectsList from './pages/Faculty/FacultyProjectsList';
 import FacultyCourseList from './pages/Faculty/FacultyCourseList';
 import DepartmentCourseList from './pages/Department/DepartmentCourseList';
@@ -24,10 +23,6 @@ const App = () => {
       <ScrollToTop />
       <Switch>
         <Route path="/" exact component={Login} />
-        <FacultyProtected
-          path="/faculty-dashboard"
-          component={FacultyDashboard}
-        />
         <FacultyProtected path="/faculty-profile" component={FacultyProfile} />
         <FacultyProtected
           path="/faculty-projects"
