@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
-import List from '@mui/material/List';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -150,7 +149,17 @@ export default function FacultyApplicationList({ applications }) {
             style={{ width: '100%', margin: '0 auto 0 auto' }}
           >
             {filteredData.length === 0 ? (
-              <h1>No applications available</h1>
+              <div
+                style={{
+                  height: '100vh',
+                  width: '100%',
+                  marginTop: '-8rem',
+                  textAlign: 'center',
+                  lineHeight: '100vh',
+                }}
+              >
+                NO APPLICATIONS AVAILABLE
+              </div>
             ) : (
               filteredData.map((application) => {
                 return (

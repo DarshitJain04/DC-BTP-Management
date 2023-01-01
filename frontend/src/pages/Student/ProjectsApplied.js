@@ -25,17 +25,42 @@ const ProjectsApplied = () => {
 	const exportData = () => {
 		if (filteredData.length !== 0) {
 			const data = [];
-			const headers = ['title', 'faculty', 'department', 'category', 'description', 'deliverables', 'skills', 'courses', 'application_type', 'course_code', 'course_name', 'status', 'resume_link', 'notes'];
+			const headers = [
+				'title',
+				'faculty',
+				'department',
+				'category',
+				'description',
+				'deliverables',
+				'skills',
+				'courses',
+				'application_type',
+				'course_code',
+				'course_name',
+				'status',
+				'resume_link',
+				'notes',
+			];
 			data.push(headers);
 			filteredData.forEach((application) => {
 				const exportData = [];
 				headers.forEach((header) => {
-					if (header === 'title' || header === 'description' || header === 'deliverables' || header === 'skills' || header === 'courses') {
+					if (
+						header === 'title' ||
+						header === 'description' ||
+						header === 'deliverables' ||
+						header === 'skills' ||
+						header === 'courses'
+					) {
 						exportData.push(application['project'][header]);
 					} else if (header === 'faculty') {
-						exportData.push(application['project'][header]['user']['full_name']);
+						exportData.push(
+							application['project'][header]['user']['full_name']
+						);
 					} else if (header === 'department') {
-						exportData.push(application['project']['faculty']['program_branch']['name']);
+						exportData.push(
+							application['project']['faculty']['program_branch']['name']
+						);
 					} else if (header === 'category') {
 						exportData.push(application['project']['category']['category']);
 					} else if (header === 'application_type') {
@@ -66,68 +91,74 @@ const ProjectsApplied = () => {
 		} else {
 			setFilteredData(
 				applications.filter((application) => {
-					return (
-						Object.keys(application).some((key) => {
-							if (key === 'application_type') {
-								return application[key]['application_type']
-									.toString()
-									.toLowerCase()
-									.includes(value.toLowerCase());
-							} else if (key === 'course_code') {
-								const course_code = application[key]['course_code']
-									.toString()
-									.toLowerCase()
-									.includes(value.toLowerCase());
+					return Object.keys(application).some((key) => {
+						if (key === 'application_type') {
+							return application[key]['application_type']
+								.toString()
+								.toLowerCase()
+								.includes(value.toLowerCase());
+						} else if (key === 'course_code') {
+							const course_code = application[key]['course_code']
+								.toString()
+								.toLowerCase()
+								.includes(value.toLowerCase());
 
-								const course_name = application[key]['course_name']
-									.toString()
-									.toLowerCase()
-									.includes(value.toLowerCase());
+							const course_name = application[key]['course_name']
+								.toString()
+								.toLowerCase()
+								.includes(value.toLowerCase());
 
-								return course_code || course_name;
-							} else if (key === 'notes' || key === 'resume_link') {
-								return application[key]
-									.toString()
-									.toLowerCase()
-									.includes(value.toLowerCase());
-							} else if (key === 'is_accepted') {
-								let target = '';
-								if (application[key].toString().toLowerCase() === 'true') {
-									target = 'accepted';
-								} else {
-									target = 'pending';
-								}
-								return target.includes(value.toLowerCase());
-							} else if (key === 'project') {
-								return Object.keys(application[key]).some((projectKey) => {
-									if (projectKey === 'category') {
-										var present = false;
-										application[key][projectKey].forEach((category) => {
-											present = present || category.category.toLowerCase().includes(value.toLowerCase());
-										})
-										return present;
-									} else if (projectKey === 'faculty') {
-										const branch = application[key][projectKey]['program_branch']['name']
-											.toString()
-											.toLowerCase()
-											.includes(value.toLowerCase());
-
-										const full_name = application[key][projectKey]['user']['full_name']
-											.toString()
-											.toLowerCase()
-											.includes(value.toLowerCase());
-
-										return branch || full_name;
-									} else {
-										return application[key][projectKey]
-											.toString()
-											.toLowerCase()
-											.includes(value.toLowerCase());
-									}
-								});
+							return course_code || course_name;
+						} else if (key === 'notes' || key === 'resume_link') {
+							return application[key]
+								.toString()
+								.toLowerCase()
+								.includes(value.toLowerCase());
+						} else if (key === 'is_accepted') {
+							let target = '';
+							if (application[key].toString().toLowerCase() === 'true') {
+								target = 'accepted';
+							} else {
+								target = 'pending';
 							}
-						})
-					);
+							return target.includes(value.toLowerCase());
+						} else if (key === 'project') {
+							return Object.keys(application[key]).some((projectKey) => {
+								if (projectKey === 'category') {
+									var present = false;
+									application[key][projectKey].forEach((category) => {
+										present =
+											present ||
+											category.category
+												.toLowerCase()
+												.includes(value.toLowerCase());
+									});
+									return present;
+								} else if (projectKey === 'faculty') {
+									const branch = application[key][projectKey]['program_branch'][
+										'name'
+									]
+										.toString()
+										.toLowerCase()
+										.includes(value.toLowerCase());
+
+									const full_name = application[key][projectKey]['user'][
+										'full_name'
+									]
+										.toString()
+										.toLowerCase()
+										.includes(value.toLowerCase());
+
+									return branch || full_name;
+								} else {
+									return application[key][projectKey]
+										.toString()
+										.toLowerCase()
+										.includes(value.toLowerCase());
+								}
+							});
+						}
+					});
 				})
 			);
 		}
@@ -165,7 +196,14 @@ const ProjectsApplied = () => {
 								/>
 							</div>
 							<div className={styles.exportButton}>
-								<button onClick={() => exportData()}><CSVLink className={styles.csvLink} filename={'Applications'} data={CSVData}>Export</CSVLink>
+								<button onClick={() => exportData()}>
+									<CSVLink
+										className={styles.csvLink}
+										filename={'Applications'}
+										data={CSVData}
+									>
+										Export
+									</CSVLink>
 								</button>
 							</div>
 						</div>
@@ -175,13 +213,34 @@ const ProjectsApplied = () => {
 							spacing={5}
 							style={{ width: '100%', margin: '12rem auto 100vh auto' }}
 						>
-							{filteredData.length === 0 ? <h1>No projects applied</h1> : filteredData.map((application) => {
-								return (
-									<Grid key={application.id} item xs={12} sm={12} md={6} lg={6}>
-										<StudentProjectApplication data={application} />
-									</Grid>
-								);
-							})}
+							{filteredData.length === 0 ? (
+								<div
+									style={{
+										height: '100vh',
+										width: '100%',
+										marginTop: '-10rem',
+										textAlign: 'center',
+										lineHeight: '100vh',
+									}}
+								>
+									NO ACTIVE APPLICATIONS
+								</div>
+							) : (
+								filteredData.map((application) => {
+									return (
+										<Grid
+											key={application.id}
+											item
+											xs={12}
+											sm={12}
+											md={6}
+											lg={6}
+										>
+											<StudentProjectApplication data={application} />
+										</Grid>
+									);
+								})
+							)}
 						</Grid>
 					</Container>
 				</>
