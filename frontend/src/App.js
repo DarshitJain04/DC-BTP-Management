@@ -10,6 +10,7 @@ import ScrollToTop from './components/ScrollToTop';
 import ProjectsList from './pages/Student/ProjectsList';
 import ProjectsApplied from './pages/Student/ProjectsApplied';
 import ArchivedApplications from './pages/Student/ArchivedApplications';
+import IndustryProjects from './pages/Student/IndustryProjects';
 import Login from './pages/Login';
 import Grading from './pages/Grading';
 import Categories from './pages/Categories';
@@ -49,6 +50,10 @@ const App = () => {
         <StudentProtected
           path="/student-archived-applications"
           component={ArchivedApplications}
+        />
+        <StudentProtected
+          path="/student-industry-applications"
+          component={IndustryProjects}
         />
         <Route default component={NotFound} />
       </Switch>

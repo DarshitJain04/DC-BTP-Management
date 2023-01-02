@@ -18,36 +18,86 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function FacultyApplicationList({ applications }) {
   const [open, setOpen] = React.useState(false);
-  const [filteredData, setFilteredData] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredApplications, setFilteredApplications] = useState([]);
+  const [searchApplicationQuery, setSearchApplicationQuery] = useState('');
 
   const handleQueryChange = (event) => {
-    setSearchQuery(event.target.value);
-    filterData(event.target.value);
+    setSearchApplicationQuery(event.target.value);
+    filterApplications(event.target.value);
   };
 
-  const filterData = (value) => {
+  const filterApplications = (value) => {
     if (value === '') {
-      setFilteredData(applications);
+      setFilteredApplications(applications);
     } else {
-      setFilteredData(
+      setFilteredApplications(
         applications.filter((application) => {
           return Object.keys(application).some((key) => {
-            if (key === 'category') {
-              return application[key]['category']
-                .toString()
-                .toLowerCase()
-                .includes(value.toLowerCase());
-            } else if (key === 'application_type') {
+            if (key === 'application_type') {
               return application[key]['application_type']
                 .toString()
                 .toLowerCase()
                 .includes(value.toLowerCase());
             } else if (key === 'course_code') {
-              return application[key]['course_code']
+              const course_code = application[key]['course_code']
                 .toString()
                 .toLowerCase()
                 .includes(value.toLowerCase());
+
+              const course_name = application[key]['course_name']
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase());
+
+              return course_code || course_name;
+            } else if (key === 'notes' || key === 'resume_link') {
+              return application[key]
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase());
+            } else if (key === 'is_accepted') {
+              let target = '';
+              if (application[key].toString().toLowerCase() === 'true') {
+                target = 'accepted';
+              } else {
+                target = 'pending';
+              }
+              return target.includes(value.toLowerCase());
+            } else if (key === 'project') {
+              return Object.keys(application[key]).some((projectKey) => {
+                if (projectKey === 'category') {
+                  var present = false;
+                  application[key][projectKey].forEach((category) => {
+                    present =
+                      present ||
+                      category.category
+                        .toLowerCase()
+                        .includes(value.toLowerCase());
+                  });
+                  return present;
+                } else if (projectKey === 'faculty') {
+                  const branch = application[key][projectKey]['program_branch'][
+                    'name'
+                  ]
+                    .toString()
+                    .toLowerCase()
+                    .includes(value.toLowerCase());
+
+                  const full_name = application[key][projectKey]['user'][
+                    'full_name'
+                  ]
+                    .toString()
+                    .toLowerCase()
+                    .includes(value.toLowerCase());
+
+                  return branch || full_name;
+                } else {
+                  return application[key][projectKey]
+                    .toString()
+                    .toLowerCase()
+                    .includes(value.toLowerCase());
+                }
+              });
             } else if (key === 'student') {
               const branch = application[key]['program_branch']['name']
                 .toString()
@@ -79,11 +129,6 @@ export default function FacultyApplicationList({ applications }) {
               return (
                 branch || abbreviation || roll_number || full_name || email
               );
-            } else {
-              return application[key]
-                .toString()
-                .toLowerCase()
-                .includes(value.toLowerCase());
             }
           });
         })
@@ -93,8 +138,8 @@ export default function FacultyApplicationList({ applications }) {
 
   const handleClickOpen = () => {
     setOpen(true);
-    setSearchQuery('');
-    setFilteredData(applications);
+    setSearchApplicationQuery('');
+    setFilteredApplications(applications);
   };
 
   const handleClose = () => {
@@ -136,7 +181,7 @@ export default function FacultyApplicationList({ applications }) {
                   type="text"
                   placeholder="Search applications..."
                   onChange={(event) => handleQueryChange(event)}
-                  value={searchQuery}
+                  value={searchApplicationQuery}
                   className={styles.searchInput}
                 />
               </div>
@@ -148,7 +193,7 @@ export default function FacultyApplicationList({ applications }) {
             spacing={5}
             style={{ width: '100%', margin: '0 auto 0 auto' }}
           >
-            {filteredData.length === 0 ? (
+            {filteredApplications.length === 0 ? (
               <div
                 style={{
                   height: '100vh',
@@ -160,7 +205,7 @@ export default function FacultyApplicationList({ applications }) {
                 NO APPLICATIONS AVAILABLE
               </div>
             ) : (
-              filteredData.map((application) => {
+              filteredApplications.map((application) => {
                 return (
                   <Grid key={application.id} item xs={12} sm={12} md={6} lg={6}>
                     <FacultyApplicationCard application={application} />

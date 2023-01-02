@@ -44,7 +44,7 @@ export default function DepartmentCourseCreate() {
 
   useEffect(() => {
     instance
-      .get('/projects/department_courses/')
+      .get('/projects/department_faculties/')
       .then((res) => {
         setDeptFaculty(res.data);
       })
@@ -131,7 +131,6 @@ export default function DepartmentCourseCreate() {
                 <Autocomplete
                   value={course_advisor}
                   onChange={(event, newValue) => {
-                    console.log(newValue);
                     setCourseAdvisor(newValue);
                   }}
                   inputValue={inputFacultyValue}

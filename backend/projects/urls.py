@@ -22,4 +22,10 @@ urlpatterns = [
     path('department_courses/', views.DepartmentCoursesClass.as_view(), name="department-courses"),
     path('department_faculties/', views.DepartmentFacultyClass.as_view(), name="department-courses"),
     path('applications_comments/<int:pk>', views.CommentsForApplication.as_view(), name="application-comments"),
+    path('industry_applications/', views.StudentIndustryApplication.as_view(), name='industry-applications'),
+    path('industry_applications/<int:pk>', views.StudentIndustryApplication.as_view(), name='industry-applications'),
+    path('course_industry_applications/<int:pk>', views.CourseIndustryApplicationClass.as_view(), name='course-industry-applications'),
+    path('department_industry_applications/<int:pk>', views.DepartmentIndustryApplicationClass.as_view(), name='department-industry-applications'),
+    path('student_industry_applications/', views.StudentIndustryApplicationClass.as_view(), name='student-industry-applications'),
+    path('student_industry_applications/<int:pk>', views.StudentIndustryApplicationClass.as_view(), name='student-industry-applications'),
 ]

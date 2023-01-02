@@ -101,6 +101,47 @@ class Application(models.Model):
         return str(self.project.title) + " (" + str(self.student.roll_number) + ")" 
 
 
+class IndustryApplication(models.Model):
+    GRADES = (
+        ('A*', 'A*'),
+        ('A', 'A'),
+        ('A-', 'A-'),
+        ('B', 'B'),
+        ('B-', 'B-'),
+        ('C', 'C'),
+        ('C-', 'C-'),
+        ('D', 'D'),
+        ('E', 'E'),
+        ('F', 'F'),
+        ('I', 'I'),
+        ('S', 'S'),
+        ('X', 'X'),
+        ('U', 'U'),
+        ('W', 'W'),
+        ('None', 'None'),
+    )
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    deliverables = models.TextField()
+    application_type = models.ForeignKey(Type, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Categories, null=True, on_delete=models.SET_NULL)
+    course = models.ForeignKey(ApplicationCourse, on_delete=models.CASCADE)
+    organization_name = models.TextField()
+    mentors_name = models.TextField()
+    mentors_designation = models.TextField()
+    mentors_email = models.TextField()
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    is_accepted = models.BooleanField(default=False)
+    report_link = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True)
+    grade = models.CharField(max_length=10, choices=GRADES, default="None")
+    is_withdrawn = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.title) + " (" + str(self.student.roll_number) + ")" 
+
+
+
 class ApplicationComment(models.Model):
     comment = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
