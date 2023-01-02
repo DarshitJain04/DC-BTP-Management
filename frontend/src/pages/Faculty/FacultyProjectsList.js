@@ -104,7 +104,6 @@ const FacultyProjectsList = () => {
                     style={{
                       height: '100vh',
                       width: '100%',
-                      marginTop: '-10rem',
                       textAlign: 'center',
                       lineHeight: '100vh',
                     }}

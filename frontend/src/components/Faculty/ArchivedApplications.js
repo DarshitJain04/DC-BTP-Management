@@ -154,7 +154,6 @@ export default function ArchivedApplications({ applications }) {
                                 style={{
                                     height: '100vh',
                                     width: '100%',
-                                    marginTop: '-8rem',
                                     textAlign: 'center',
                                     lineHeight: '100vh',
                                 }}
