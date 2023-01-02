@@ -338,7 +338,6 @@ class DepartmentCoursesClass(APIView):
         data = {}
         for key in request.data.keys():
             data[key] = request.data.get(key)
-
         faculty = Faculty.objects.get(id=data['course_advisor_id'])
         application_course = ApplicationCourse.objects.create(course_code=data['course_code'], course_name=data['course_name'], program_branch=department_office.program_branch, faculty=faculty)
         return Response(ApplicationCourseSerializer(application_course).data, status=status.HTTP_200_OK)

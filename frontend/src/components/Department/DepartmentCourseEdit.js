@@ -61,7 +61,7 @@ export default function DepartmentCourseEdit({ course }) {
     form.append('course_advisor_id', course_advisor.id);
     console.log(form);
     instance
-      .put('/projects/department_faculties/', form)
+      .put('/projects/department_courses/', form)
       .then((res) => {
         if (res.status === 200) {
           window.alert('Course created successfully');

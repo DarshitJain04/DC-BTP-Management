@@ -273,7 +273,8 @@ export default function FacultyCourseDetails({ course }) {
                     className={styles.applicants}
                     onClick={() => handleClickOpen()}
                   >
-                    Applicants: {applications.length}
+                    Applicants:{' '}
+                    {applications.length + industryApplications.length}
                   </button>
                 </div>
               </div>
