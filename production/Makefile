@@ -9,13 +9,13 @@ build:
 	@cp .env.example .env
 
 launch: .env
-	@docker-compose up -d
+	@docker compose up -d
 
 build_launch:
-	@docker-compose up --build -d
+	@docker compose up --build -d
 
 scale_build_launch:
-	@docker-compose up --build -d --scale django=3 --scale postgresql=2
+	@docker compose up --build -d --scale django=3 --scale postgresql=2
 
 pull:
 	@cd ..
@@ -26,18 +26,18 @@ deploy: pull stop build_launch
 scale_deploy: pull scale_build_launch
 
 scale-django:
-	@docker-compose scale django=3
+	@docker compose scale django=3
 
 scale-databases:
-	@docker-compose scale postgresql=2
+	@docker compose scale postgresql=2
 
 scale: scale-django scale-databases
 
 stop:
-	@docker-compose down
+	@docker compose down
 
 logs:
-	@docker-compose logs -f
+	@docker compose logs -f
 
 ex-django:
 	@docker exec -it $$(echo "$$(docker ps --filter "name=django")" | awk 'NR > 1 {print $$1}') sh
