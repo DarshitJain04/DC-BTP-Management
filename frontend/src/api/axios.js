@@ -32,7 +32,14 @@ instance.interceptors.response.use(
       `http://${process.env.BACKEND_HOST ? process.env.BACKEND_HOST : '127.0.0.1'
       }:8000/token/refresh/`
     ) {
-      window.location = '/login/';
+      instance.defaults.headers['Authorization'] = null;
+      localStorage.setItem('btp_dc_portal_loggedIn', false);
+      localStorage.removeItem('btp_dc_portal_refreshToken');
+      localStorage.removeItem('btp_dc_portal_accessToken');
+      localStorage.removeItem('btp_dc_portal_username');
+      localStorage.removeItem('btp_dc_portal_email');
+      localStorage.removeItem('btp_dc_portal_role');
+      window.alert('Session expired');
       return Promise.reject(error);
     }
 
@@ -64,12 +71,19 @@ instance.interceptors.response.use(
               console.log(err);
             });
         } else {
-          console.log('Session expired', tokenParts.exp, now);
-          window.location = '/login/';
+          instance.defaults.headers['Authorization'] = null;
+          localStorage.setItem('btp_dc_portal_loggedIn', false);
+          localStorage.removeItem('btp_dc_portal_refreshToken');
+          localStorage.removeItem('btp_dc_portal_accessToken');
+          localStorage.removeItem('btp_dc_portal_username');
+          localStorage.removeItem('btp_dc_portal_email');
+          localStorage.removeItem('btp_dc_portal_role');
+          window.alert('Session expired');
+          window.location = '/';
         }
       } else {
-        console.log('No token found');
-        window.location = '/login/';
+        window.alert('No token found');
+        window.location = '/';
       }
     }
   }
