@@ -64,7 +64,7 @@ const FacultyProfile = () => {
 
 	return (
 		<>
-			<div style={{ height: '100vh', width: '100%' }}>
+			<div style={{ minHeight: '100vh', width: '100%' }}>
 				{loading ? (
 					<Loading />
 				) : (
