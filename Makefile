@@ -1,4 +1,4 @@
-BUILD_NAME=cdc-portal
+BUILD_NAME=dc_btp_management_portal
 BUILD_TAG=$$(git log -1 --pretty=%h)
 
 build:
@@ -9,13 +9,13 @@ build:
 	@cp .env.example .env
 
 dev-start: .env
-	@docker-compose up -d
+	@docker compose up -d
 
 dev-stop:
-	@docker-compose down
+	@docker compose down
 
 dev-logs:
-	@docker-compose logs -f
+	@docker compose logs -f
 
 exec:
 	@docker exec -it $$(echo "$$(docker ps --filter "name=django")" | awk 'NR > 1 {print $$1}') sh
