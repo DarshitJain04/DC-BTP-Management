@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import styles from '../../styles/components/Students/ProjectsListCard.module.css';
 import FadeUpWhenVisible from '../Animation/FadeUp';
 import ApplicationDetails from './ApplicationDetails';
+import IndustryApplicationEdit from './IndustryApplicationEdit';
 
 const IndustryApplicationCard = ({ data }) => {
 	const handleDeleteApplication = () => {
@@ -49,13 +50,17 @@ const IndustryApplicationCard = ({ data }) => {
 				<div className={styles.projectActions}>
 					{/* <ApplicationDetails applicationData={data} projectData={data.project} /> */}
 					{data.is_accepted || data.is_withdrawn ? null :
-						<button
-							className={styles.deleteButton}
-							type="submit"
-							onClick={() => handleDeleteApplication()}
-						>
-							Delete
-						</button>}
+						<>
+							<button
+								className={styles.deleteButton}
+								type="submit"
+								onClick={() => handleDeleteApplication()}
+							>
+								Delete
+							</button>
+							<IndustryApplicationEdit application={data} />
+						</>
+					}
 				</div>
 			</Paper>
 		</FadeUpWhenVisible>

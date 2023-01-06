@@ -452,6 +452,42 @@ class StudentIndustryApplicationClass(APIView):
         application = IndustryApplication.objects.create(student=student, application_type=application_type, category=category, course=course, **data)
         return Response(IndustryApplicationSerializer(application).data, status=status.HTTP_200_OK)
     
+    def put(self, request, pk=None, *args, **kwargs):
+        data = {}
+        if pk is not None:
+            data = {}
+            for key in request.data.keys():
+                data[key] = request.data.get(key)
+
+            student = Student.objects.get(user=request.user)
+            application_type = Type.objects.get(application_type=data['application_type'])
+            data.pop('application_type')
+            category = Categories.objects.get(category=data['category'])
+            data.pop('category')
+            course = ApplicationCourse.objects.get(course_code=data['course_code'])
+            data.pop('course_code')
+            application = IndustryApplication.objects.get(id=pk, student=student, is_accepted=False, is_withdrawn=False)
+            if(application):
+                application.application_type = application_type
+                application.category = category
+                application.course = course
+                application.title = data['title']
+                application.description = data['description']
+                application.deliverables = data['deliverables']
+                application.organization_name = data['organization_name']
+                application.mentors_name = data['mentors_name']
+                application.mentors_designation = data['mentors_designation']
+                application.mentors_email = data['mentors_email']
+                application.report_link = data['report_link']
+                application.notes = data['notes']
+                
+                application.save()
+                return Response(IndustryApplicationSerializer(application).data, status=status.HTTP_200_OK)
+            data['status'] = "You cannot edit Accepted/Withdrawn application"
+            return Response(data=data, status=status.HTTP_200_OK)
+        data['status'] = "Application ID missing"
+        return Response(data=data, status=status.HTTP_200_OK)
+
     # Delete an existing application
     def delete(self, request, pk, *args, **kwargs):
         data = {}
