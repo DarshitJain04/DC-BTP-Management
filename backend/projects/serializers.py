@@ -46,7 +46,7 @@ class IndustryApplicationSerializer(serializers.ModelSerializer):
     student = StudentSerializer(read_only=True)
     application_type = TypeSerializer(read_only=True)
     course = ApplicationCourseSerializer(read_only=True)
-    Category = CategoriesSerializer(read_only=True)
+    category = CategoriesSerializer(read_only=True)
 
     class Meta:
         model = IndustryApplication

@@ -33,11 +33,19 @@ const ProjectDetailsModal = ({ applicationData, projectData }) => {
 	};
 
 	const handleClose = () => {
+		setApplicationType(applicationData.application_type.application_type);
+		setCourseCode(applicationData.course_code.course_code);
+		setResumeLink(applicationData.resume_link);
+		setNotes(applicationData.notes);
 		setOpen(false);
 		setTab(0);
 	};
 
 	const changeTab = (newTab) => {
+		setApplicationType(applicationData.application_type.application_type);
+		setCourseCode(applicationData.course_code.course_code);
+		setResumeLink(applicationData.resume_link);
+		setNotes(applicationData.notes);
 		setTab(newTab);
 	};
 
